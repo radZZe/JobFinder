@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36362014131",
+    "project_id": "jobfinder-60d08",
+    "storage_bucket": "jobfinder-60d08.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36362014131:android:d6d7254c2534bb51f74fc6",
+        "android_client_info": {
+          "package_name": "com.example.jobfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36362014131-i6gbv1vu7iihsnilbe3ranh1btt3i23g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMoPfmwDy2_9-YLz7nkBvDu1E7P7rLCGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36362014131-i6gbv1vu7iihsnilbe3ranh1btt3i23g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
