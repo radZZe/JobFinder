@@ -12,5 +12,6 @@ data class Project(
     val type: String = "",
     val state: Boolean = true,
     val creatorId: String = "",
-    val salary: String = ""
+    val salary: String = "",
+    val employer:String = ""
 ): Serializable

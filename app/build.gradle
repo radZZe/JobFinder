@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     def nav_version = "2.5.3"
 
