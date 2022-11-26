@@ -53,7 +53,7 @@ const val KEY_TEAM = "team"
 const val KEY_PROJECT = "project"
 
 const val KEY_OWNER = "owner"
-const val KEY_COLLECTION_PROJECT_CHAT = "project_chat"
+const val KEY_COLLECTION_PROJECT_CHAT = "project chat"
 const val KEY_COLLECTION_TEAM_CHAT = "team_chat"
 const val KEY_COLLECTION_MESSAGES = "messages"
 const val KEY_MESSAGE_ID = "id"

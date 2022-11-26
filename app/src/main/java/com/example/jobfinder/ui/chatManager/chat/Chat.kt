@@ -1,6 +1,8 @@
 package com.example.jobfinder.ui.chatManager.chat
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +46,34 @@ class Chat : Fragment() {
         initViews()
         setupRecyclerView()
         setupListeners()
-        //setupClickListener()
+        setupClickListener()
+    }
+
+    fun setupClickListener() {
+        mBinding.sendBtn.setOnClickListener {
+            var text = mBinding.typeMessageField.text.toString()
+            if(text.isNotBlank()){
+                sendMessage(text)
+
+            }
+        }
+//        mBinding.backButton.setOnClickListener {
+//            APP_ACTIVITY.navController.navigate(com.google.firebase.firestore.R.id.action_userChat_to_chatsFragment)
+//        }
+//        mBinding.attachBtn.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//            pickImage.launch(intent)
+//        }
+//        mBinding.mapBtn.setOnClickListener {
+//            var bundle = Bundle()
+//            getСoordinates(bundle)
+//        }
+//        mBinding.receiverDataSeciton.setOnClickListener {
+//            var bundle = Bundle()
+//            bundle.putSerializable(KEY_USER, receiverUser)
+//            APP_ACTIVITY.navController.navigate(com.google.firebase.firestore.R.id.action_userChat_to_sellerProfile, bundle)
+//        }
     }
 
     private fun setupListeners() {
@@ -80,6 +109,15 @@ class Chat : Fragment() {
                 }
             }
 
+        }
+    }
+
+    fun sendMessage(text:String){
+        if(type == KEY_TEAM){
+            TODO()
+        }else if (type == KEY_PROJECT){
+            var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
+            mViewModel.sendMessageForProject(projectId,text)
         }
     }
 
