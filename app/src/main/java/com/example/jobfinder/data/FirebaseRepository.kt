@@ -2,6 +2,7 @@ package com.example.jobfinder.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.jobfinder.data.models.ChatItem
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.utils.KEY_COLLECTION_PROJECTS
 import com.example.jobfinder.utils.KEY_COLLECTION_USERS_PROJECTS
@@ -120,6 +121,31 @@ class FirebaseRepository(
                 onComplete()
             }
         }
+    }
+
+    fun getChats(onComplete: () -> Unit){
+        val chats = arrayListOf<ChatItem>()
+        database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
+            .collection(KEY_COLLECTION_TEAMS).addSnapshotListener{ value , error ->
+                if(error!=null){
+                    return@addSnapshotListener
+                }else{
+                    if(value!=null){
+                        value.documents.forEach {
+                            it.reference.get().addOnCompleteListener{
+                                //it.result.
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+        database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
+            .collection(KEY_COLLECTION_PROJECTS).addSnapshotListener{ value , error ->
+
+            }
     }
 
 

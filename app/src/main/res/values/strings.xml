@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">JobFinder</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-<<<<<<< HEAD
+
 
     <string-array name="universities">
         <item>Московский государственный университет</item>
@@ -26,7 +26,7 @@
         <item>SMM</item>
         <item>Копирайтинг</item>
     </string-array>
-=======
+
     <string name="sign_up">Регистрация</string>
->>>>>>> a3dff51068c073539f014efb19c122486190c96d
+    <string name="username_example">User Nmae</string>
 </resources>
