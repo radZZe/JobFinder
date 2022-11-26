@@ -20,6 +20,7 @@ class PreferenceManager(sharedPreference: SharedPreferences) {
         editor.putString(KEY_USER_MALE, user.male)!!
         editor.putString(KEY_USER_IMAGE, user.image)!!
         editor.putString(KEY_USER_UNI, user.Uni)!!
+        editor.putString(KEY_USER_TYPE,user.type)
         editor.apply()
     }
 
@@ -61,6 +62,7 @@ class PreferenceManager(sharedPreference: SharedPreferences) {
         editor.putString(KEY_USER_MALE, user.male)!!
         editor.putString(KEY_USER_IMAGE, user.image)!!
         editor.putString(KEY_USER_COMPANY, user.companyName)!!
+        editor.putString(KEY_USER_TYPE,user.type)
         editor.apply()
     }
 
