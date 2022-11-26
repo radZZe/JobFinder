@@ -56,7 +56,11 @@
     <fragment
         android:id="@+id/chatList"
         android:name="com.example.jobfinder.ui.chatManager.chatlist.ChatList"
-        android:label="ChatList" />
+        android:label="ChatList" >
+        <action
+            android:id="@+id/action_chatList_to_hilt_Chat"
+            app:destination="@id/hilt_Chat" />
+    </fragment>
     <fragment
         android:id="@+id/addProjectFragment"
         android:name="com.example.jobfinder.ui.profile.AddProjectFragment"
@@ -65,5 +69,13 @@
         <action
             android:id="@+id/action_addProjectFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hilt_Chat"
+        android:name="com.example.jobfinder.ui.chatManager.chat.Hilt_Chat"
+        android:label="Hilt_Chat" >
+        <action
+            android:id="@+id/action_hilt_Chat_to_chatList"
+            app:destination="@id/chatList" />
     </fragment>
 </navigation>

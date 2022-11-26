@@ -2,19 +2,19 @@ package com.example.jobfinder.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.jobfinder.data.models.*
 
-import com.example.jobfinder.data.models.ChatItem
-import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.utils.KEY_COLLECTION_PROJECTS
 import com.example.jobfinder.utils.KEY_COLLECTION_USERS_PROJECTS
 import com.example.jobfinder.utils.KEY_STATE
 
-import com.example.jobfinder.data.models.Employer
-import com.example.jobfinder.data.models.Student
 import com.example.jobfinder.utils.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FirebaseRepository(
     auth: FirebaseAuth,
@@ -168,44 +168,73 @@ class FirebaseRepository(
                     return@addSnapshotListener
                 } else {
                     if (value != null) {
-                        value.documents.forEach {
-                            it.reference.get().addOnCompleteListener {
-                                var name = it.result.get(KEY_TEAM_NAME)!! as String
-                                var id = it.result.get(KEY_TEAM_ID)!! as String
-                                var type = KEY_TEAM
-                                var item = ChatItem(type = type, id = id, name = name)
-                                chats.add(item)
-                                database.collection(KEY_COLLECTION_USERS)
-                                    .document(manager.getString(KEY_USER_ID)!!).collection(
-                                        KEY_COLLECTION_PROJECTS
-                                    ).addSnapshotListener { value, error ->
-                                        if (error != null) {
-                                            return@addSnapshotListener
-                                        } else {
-                                            if (value != null) {
-                                                value.documents.forEach {
-                                                    it.reference.get().addOnCompleteListener {
-                                                        var id =
-                                                            it.result.get(KEY_PROJECT_ID)!! as String
-                                                        var title = it.result.get(
-                                                            KEY_PROJECT_TITLE
-                                                        )!! as String
-                                                        var type = KEY_PROJECT
-                                                        var item = ChatItem(
-                                                            id = id,
-                                                            name = title,
-                                                            type = type
-                                                        )
-                                                        chats.add(item)
+                        for (documentChange in value.documentChanges) {
+                            var doc = documentChange.document
+                            var name = doc.get(KEY_TEAM_NAME)!! as String
+                            var id = doc.get(KEY_TEAM_ID)!! as String
+                            var type = KEY_TEAM
+                            var item = ChatItem(type = type, id = id, name = name)
+                            chats.add(item)
+                        }
+                        database.collection(KEY_COLLECTION_USERS)
+                            .document(manager.getString(KEY_USER_ID)!!).collection(
+                                KEY_COLLECTION_PROJECTS
+                            ).addSnapshotListener { value, error ->
+                                if (error != null) {
+                                    return@addSnapshotListener
+                                } else {
+                                    if (value != null) {
+                                        for (documentChange in value.documentChanges) {
+                                            var doc = documentChange.document
+                                            var id =
+                                                doc.get(KEY_PROJECT_ID)!! as String
+                                            var title = doc.get(
+                                                KEY_PROJECT_TITLE
+                                            )!! as String
+                                            var type = KEY_PROJECT
+                                            var item = ChatItem(
+                                                id = id,
+                                                name = title,
+                                                type = type
+                                            )
+                                            chats.add(item)
 
-                                                    }
-                                                }
-                                                onComplete(chats)
+
+                                        }
+                                        onComplete(chats)
+                                    }
+                                }
+                            }
+                    } else {
+                        database.collection(KEY_COLLECTION_USERS)
+                            .document(manager.getString(KEY_USER_ID)!!).collection(
+                                KEY_COLLECTION_PROJECTS
+                            ).addSnapshotListener { value, error ->
+                                if (error != null) {
+                                    return@addSnapshotListener
+                                } else {
+                                    if (value != null) {
+                                        value.documents.forEach {
+                                            it.reference.get().addOnCompleteListener {
+                                                var id =
+                                                    it.result.get(KEY_PROJECT_ID)!! as String
+                                                var title = it.result.get(
+                                                    KEY_PROJECT_TITLE
+                                                )!! as String
+                                                var type = KEY_PROJECT
+                                                var item = ChatItem(
+                                                    id = id,
+                                                    name = title,
+                                                    type = type
+                                                )
+                                                chats.add(item)
+
                                             }
                                         }
+                                        onComplete(chats)
                                     }
+                                }
                             }
-                        }
                     }
 
                 }
@@ -258,7 +287,8 @@ class FirebaseRepository(
             .document(project.id)
             .set(project)
             .addOnSuccessListener {
-                database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_ID, project.creatorId).get()
+                database.collection(KEY_COLLECTION_USERS)
+                    .whereEqualTo(KEY_USER_ID, project.creatorId).get()
                     .addOnSuccessListener {
 
                         it.documents[0].reference.collection(KEY_COLLECTION_USERS_PROJECTS)
@@ -271,5 +301,51 @@ class FirebaseRepository(
             }
 
     }
+
+    fun listenMessageProject(
+        members: ArrayList<ProjectMember>,
+        projectid: String,
+        messages: MutableLiveData<ArrayList<Message>>,
+        onSuccess: (ArrayList<Message>) -> Unit
+    ) {
+        members.forEach {
+            database.collection(KEY_COLLECTION_USERS)
+                .document(it.id)
+                .collection(KEY_COLLECTION_PROJECT_CHAT).document(projectid).collection(
+                    KEY_COLLECTION_MESSAGES
+                ).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        return@addSnapshotListener
+                    } else {
+                        if (value != null) {
+                            for (documentChange in value.documentChanges) {
+                                var doc = documentChange.document
+                                var id = doc.get(KEY_MESSAGE_ID)!! as String
+                                var senderId = doc.get(KEY_SENDER_ID)!! as String
+                                var text = doc.get(KEY_MESSAGE_TEXT)!! as String
+                                var timestamp = doc.get(KEY_MESSAGE_TIMESTAMP)!! as Date
+                                var owner = doc.get(KEY_MESSAGE_OWNER)!! as String
+                                var message = Message(
+                                    id = id,
+                                    text = text,
+                                    senderId = senderId,
+                                    timestamp = timestamp,
+                                    owner = owner
+                                )
+                                if (message !in messages.value!!) {
+                                    messages.value!!.add(message)
+                                }
+                            }
+                            messages.value!!.sortBy { it -> it.timestamp }
+                            onSuccess(messages.value!!)
+                        }
+                    }
+                }
+
+
+        }
+
+    }
+
 
 }
