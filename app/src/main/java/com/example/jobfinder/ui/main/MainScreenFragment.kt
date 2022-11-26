@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.jobfinder.R
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.databinding.FragmentMainScreenBinding
-import com.example.jobfinder.utils.APP_ACTIVITY
-import com.example.jobfinder.utils.IS_FILTERED
-import com.example.jobfinder.utils.KEY_FILTER
-import com.example.jobfinder.utils.KEY_ITEM
+import com.example.jobfinder.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +26,7 @@ class MainScreenFragment : Fragment() {
     private lateinit var itemsArrayList: ArrayList<Project>
     private lateinit var adapter: MainListAdapter
     private val mViewModel: MainScreenViewModel by viewModels()
-    private lateinit var rvShopList: RecyclerView
+    private lateinit var rvProjectList: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +54,6 @@ class MainScreenFragment : Fragment() {
 
     private fun initialization() {
         setupRecyclerView()
-//        setupListeners()
         setupSearchView()
         mBinding.btnFilter.setOnClickListener {
             APP_ACTIVITY.navController.navigate(R.id.action_mainScreenFragment2_to_filterProjectsFragment)
@@ -65,8 +61,8 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        rvShopList = mBinding.rvProjectList
-        with(rvShopList) {
+        rvProjectList = mBinding.rvProjectList
+        with(rvProjectList) {
             recycledViewPool.setMaxRecycledViews(
                 MainListAdapter.VIEW_TYPE,
                 MainListAdapter.MAX_POOL_SIZE
@@ -79,14 +75,14 @@ class MainScreenFragment : Fragment() {
         adapter = MainListAdapter(itemsArrayList, object : ProjectListener {
             override fun onProjectClicked(project: Project) {
                 val bundle = Bundle()
-                bundle.putSerializable(KEY_ITEM, project)
+                bundle.putSerializable(KEY_CLICKED_PROJECT, project)
                 APP_ACTIVITY.navController.navigate(
                     R.id.action_mainScreenFragment2_to_projectFragment,
                     bundle
                 )
             }
         })
-        rvShopList.adapter = adapter
+        rvProjectList.adapter = adapter
     }
 
     private fun setupSearchView() {

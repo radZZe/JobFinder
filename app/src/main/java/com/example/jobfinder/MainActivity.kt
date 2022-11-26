@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         val fragment_signUp = navController.findDestination(R.id.signUpFragment)
         val fragment_add_project = navController.findDestination(R.id.addProjectFragment)
         val fragment_chat = navController.findDestination(R.id.chat)
+        val fragment_project = navController.findDestination(R.id.projectFragment)
 
         navController.addOnDestinationChangedListener(object :
             NavController.OnDestinationChangedListener {
@@ -52,7 +53,8 @@ class MainActivity : AppCompatActivity() {
                     fragment_filter,
                     fragment_signUp,
                     fragment_add_project,
-                    fragment_chat
+                    fragment_chat,
+                    fragment_project
                 )
             }
         })
@@ -63,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         signUp: NavDestination?,
         filter: NavDestination?,
         addProject: NavDestination?,
-        chat:NavDestination?
+        chat: NavDestination?,
+        project: NavDestination?
     ) {
         val currentFragment = navController.currentDestination
         if (currentFragment != null) {
@@ -71,7 +74,8 @@ class MainActivity : AppCompatActivity() {
                 currentFragment == filter ||
                 currentFragment == signUp ||
                 currentFragment == addProject ||
-                currentFragment == chat
+                currentFragment == chat ||
+                currentFragment == project
             ) {
                 mBinding.navMenu.visibility = View.GONE
             } else {
