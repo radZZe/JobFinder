@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.inflate
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.fragment.app.viewModels
 import com.example.jobfinder.R
@@ -16,6 +17,7 @@ import com.example.jobfinder.databinding.ChatItemContactBinding.inflate
 import com.example.jobfinder.databinding.FragmentAddProjectBinding
 import com.example.jobfinder.databinding.FragmentProfileBinding
 import com.example.jobfinder.databinding.FragmentSignUpBinding
+import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.KEY_USER_ID
 import com.example.jobfinder.utils.SNTPClient
 import com.example.jobfinder.utils.generateItemId
@@ -39,8 +41,17 @@ class AddProjectFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        val types = resources.getStringArray(R.array.types)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.types_dropdown_item, types)
+        mBinding.tvType.setAdapter(arrayAdapter)
+
         mBinding.btnApply.setOnClickListener {
             createProject()
+            APP_ACTIVITY.navController.navigate(R.id.action_addProjectFragment_to_profileFragment)
+        }
+        mBinding.btnBack.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_addProjectFragment_to_profileFragment)
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jobfinder.R
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.databinding.FragmentMainScreenBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
@@ -58,6 +59,9 @@ class MainScreenFragment : Fragment() {
         setupRecyclerView()
 //        setupListeners()
         setupSearchView()
+        mBinding.btnFilter.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_mainScreenFragment2_to_filterProjectsFragment)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -76,10 +80,10 @@ class MainScreenFragment : Fragment() {
             override fun onProjectClicked(project: Project) {
                 val bundle = Bundle()
                 bundle.putSerializable(KEY_ITEM, project)
-//                APP_ACTIVITY.navController.navigate(
-//                    R.id.action_mainFragment_to_shopItemFragment,
-//                    bundle
-//                )
+                APP_ACTIVITY.navController.navigate(
+                    R.id.action_mainScreenFragment2_to_projectFragment,
+                    bundle
+                )
             }
         })
         rvShopList.adapter = adapter

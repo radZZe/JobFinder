@@ -40,9 +40,13 @@ class FilterProjectsFragment : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(KEY_FILTER, mBinding.tvCategory.text.toString().capitalize())
             APP_ACTIVITY.navController.navigate(
-                R.id.action_mainScreenFragment2_to_filterProjectsFragment,
+                R.id.action_filterProjectsFragment_to_mainScreenFragment2,
                 bundle
             )
+        }
+
+        mBinding.backButton.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_filterProjectsFragment_to_mainScreenFragment2)
         }
     }
 
