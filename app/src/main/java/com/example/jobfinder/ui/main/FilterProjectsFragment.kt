@@ -12,8 +12,9 @@ import com.example.jobfinder.databinding.FragmentMainScreenBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.IS_FILTERED
 import com.example.jobfinder.utils.KEY_FILTER
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FilterProjectsFragment : Fragment() {
 
     private var _binding: FragmentFilterProjectsBinding? = null

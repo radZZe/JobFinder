@@ -12,8 +12,9 @@ import com.example.jobfinder.databinding.FragmentProjectBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.KEY_ITEM
 import com.example.jobfinder.utils.KEY_PROJECT
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ProjectFragment : Fragment() {
 
     private var _binding: FragmentProjectBinding? = null
