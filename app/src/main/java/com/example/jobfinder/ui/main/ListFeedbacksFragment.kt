@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobfinder.R
@@ -44,6 +45,8 @@ class ListFeedbacksFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        mViewModel.liveFeedbacks.value = arrayListOf()
+        mViewModel.getFeedbacks(project)
         rvFeedbacks = mBinding.rvFeedbacks
         with(rvFeedbacks) {
             recycledViewPool.setMaxRecycledViews(
@@ -53,6 +56,12 @@ class ListFeedbacksFragment : Fragment() {
             layoutManager = LinearLayoutManager(com.example.jobfinder.utils.APP_ACTIVITY)
             setHasFixedSize(true)
         }
+
+        mViewModel.liveFeedbacks.observe(this, Observer { list ->
+            list?.let {
+                adapter.updateList(it)
+            }
+        })
 
         itemsArrayList = arrayListOf()
         adapter = ListFeedbacksAdapter(itemsArrayList, project, object : onFeedbackListener {

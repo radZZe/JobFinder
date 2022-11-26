@@ -71,7 +71,7 @@ class ProfileFragment : Fragment() {
         adapter = MainListAdapter(itemsArrayList, object : ProjectListener {
             override fun onProjectClicked(project: Project) {
                 val bundle = Bundle()
-                bundle.putSerializable(KEY_ITEM, project)
+                bundle.putSerializable(KEY_CLICKED_PROJECT, project)
                 APP_ACTIVITY.navController.navigate(
                     R.id.action_profileFragment_to_listFeedbacksFragment,
                     bundle

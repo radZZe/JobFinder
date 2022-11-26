@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobfinder.R
 import com.example.jobfinder.data.models.Project
@@ -30,6 +31,16 @@ class ListFeedbacksAdapter(
         val layout = R.layout.feedback_card
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
         return ListFeedbacksViewHolder(view)
+    }
+
+    fun updateList(newItems: java.util.ArrayList<UserFeedback>) {
+        val oldList = feedbacks
+        val newList = newItems
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
+            FeedbacksDiffCallback(oldList, newList)
+        )
+        feedbacks = newItems
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onBindViewHolder(holder: ListFeedbacksViewHolder, position: Int) {
