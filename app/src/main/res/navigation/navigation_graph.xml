@@ -23,4 +23,23 @@
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainScreenFragment2"
+        android:name="com.example.jobfinder.ui.main.MainScreenFragment"
+        android:label="fragment_main_screen"
+        tools:layout="@layout/fragment_main_screen" >
+        <action
+            android:id="@+id/action_mainScreenFragment2_to_filterProjectsFragment"
+            app:destination="@id/filterProjectsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterProjectsFragment"
+        android:name="com.example.jobfinder.ui.main.FilterProjectsFragment"
+        android:label="fragment_filter_projects"
+        tools:layout="@layout/fragment_filter_projects" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.jobfinder.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

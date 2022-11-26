@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentFilterProjectsBinding
 import com.example.jobfinder.databinding.FragmentMainScreenBinding
+import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.IS_FILTERED
 import com.example.jobfinder.utils.KEY_FILTER
 
@@ -38,6 +39,10 @@ class FilterProjectsFragment : Fragment() {
             IS_FILTERED = true
             val bundle = Bundle()
             bundle.putSerializable(KEY_FILTER, mBinding.tvCategory.text.toString().capitalize())
+            APP_ACTIVITY.navController.navigate(
+                R.id.action_mainScreenFragment2_to_filterProjectsFragment,
+                bundle
+            )
         }
     }
 

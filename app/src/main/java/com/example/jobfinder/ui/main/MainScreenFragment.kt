@@ -14,6 +14,7 @@ import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.databinding.FragmentMainScreenBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.IS_FILTERED
+import com.example.jobfinder.utils.KEY_FILTER
 import com.example.jobfinder.utils.KEY_ITEM
 
 class MainScreenFragment : Fragment() {
@@ -43,7 +44,12 @@ class MainScreenFragment : Fragment() {
                 adapter.updateList(it)
             }
         })
-        mViewModel.getProjects {} // mBinding.progressBar.visibility = View.GONE
+        if (IS_FILTERED) {
+            filter()
+            IS_FILTERED = false
+        } else {
+            mViewModel.getProjects { mBinding.progressBar.visibility = View.GONE }
+        }
     }
 
     private fun initialization() {
@@ -91,6 +97,11 @@ class MainScreenFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun filter() {
+        val type = arguments?.get(KEY_FILTER)
+        mViewModel.getFilteredProjects(type.toString()) { mBinding.progressBar.visibility = View.GONE }
     }
 
 }

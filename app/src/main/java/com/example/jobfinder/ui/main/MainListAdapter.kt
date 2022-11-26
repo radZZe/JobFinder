@@ -1,5 +1,6 @@
 package com.example.jobfinder.ui.main
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jobfinder.R
 import com.example.jobfinder.data.models.Project
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,18 +19,24 @@ class MainListAdapter(
 )  : RecyclerView.Adapter<MainListAdapter.MainListViewHolder>() {
 
     class MainListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-//        val tvTitle: TextView = view.findViewById(R.id.card_title)
-//        val tvBuilding: TextView = view.findViewById(R.id.building)
-//        val tvPrice: TextView = view.findViewById(R.id.price)
-//        val ivPicture: ImageView = view.findViewById(R.id.cardPhoto)
+        val tvTitle: TextView = view.findViewById(R.id.title)
+        val tvCompany: TextView = view.findViewById(R.id.company)
+        val tvSalary: TextView = view.findViewById(R.id.salary)
+        val tvDescription: TextView = view.findViewById(R.id.description)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainListViewHolder {
-        TODO("Not yet implemented")
+        val layout = R.layout.project_card
+        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
+        return MainListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MainListViewHolder, position: Int) {
         val project = projects[position]
+        holder.tvTitle.text = project.title.capitalize()
+        holder.tvCompany.text = project.employer.capitalize()
+        holder.tvSalary.text = project.salary.toString()
+        holder.tvDescription.text = project.description
         holder.view.setOnClickListener {
             onProjectClickListener.onProjectClicked(project)
         }
