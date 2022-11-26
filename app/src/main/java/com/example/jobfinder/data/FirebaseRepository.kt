@@ -258,7 +258,7 @@ class FirebaseRepository(
             .document(project.id)
             .set(project)
             .addOnSuccessListener {
-                database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_COLLECTION_USERS_PROJECTS, project.id).get()
+                database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_ID, project.creatorId).get()
                     .addOnSuccessListener {
 
                         it.documents[0].reference.collection(KEY_COLLECTION_USERS_PROJECTS)
