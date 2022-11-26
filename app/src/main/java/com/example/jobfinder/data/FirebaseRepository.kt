@@ -3,11 +3,6 @@ package com.example.jobfinder.data
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.jobfinder.data.models.*
-
-import com.example.jobfinder.utils.KEY_COLLECTION_PROJECTS
-import com.example.jobfinder.utils.KEY_COLLECTION_USERS_PROJECTS
-import com.example.jobfinder.utils.KEY_STATE
-
 import com.example.jobfinder.utils.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -286,38 +281,88 @@ class FirebaseRepository(
         liveData: MutableLiveData<ArrayList<Project>>,
         onSuccess: () -> Unit
     ) {
-        var projects = ArrayList<Project>()
+
+        val projIds = ArrayList<String>()
         database.collection(KEY_COLLECTION_USERS)
-            .whereEqualTo(KEY_USER_ID, userId)
-            .get().addOnCompleteListener {
+            .document(manager.getString(KEY_USER_ID)!!).collection(KEY_COLLECTION_PROJECTS)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                } else {
+                    if (value != null) {
+                        for (documentChange in value.documentChanges) {
 
-                it.result.documents[0].reference.collection(KEY_COLLECTION_PROJECTS)
-                    .whereEqualTo(KEY_STATE, true)
-                    .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                        override fun onEvent(
-                            value: QuerySnapshot?,
-                            error: FirebaseFirestoreException?
-                        ) {
-                            if (error != null) {
-                                Log.d("Firestore Error", error.message.toString())
-                                return
-                            } else {
-                                for (dc: DocumentChange in value?.documentChanges!!) {
-                                    if (dc.type == DocumentChange.Type.ADDED) {
-                                        projects.add(dc.document.toObject(Project::class.java))
-                                    }
-                                }
-                                projects.sortByDescending {
-                                    it.createdAt
-                                }
-                                liveData.value = projects
-                                onSuccess()
-                            }
+                            var doc = documentChange.document
+                            projIds.add(doc.getString(KEY_PROJECT_ID)!!)
+//                            var id = doc.get(KEY_PROJECT_ID).toString()
+//                            var title = doc.get(KEY_PROJECT_TITLE).toString()
+//                            var state = doc.getBoolean(KEY_STATE)
+//                            var createdAt = doc.getDate(KEY_CREATED_AT)
+//                            var creatorId = doc.get(KEY_CREATOR_ID).toString()
+//                            var employer = doc.get(KEY_EMPLOYER).toString()
+//                            var type = doc.get(KEY_TYPE).toString()
+//                            var skills = doc.get(KEY_SKILLS).toString()
+//                            var desc = doc.get(KEY_DESCRIPTION).toString()
+//                            var salary = doc.get(KEY_SALARY).toString()
+//                            val project = Project(
+//                                id,
+//                                createdAt!!,
+//                                title,
+//                                desc,
+//                                skills,
+//                                type,
+//                                state!!,
+//                                creatorId,
+//                                salary,
+//                                employer
+//                            )
+//                            projects.add(project)
+                            getProjectsByIds(projIds, liveData, onSuccess)
                         }
-                    })
 
+                    }
+                }
             }
 
+    }
+
+    fun getProjectsByIds(ids: ArrayList<String>, liveData: MutableLiveData<ArrayList<Project>>, onSuccess: () -> Unit) {
+        var projects = ArrayList<Project>()
+        for (i in ids) {
+            database.collection(KEY_COLLECTION_PROJECTS).document(i).get().addOnCompleteListener {
+
+                var doc = it.result
+                var id = doc.get(KEY_PROJECT_ID).toString()
+                var title = doc.get(KEY_PROJECT_TITLE).toString()
+                var state = doc.getBoolean(KEY_STATE)
+                var createdAt = doc.getDate(KEY_CREATED_AT)
+                var creatorId = doc.get(KEY_CREATOR_ID).toString()
+                var employer = doc.get(KEY_EMPLOYER).toString()
+                var type = doc.get(KEY_TYPE).toString()
+                var skills = doc.get(KEY_SKILLS).toString()
+                var desc = doc.get(KEY_DESCRIPTION).toString()
+                var salary = doc.get(KEY_SALARY).toString()
+                val project = Project(
+                    id,
+                    createdAt!!,
+                    title,
+                    desc,
+                    skills,
+                    type,
+                    state!!,
+                    creatorId,
+                    salary,
+                    employer
+                )
+                projects.add(project)
+                projects.sortByDescending {
+                    it.createdAt
+                }
+                liveData.value = projects
+            }
+
+            onSuccess()
+        }
     }
 
 

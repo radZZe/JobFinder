@@ -57,23 +57,9 @@ class Chat : Fragment() {
 
             }
         }
-//        mBinding.backButton.setOnClickListener {
-//            APP_ACTIVITY.navController.navigate(com.google.firebase.firestore.R.id.action_userChat_to_chatsFragment)
-//        }
-//        mBinding.attachBtn.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            pickImage.launch(intent)
-//        }
-//        mBinding.mapBtn.setOnClickListener {
-//            var bundle = Bundle()
-//            getСoordinates(bundle)
-//        }
-//        mBinding.receiverDataSeciton.setOnClickListener {
-//            var bundle = Bundle()
-//            bundle.putSerializable(KEY_USER, receiverUser)
-//            APP_ACTIVITY.navController.navigate(com.google.firebase.firestore.R.id.action_userChat_to_sellerProfile, bundle)
-//        }
+        mBinding.backButton.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatList)
+        }
     }
 
     private fun setupListeners() {
@@ -98,7 +84,9 @@ class Chat : Fragment() {
     fun listenMessage() {
         if(type == KEY_TEAM){
             TODO()
+            mBinding.icon.setImageResource(R.drawable.ic_wh_person)
         }else if(type == KEY_PROJECT){
+//            mBinding.icon.setImageResource(R.drawable.ic_wh_person)
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
                 mViewModel.listenMessageProject(projectId=projectId, members = it) {

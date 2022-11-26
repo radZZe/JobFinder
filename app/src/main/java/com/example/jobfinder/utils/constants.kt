@@ -48,6 +48,12 @@ const val KEY_TEAM_ID = "id"
 
 const val KEY_PROJECT_ID = "id"
 const val KEY_PROJECT_TITLE = "title"
+const val KEY_CREATED_AT = "createdAt"
+const val KEY_CREATOR_ID = "creatorId"
+const val KEY_EMPLOYER = "employer"
+const val KEY_SKILLS = "skills"
+const val KEY_DESCRIPTION = "description"
+const val KEY_SALARY = "salary"
 const val KEY_PROJECT_OWNER = "owner"
 
 const val KEY_TEAM = "team"
@@ -63,6 +69,8 @@ const val KEY_MESSAGE_TEXT = "text"
 const val KEY_MESSAGE_TIMESTAMP = "timestamp"
 const val KEY_MESSAGE_OWNER = "owner"
 const val KEY_CHATS_NAME = "chats_name"
+
+//const val KEY_PROJECT_ID = "id"
 
 const val SENT_TEXT = 1 ;
 const val RECEIVED_TEXT = 0;

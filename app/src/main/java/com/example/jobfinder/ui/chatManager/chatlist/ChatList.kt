@@ -38,6 +38,7 @@ class ChatList : Fragment() {
             chatAdapter = ChatListAdapter(it)
             mBinding.rvChat.adapter = chatAdapter
         }
+
     }
 
 }
