@@ -5,7 +5,7 @@ import java.util.*
 
 data class Project(
     val id: String = "",
-    val createdAt: Date,
+    val createdAt: Date = Date(),
     val title: String = "",
     val description: String = "",
     val skills: String = "",

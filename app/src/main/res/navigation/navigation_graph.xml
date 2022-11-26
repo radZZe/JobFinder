@@ -16,7 +16,11 @@
         tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_mainScreenFragment2"
-            app:destination="@id/mainScreenFragment2" />
+            app:destination="@id/mainScreenFragment2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
@@ -25,10 +29,18 @@
         tools:layout="@layout/fragment_sign_in" >
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            app:destination="@id/signUpFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_signInFragment_to_mainScreenFragment2"
-            app:destination="@id/mainScreenFragment2" />
+            app:destination="@id/mainScreenFragment2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment2"
@@ -37,21 +49,48 @@
         tools:layout="@layout/fragment_main_screen" >
         <action
             android:id="@+id/action_mainScreenFragment2_to_filterProjectsFragment"
-            app:destination="@id/filterProjectsFragment" />
+            app:destination="@id/filterProjectsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_mainScreenFragment2_to_projectFragment"
+            app:destination="@id/projectFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/filterProjectsFragment"
         android:name="com.example.jobfinder.ui.main.FilterProjectsFragment"
         android:label="fragment_filter_projects"
-        tools:layout="@layout/fragment_filter_projects" />
+        tools:layout="@layout/fragment_filter_projects" >
+        <action
+            android:id="@+id/action_filterProjectsFragment_to_mainScreenFragment2"
+            app:destination="@id/mainScreenFragment2"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.jobfinder.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile"
+        app:enterAnim="@anim/from_left"
+        app:exitAnim="@anim/to_right"
+        app:popEnterAnim="@anim/from_right"
+        app:popExitAnim="@anim/to_left">
         <action
             android:id="@+id/action_profileFragment_to_addProjectFragment"
-            app:destination="@id/addProjectFragment" />
+            app:destination="@id/addProjectFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/chatList"
@@ -64,6 +103,23 @@
         tools:layout="@layout/fragment_add_project" >
         <action
             android:id="@+id/action_addProjectFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/projectFragment"
+        android:name="com.example.jobfinder.ui.main.ProjectFragment"
+        android:label="fragment_project"
+        tools:layout="@layout/fragment_project" >
+        <action
+            android:id="@+id/action_projectFragment_to_mainScreenFragment2"
+            app:destination="@id/mainScreenFragment2"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
     </fragment>
 </navigation>

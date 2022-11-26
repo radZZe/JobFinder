@@ -11,7 +11,7 @@ const val KEY_PREFERENCSES ="appPreferences"
 
 const val KEY_COLLECTION_PROJECTS = "Projects"
 const val KEY_STATE = "state"
-const val KEY_COLLECTION_USERS_PROJECTS = "user's projects"
+const val KEY_COLLECTION_USERS_PROJECTS = "Projects"
 const val KEY_ITEM = "project"
 const val KEY_FILTER = "filter main list"
 

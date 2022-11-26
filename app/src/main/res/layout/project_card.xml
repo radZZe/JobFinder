@@ -10,6 +10,8 @@
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="10dp"
+    android:layout_marginTop="5sp"
+    android:layout_marginBottom="5dp"
     app:cardElevation="8dp"
     android:elevation="12dp"
     android:layout_marginEnd="10dp"
@@ -43,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:textSize="12dp"
+            android:textSize="14dp"
             android:fontFamily="@font/montserrat"
             android:text="TextView"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +58,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/black"
             android:text="company"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/salary" />
 
@@ -69,7 +71,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat"
             android:text="description"
-            android:textSize="12dp"
+            android:textSize="14dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/company" />
 

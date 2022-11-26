@@ -219,36 +219,75 @@ class FirebaseRepository(
         onSuccess: () -> Unit
     ) {
         var projects = ArrayList<Project>()
-//        database.collection(KEY_COLLECTION_USERS)
-//            .whereEqualTo(KEY_USER_ID, userId)
-//            .get().addOnCompleteListener {
-//
-//                it.result.documents[0].reference.collection(KEY_COLLECTION_PROJECTS)
-//                    .whereEqualTo(KEY_STATE, true)
-//                    .addSnapshotListener(object : EventListener<QuerySnapshot> {
-//                        override fun onEvent(
-//                            value: QuerySnapshot?,
-//                            error: FirebaseFirestoreException?
-//                        ) {
-//                            if (error != null) {
-//                                Log.d("Firestore Error", error.message.toString())
-//                                return
-//                            } else {
-//                                for (dc: DocumentChange in value?.documentChanges!!) {
-//                                    if (dc.type == DocumentChange.Type.ADDED) {
-//                                        projects.add(dc.document.toObject(Project::class.java))
-//                                    }
-//                                }
-//                                projects.sortByDescending {
-//                                    it.createdAt
-//                                }
-//                                liveData.value = projects
-//                                onSuccess()
-//                            }
-//                        }
-//                    })
-//
-//            }
+        database.collection(KEY_COLLECTION_USERS)
+            .whereEqualTo(KEY_USER_ID, userId)
+            .get().addOnCompleteListener {
+
+                it.result.documents[0].reference.collection(KEY_COLLECTION_PROJECTS)
+                    .whereEqualTo(KEY_STATE, true)
+                    .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                        override fun onEvent(
+                            value: QuerySnapshot?,
+                            error: FirebaseFirestoreException?
+                        ) {
+                            if (error != null) {
+                                Log.d("Firestore Error", error.message.toString())
+                                return
+                            } else {
+                                for (dc: DocumentChange in value?.documentChanges!!) {
+                                    if (dc.type == DocumentChange.Type.ADDED) {
+                                        projects.add(dc.document.toObject(Project::class.java))
+                                    }
+                                }
+                                projects.sortByDescending {
+                                    it.createdAt
+                                }
+                                liveData.value = projects
+                                onSuccess()
+                            }
+                        }
+                    })
+
+            }
+
+    }
+
+    override fun getEmployeeProjects(
+        userId: String,
+        liveData: MutableLiveData<ArrayList<Project>>,
+        onSuccess: () -> Unit
+    ) {
+        var projects = ArrayList<Project>()
+        database.collection(KEY_COLLECTION_USERS)
+            .whereEqualTo(KEY_USER_ID, userId)
+            .get().addOnCompleteListener {
+
+                it.result.documents[0].reference.collection(KEY_COLLECTION_PROJECTS)
+                    .whereEqualTo(KEY_STATE, true)
+                    .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                        override fun onEvent(
+                            value: QuerySnapshot?,
+                            error: FirebaseFirestoreException?
+                        ) {
+                            if (error != null) {
+                                Log.d("Firestore Error", error.message.toString())
+                                return
+                            } else {
+                                for (dc: DocumentChange in value?.documentChanges!!) {
+                                    if (dc.type == DocumentChange.Type.ADDED) {
+                                        projects.add(dc.document.toObject(Project::class.java))
+                                    }
+                                }
+                                projects.sortByDescending {
+                                    it.createdAt
+                                }
+                                liveData.value = projects
+                                onSuccess()
+                            }
+                        }
+                    })
+
+            }
 
     }
 
@@ -263,8 +302,7 @@ class FirebaseRepository(
 
                         it.documents[0].reference.collection(KEY_COLLECTION_USERS_PROJECTS)
                             .document(project.id)
-                            .set(project).addOnSuccessListener {
-                            }
+                            .set(project).addOnSuccessListener { }
 
                     }
 

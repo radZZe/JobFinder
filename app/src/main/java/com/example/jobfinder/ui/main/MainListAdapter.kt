@@ -3,6 +3,7 @@ package com.example.jobfinder.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Filter
 import android.widget.ImageView
 import android.widget.TextView
@@ -40,6 +41,9 @@ class MainListAdapter(
         holder.view.setOnClickListener {
             onProjectClickListener.onProjectClicked(project)
         }
+        holder.view.startAnimation(
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.rv_anim)
+        )
     }
 
     override fun getItemCount(): Int {
