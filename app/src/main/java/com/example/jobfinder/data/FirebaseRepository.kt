@@ -521,6 +521,7 @@ class FirebaseRepository(
     }
 
     fun getFeedbacks(project:Project,feedBacks:MutableLiveData<ArrayList<UserFeedback>>,onSuccess: () -> Unit){
+        val feedbacks = kotlin.collections.ArrayList<UserFeedback>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK).addSnapshotListener { value, error ->
             if(error!=null){
@@ -547,10 +548,11 @@ class FirebaseRepository(
                            uni = uni,
                            brief = brief
                        )
-                       if (feedBack !in feedBacks.value!!) {
-                           feedBacks.value!!.add(feedBack)
+                       if (feedBack !in feedbacks) {
+                           feedbacks.add(feedBack)
                        }
                    }
+                    feedBacks.value = feedbacks
                     onSuccess()
                 }
             }
