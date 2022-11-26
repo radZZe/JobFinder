@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainScreenFragment2"
+        android:title=""
+        android:icon="@drawable/home"
+        android:iconTint="@color/white"/>
+
+    <item android:id="@+id/profileFragment"
+        android:title=""
+        android:icon="@drawable/chats"
+        android:iconTint="@color/white"/>
+</menu>

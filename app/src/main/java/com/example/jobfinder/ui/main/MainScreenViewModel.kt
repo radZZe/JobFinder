@@ -21,4 +21,8 @@ class MainScreenViewModel @Inject constructor(
         firestore.getProjects(liveProjects, onSuccess)
     }
 
+    fun getFilteredProjects(filter: String, onSuccess: () -> Unit) {
+        firestore.getFilteredProjects(filter, liveProjects, onSuccess)
+    }
+
 }

@@ -22,6 +22,11 @@ interface FirebaseRepositoryInterface {
         onSuccess: () -> Unit
     ) {}
 
-    fun addProject(project: Project) {}
+    fun getFilteredProjects(
+        filter: String,
+        liveData: MutableLiveData<ArrayList<Project>>,
+        onSuccess: () -> Unit
+    ) { }
+    fun addProject(project: Project,) { }
 
 }

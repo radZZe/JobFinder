@@ -30,4 +30,5 @@ const val KEY_USER_MALE = "male"
 const val KEY_USER_UNI = "Uni"
 const val KEY_USER_TYPE = "type"
 const val KEY_USER_PASSWORD = "password"
+const val KEY_PROJECT_TYPE = "type"
 
