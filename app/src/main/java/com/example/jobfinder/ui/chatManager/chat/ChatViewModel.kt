@@ -43,7 +43,7 @@ class ChatViewModel @Inject constructor(
 
     fun getProjectMembersChat(id: String, onComplete: (ArrayList<ProjectMember>) -> Unit) {
         var members = arrayListOf<ProjectMember>()
-        firebase.database.collection(KEY_COLLECTION_TEAMS).document(id)
+        firebase.database.collection(KEY_COLLECTION_PROJECTS).document(id)
             .collection(KEY_COLLECTION_MEMBERS).get().addOnCompleteListener {
                 it.result.documents.forEach {
                     var id = it.get(KEY_USER_ID)!! as String
@@ -77,5 +77,10 @@ class ChatViewModel @Inject constructor(
 
     fun getSenderId():String{
         return manager.getString(KEY_USER_ID)!!
+    }
+
+    fun sendMessageForProject(projectId:String,text:String){
+        var senderId = getSenderId()
+        firebaseRepository.sendMessageForProject(projectId,text,senderId)
     }
 }

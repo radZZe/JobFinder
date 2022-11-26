@@ -361,7 +361,7 @@ class FirebaseRepository(
                                 var id = doc.get(KEY_MESSAGE_ID)!! as String
                                 var senderId = doc.get(KEY_SENDER_ID)!! as String
                                 var text = doc.get(KEY_MESSAGE_TEXT)!! as String
-                                var timestamp = doc.get(KEY_MESSAGE_TIMESTAMP)!! as Date
+                                var timestamp = doc.getDate(KEY_MESSAGE_TIMESTAMP)!!
                                 var owner = doc.get(KEY_MESSAGE_OWNER)!! as String
                                 var message = Message(
                                     id = id,
@@ -382,6 +382,32 @@ class FirebaseRepository(
 
 
         }
+
+    }
+
+    fun sendMessageForProject(projectId: String, text: String, senderId: String) {
+
+        SNTPClient.getDate(
+            TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().toString())
+        ) { _, date, _ ->
+            var id = UUID.randomUUID().mostSignificantBits.toString()
+            var owner =
+                "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(KEY_USER_SURNAME)!!}"
+            if (date != null) {
+                val message = Message(
+                    id = id,
+                    timestamp = date,
+                    senderId = senderId,
+                    text = text,
+                    owner = owner
+                )
+                database.collection(KEY_COLLECTION_USERS).document(senderId).collection(
+                    KEY_COLLECTION_PROJECT_CHAT
+                ).document(projectId).collection(KEY_COLLECTION_MESSAGES).add(message)
+
+            }
+        }
+
 
     }
 
