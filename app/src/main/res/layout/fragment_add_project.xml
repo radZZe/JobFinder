@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/header">
 
         <AutoCompleteTextView
-            android:id="@+id/tv_category"
+            android:id="@+id/tvType"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:paddingTop="10dp"
@@ -86,5 +86,56 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Описание"
+        android:inputType="text"
+        android:textColorHint="@color/grey"
+        app:layout_constraintEnd_toEndOf="@+id/etTitle"
+        app:layout_constraintStart_toStartOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+
+    <EditText
+        android:id="@+id/etSkills"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Требуемые навыки"
+        android:inputType="text"
+        android:textColorHint="@color/grey"
+        app:layout_constraintEnd_toEndOf="@+id/etDescription"
+        app:layout_constraintStart_toStartOf="@+id/etTitle"
+        app:layout_constraintTop_toBottomOf="@+id/etDescription" />
+
+    <EditText
+        android:id="@+id/etSalary"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Заработная плата"
+        android:inputType="text"
+        android:textColorHint="@color/grey"
+        app:layout_constraintEnd_toEndOf="@+id/etSkills"
+        app:layout_constraintStart_toStartOf="@+id/etSkills"
+        app:layout_constraintTop_toBottomOf="@+id/etSkills" />
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Создать"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

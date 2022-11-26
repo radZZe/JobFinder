@@ -15,8 +15,9 @@ import com.example.jobfinder.databinding.FragmentProfileBinding
 import com.example.jobfinder.ui.main.MainListAdapter
 import com.example.jobfinder.ui.main.MainScreenViewModel
 import com.example.jobfinder.utils.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -24,7 +25,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var itemsArrayList: ArrayList<Project>
     private lateinit var adapter: MainListAdapter
-    private val mViewModel: MainScreenViewModel by viewModels()
+    private val mViewModel: ProfileFragmentViewModel by viewModels()
     private lateinit var rvShopList: RecyclerView
 
     override fun onCreateView(
@@ -44,7 +45,6 @@ class ProfileFragment : Fragment() {
             }
         })
 
-        mViewModel.getProjects { mBinding.progressBar.visibility = View.GONE }
 
     }
 

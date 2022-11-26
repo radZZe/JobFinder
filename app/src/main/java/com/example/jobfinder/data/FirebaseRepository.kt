@@ -253,24 +253,23 @@ class FirebaseRepository(
     }
 
 
-//    override fun addProject(project: Project) {
-//        database.collection(KEY_COLLECTION_PROJECTS)
-//            .document(project.id)
-//            .set(project)
-//            .addOnSuccessListener {
-//                database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_COLLECTION_USERS_PROJECTS, project.id).get()
-//                    .addOnSuccessListener {
-//
-//                        it.documents[0].reference.collection(KEY_COLLECTION_USERS_ITEMS)
-//                            .document(project.id)
-//                            .set(project).addOnSuccessListener {
-////                                showToast("Success")
-//                            }
-//
-//                    }
-//
-//            }
-//
-//    }
+    override fun addProject(project: Project) {
+        database.collection(KEY_COLLECTION_PROJECTS)
+            .document(project.id)
+            .set(project)
+            .addOnSuccessListener {
+                database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_COLLECTION_USERS_PROJECTS, project.id).get()
+                    .addOnSuccessListener {
+
+                        it.documents[0].reference.collection(KEY_COLLECTION_USERS_PROJECTS)
+                            .document(project.id)
+                            .set(project).addOnSuccessListener {
+                            }
+
+                    }
+
+            }
+
+    }
 
 }

@@ -1,10 +1,9 @@
 package com.example.jobfinder
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.Nullable
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val fragment_login = navController.findDestination(R.id.signInFragment)
         val fragment_filter = navController.findDestination(R.id.filterProjectsFragment)
         val fragment_signUp = navController.findDestination(R.id.signUpFragment)
+        val fragment_add_project = navController.findDestination(R.id.addProjectFragment)
 
         navController.addOnDestinationChangedListener(object :
             NavController.OnDestinationChangedListener {
@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
                 navChangedListener(
                     fragment_login,
                     fragment_filter,
-                    fragment_signUp
+                    fragment_signUp,
+                    fragment_add_project
                 )
             }
         })
@@ -58,13 +59,15 @@ class MainActivity : AppCompatActivity() {
     private fun navChangedListener(
         login: NavDestination?,
         signUp: NavDestination?,
-        filter: NavDestination?
+        filter: NavDestination?,
+        addProject: NavDestination?
     ) {
         val currentFragment = navController.currentDestination
         if (currentFragment != null) {
             if (currentFragment == login ||
                 currentFragment == filter ||
-                currentFragment == signUp
+                currentFragment == signUp ||
+                currentFragment == addProject
             ) {
                 mBinding.navMenu.visibility = View.GONE
             } else {

@@ -48,9 +48,22 @@
         android:id="@+id/profileFragment"
         android:name="com.example.jobfinder.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_addProjectFragment"
+            app:destination="@id/addProjectFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatList"
         android:name="com.example.jobfinder.ui.chatManager.chatlist.ChatList"
         android:label="ChatList" />
+    <fragment
+        android:id="@+id/addProjectFragment"
+        android:name="com.example.jobfinder.ui.profile.AddProjectFragment"
+        android:label="fragment_add_project"
+        tools:layout="@layout/fragment_add_project" >
+        <action
+            android:id="@+id/action_addProjectFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

@@ -18,5 +18,7 @@ class AddProjectFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_project, container, false)
     }
 
+    private fun createProject() {
 
+    }
 }
