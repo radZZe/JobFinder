@@ -11,7 +11,7 @@
         android:id="@+id/start_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/createAccountHeader"
@@ -87,7 +87,7 @@
         android:id="@+id/student_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textView5"
@@ -109,9 +109,9 @@
             android:layout_marginStart="45dp"
             android:layout_marginEnd="45dp"
             android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/second"
             android:fontFamily="@font/montserrat"
             android:text="Регистрация"
-            android:backgroundTint="@color/second"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,12 +123,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="45dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Имя"
             android:fontFamily="@font/montserrat"
+            android:hint="Имя"
+            android:inputType="textPersonName"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -136,12 +136,14 @@
 
         <EditText
             android:id="@+id/password_field"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="18dp"
             android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Пароль"
             android:inputType="textPassword"
-            android:text="Пароль"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/email_field"
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="@+id/email_field"
@@ -149,12 +151,14 @@
 
         <EditText
             android:id="@+id/email_field"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="18dp"
             android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Электронная почта"
             android:inputType="textWebEmailAddress"
-            android:text="Электронная почта"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/age_field"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/age_field"
@@ -172,12 +176,14 @@
 
         <EditText
             android:id="@+id/age_field"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Возраст"
             android:inputType="number"
-            android:text="Возраст"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout"
@@ -199,10 +205,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:layout_marginEnd="45dp"
             android:elevation="20dp"
-            android:hint="Сфера деятельности"
+            android:hint="Университет"
             android:textColorHint="@color/grey"
             app:boxCornerRadiusBottomEnd="15dp"
             app:boxCornerRadiusBottomStart="15dp"
@@ -213,7 +219,7 @@
             app:layout_constraintTop_toBottomOf="@+id/last_name">
 
             <AutoCompleteTextView
-                android:id="@+id/tvType"
+                android:id="@+id/uni_field"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingTop="10dp"
@@ -227,11 +233,11 @@
             android:id="@+id/last_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Отчество"
             android:fontFamily="@font/montserrat"
+            android:hint="Отчество"
+            android:inputType="textPersonName"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/surnname_field"
             app:layout_constraintHorizontal_bias="0.497"
@@ -242,11 +248,11 @@
             android:id="@+id/surnname_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Фамилия"
             android:fontFamily="@font/montserrat"
+            android:hint="Фамилия"
+            android:inputType="textPersonName"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/name_field"
             app:layout_constraintHorizontal_bias="0.497"
@@ -259,7 +265,7 @@
         android:id="@+id/employer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <CheckBox
             android:id="@+id/male_woman_e"
