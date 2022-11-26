@@ -1,17 +1,14 @@
 package com.example.jobfinder.data
 
-<<<<<<< HEAD
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.utils.KEY_COLLECTION_PROJECTS
 import com.example.jobfinder.utils.KEY_COLLECTION_USERS_PROJECTS
 import com.example.jobfinder.utils.KEY_STATE
-=======
 import com.example.jobfinder.data.models.Employer
 import com.example.jobfinder.data.models.Student
 import com.example.jobfinder.utils.*
->>>>>>> a3dff51068c073539f014efb19c122486190c96d
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
@@ -26,7 +23,8 @@ class FirebaseRepository(
     val auth = auth
     val database = firestore
     val storage = storage
-<<<<<<< HEAD
+    val manager = manager
+
     
     override fun getProjects(
         liveData: MutableLiveData<ArrayList<Project>>,
@@ -34,9 +32,26 @@ class FirebaseRepository(
     ) {
         var projects = ArrayList<Project>()
         database.collection(KEY_COLLECTION_PROJECTS).whereEqualTo(KEY_STATE, true)
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-=======
-    val manager = manager
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+
+                if (error != null) {
+                    Log.d("Firestore Error", error.message.toString())
+                    return
+                } else {
+                    for (dc: DocumentChange in value?.documentChanges!!) {
+                        if (dc.type == DocumentChange.Type.ADDED) {
+                            projects.add(dc.document.toObject(Project::class.java))
+                        }
+                    }
+                    projects.sortByDescending {
+                        it.createdAt
+                    }
+                    liveData.value = projects
+                    onSuccess()
+                }
+            }
+            })
+    }
     override fun login(email:String,password:String,onComplete:()->Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get()
@@ -106,28 +121,9 @@ class FirebaseRepository(
             }
         }
     }
->>>>>>> a3dff51068c073539f014efb19c122486190c96d
 
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
 
-                    if (error != null) {
-                        Log.d("Firestore Error", error.message.toString())
-                        return
-                    } else {
-                        for (dc: DocumentChange in value?.documentChanges!!) {
-                            if (dc.type == DocumentChange.Type.ADDED) {
-                                projects.add(dc.document.toObject(Project::class.java))
-                            }
-                        }
-                        projects.sortByDescending {
-                            it.createdAt
-                        }
-                        liveData.value = projects
-                        onSuccess()
-                    }
-                }
-            })
-    }
+
 
     override fun getEmployerProjects(
         userId: String,
