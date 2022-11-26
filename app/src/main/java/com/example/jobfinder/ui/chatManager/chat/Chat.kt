@@ -16,9 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class Chat @Inject constructor(
-    private val manager:PreferenceManager
-) : Fragment() {
+class Chat : Fragment() {
 
     private var _binding: FragmentChatBinding? = null
     private val mBinding get() = _binding!!
@@ -56,7 +54,7 @@ class Chat @Inject constructor(
     fun getData() {
         type = arguments?.get(KEY_TYPE) !! as String
         chatName = arguments?.get(KEY_CHATS_NAME) !! as String
-        senderId = manager.getString(KEY_USER_ID)!!
+        senderId = mViewModel.getSenderId()
     }
 
     fun initViews() {

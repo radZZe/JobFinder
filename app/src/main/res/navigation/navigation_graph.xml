@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_chatList_to_hilt_Chat"
             app:destination="@id/hilt_Chat" />
+        <action
+            android:id="@+id/action_chatList_to_chat"
+            app:destination="@id/chat" />
     </fragment>
     <fragment
         android:id="@+id/addProjectFragment"
@@ -132,6 +135,15 @@
         android:label="Hilt_Chat" >
         <action
             android:id="@+id/action_hilt_Chat_to_chatList"
+            app:destination="@id/chatList" />
+    </fragment>
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.example.jobfinder.ui.chatManager.chat.Chat"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chat_to_chatList"
             app:destination="@id/chatList" />
     </fragment>
 </navigation>

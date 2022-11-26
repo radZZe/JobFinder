@@ -13,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseRepository: FirebaseRepository,
+    private val manager:PreferenceManager
 ) : ViewModel() {
     var messages = MutableLiveData<java.util.ArrayList<Message>>()
 
@@ -72,5 +73,9 @@ class ChatViewModel @Inject constructor(
 
     fun listenMessageTeam() {
 
+    }
+
+    fun getSenderId():String{
+        return manager.getString(KEY_USER_ID)!!
     }
 }

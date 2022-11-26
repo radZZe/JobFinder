@@ -43,7 +43,7 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
                 bundle.putString(KEY_TYPE,chats[position].type)
                 bundle.putString(KEY_CHATS_NAME,chats[position].name)
                 bundle.putString(KEY_PROJECT_ID,chats[position].id)
-                APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_hilt_Chat,bundle)
+                APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_chat,bundle)
             }
 
         }
