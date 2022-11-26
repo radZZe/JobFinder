@@ -18,6 +18,8 @@ const val KEY_FILTER = "filter main list"
 var IS_FILTERED = false
 
 const val KEY_COLLECTION_USERS = "users"
+const val KEY_COLLECTION_CONTACTS = "contacts"
+const val KEY_COLLECTION_TEAMS = "teams"
 const val KEY_USER_ID = "id"
 const val KEY_USER_EMAIL = "email"
 const val KEY_USER_NAME = "name"
@@ -32,3 +34,6 @@ const val KEY_USER_TYPE = "type"
 const val KEY_USER_PASSWORD = "password"
 const val KEY_PROJECT_TYPE = "type"
 
+const val TYPE_CONTACT = "contact"
+const val TYPE_TEAM = "team"
+const val TYPE_PROJECT = "project"

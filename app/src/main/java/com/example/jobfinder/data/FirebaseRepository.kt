@@ -2,6 +2,14 @@ package com.example.jobfinder.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+<<<<<<< HEAD
+=======
+import com.example.jobfinder.data.models.ChatItem
+import com.example.jobfinder.data.models.Project
+import com.example.jobfinder.utils.KEY_COLLECTION_PROJECTS
+import com.example.jobfinder.utils.KEY_COLLECTION_USERS_PROJECTS
+import com.example.jobfinder.utils.KEY_STATE
+>>>>>>> 165bdf05f0dfa706477c7280daa3b637ee49a2f6
 import com.example.jobfinder.data.models.Employer
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.data.models.Student
@@ -123,6 +131,7 @@ class FirebaseRepository(
         }
     }
 
+<<<<<<< HEAD
     override fun getFilteredProjects(
         filter: String,
         liveData: MutableLiveData<ArrayList<Project>>,
@@ -153,6 +162,35 @@ class FirebaseRepository(
                 }
             })
     }
+=======
+    fun getChats(onComplete: () -> Unit){
+        val chats = arrayListOf<ChatItem>()
+        database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
+            .collection(KEY_COLLECTION_TEAMS).addSnapshotListener{ value , error ->
+                if(error!=null){
+                    return@addSnapshotListener
+                }else{
+                    if(value!=null){
+                        value.documents.forEach {
+                            it.reference.get().addOnCompleteListener{
+                                //it.result.
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+        database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
+            .collection(KEY_COLLECTION_PROJECTS).addSnapshotListener{ value , error ->
+
+            }
+    }
+
+
+
+>>>>>>> 165bdf05f0dfa706477c7280daa3b637ee49a2f6
 
     override fun getEmployerProjects(
         userId: String,
