@@ -13,6 +13,7 @@ const val KEY_COLLECTION_PROJECTS = "Projects"
 const val KEY_STATE = "state"
 const val KEY_COLLECTION_USERS_PROJECTS = "Projects"
 const val KEY_ITEM = "project"
+const val KEY_CLICKED_PROJECT = "clicked project"
 const val KEY_FILTER = "filter main list"
 
 var IS_FILTERED = false
