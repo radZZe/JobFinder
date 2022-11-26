@@ -17,6 +17,7 @@ class ChatList : Fragment() {
     private var _binding: FragmentChatListBinding? = null
     private val mBinding get() = _binding!!
     private val mViewModel: ChatListViewModel by viewModels()
+    private lateinit var chatAdapter: ChatListAdapter
 
 
 
@@ -33,7 +34,10 @@ class ChatList : Fragment() {
     }
 
     fun initialization(){
-
+        mViewModel.getChats {
+            chatAdapter = ChatListAdapter(it)
+            mBinding.rvChat.adapter = chatAdapter
+        }
     }
 
 }

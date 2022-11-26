@@ -160,33 +160,57 @@ class FirebaseRepository(
             })
     }
 
-    fun getChats(onComplete: () -> Unit){
+    fun getChats(onComplete: (ArrayList<ChatItem>) -> Unit) {
         val chats = arrayListOf<ChatItem>()
         database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
-            .collection(KEY_COLLECTION_TEAMS).addSnapshotListener{ value , error ->
-                if(error!=null){
+            .collection(KEY_COLLECTION_TEAMS).addSnapshotListener { value, error ->
+                if (error != null) {
                     return@addSnapshotListener
-                }else{
-                    if(value!=null){
+                } else {
+                    if (value != null) {
                         value.documents.forEach {
-                            it.reference.get().addOnCompleteListener{
-                                //it.result.
+                            it.reference.get().addOnCompleteListener {
+                                var name = it.result.get(KEY_TEAM_NAME)!! as String
+                                var id = it.result.get(KEY_TEAM_ID)!! as String
+                                var type = KEY_TEAM
+                                var item = ChatItem(type = type, id = id, name = name)
+                                chats.add(item)
+                                database.collection(KEY_COLLECTION_USERS)
+                                    .document(manager.getString(KEY_USER_ID)!!).collection(
+                                        KEY_COLLECTION_PROJECTS
+                                    ).addSnapshotListener { value, error ->
+                                        if (error != null) {
+                                            return@addSnapshotListener
+                                        } else {
+                                            if (value != null) {
+                                                value.documents.forEach {
+                                                    it.reference.get().addOnCompleteListener {
+                                                        var id =
+                                                            it.result.get(KEY_PROJECT_ID)!! as String
+                                                        var title = it.result.get(
+                                                            KEY_PROJECT_TITLE
+                                                        )!! as String
+                                                        var type = KEY_PROJECT
+                                                        var item = ChatItem(
+                                                            id = id,
+                                                            name = title,
+                                                            type = type
+                                                        )
+                                                        chats.add(item)
+
+                                                    }
+                                                }
+                                                onComplete(chats)
+                                            }
+                                        }
+                                    }
                             }
                         }
                     }
 
                 }
             }
-
-
-        database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
-            .collection(KEY_COLLECTION_PROJECTS).addSnapshotListener{ value , error ->
-
-            }
     }
-
-
-
 
 
     override fun getEmployerProjects(

@@ -1,7 +1,7 @@
 package com.example.jobfinder.data.models
 
-data class ChatItem(
-    val type:String,
+data class Team(
     val id:String,
-    val name:String,
+    val owner:String,
+    val name:String
 )

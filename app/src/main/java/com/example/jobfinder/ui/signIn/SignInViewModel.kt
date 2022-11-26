@@ -12,5 +12,6 @@ class SignInViewModel @Inject constructor(firebaseRepository: FirebaseRepository
     val firebase = firebaseRepository
     fun login(email:String,password:String,onComplete:()->Unit){
         firebase.login(email,password,onComplete)
+
     }
 }

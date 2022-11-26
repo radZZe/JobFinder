@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,9 @@ import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.IS_FILTERED
 import com.example.jobfinder.utils.KEY_FILTER
 import com.example.jobfinder.utils.KEY_ITEM
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainScreenFragment : Fragment() {
 
     private var _binding: FragmentMainScreenBinding? = null
@@ -24,7 +27,7 @@ class MainScreenFragment : Fragment() {
 
     private lateinit var itemsArrayList: ArrayList<Project>
     private lateinit var adapter: MainListAdapter
-    private lateinit var mViewModel: MainScreenViewModel
+    private val mViewModel: MainScreenViewModel by viewModels()
     private lateinit var rvShopList: RecyclerView
 
     override fun onCreateView(
@@ -37,7 +40,6 @@ class MainScreenFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        mViewModel = ViewModelProvider(this)[MainScreenViewModel::class.java]
         initialization()
         mViewModel.liveProjects.observe(this, Observer { list ->
             list?.let {
