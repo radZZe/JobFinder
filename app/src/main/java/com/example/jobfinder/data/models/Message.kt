@@ -4,8 +4,8 @@ import java.util.*
 
 data class Message(
     var id:String,
-    var receiverId:String,
+    var senderId:String,
     var text:String,
     var timestamp: Date,
-    var type:String,
+    var owner:String,
 )

@@ -1,5 +1,6 @@
 package com.example.jobfinder.ui.chatManager.chatlist
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobfinder.R
 import com.example.jobfinder.data.models.ChatItem
-import com.example.jobfinder.utils.TYPE_CONTACT
-import com.example.jobfinder.utils.TYPE_PROJECT
-import com.example.jobfinder.utils.TYPE_TEAM
+import com.example.jobfinder.utils.*
 
 class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
 
@@ -39,7 +38,14 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
     override fun onBindViewHolder(holder: ChatHolder, position: Int) {
         holder.nameChat.text = chats[position].name
         holder.cardView.setOnClickListener{
-            TODO()
+            if(chats[position].type == KEY_PROJECT){
+                var bundle = Bundle()
+                bundle.putString(KEY_TYPE,chats[position].type)
+                bundle.putString(KEY_CHATS_NAME,chats[position].name)
+                bundle.putString(KEY_PROJECT_ID,chats[position].id)
+                APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_hilt_Chat,bundle)
+            }
+
         }
     }
 
