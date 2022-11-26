@@ -45,6 +45,7 @@ class SignInFragment : Fragment() {
                 mViewModel.login(email,password){
 
                 }
+                APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
             }
             signUpButton.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_signUpFragment)

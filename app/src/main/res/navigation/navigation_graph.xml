@@ -13,7 +13,11 @@
         android:id="@+id/signUpFragment"
         android:name="com.example.jobfinder.ui.signUp.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_mainScreenFragment2"
+            app:destination="@id/mainScreenFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.example.jobfinder.ui.signIn.SignInFragment"
@@ -22,6 +26,9 @@
         <action
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_mainScreenFragment2"
+            app:destination="@id/mainScreenFragment2" />
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment2"
@@ -42,4 +49,8 @@
         android:name="com.example.jobfinder.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/chatList"
+        android:name="com.example.jobfinder.ui.chatManager.chatlist.ChatList"
+        android:label="ChatList" />
 </navigation>

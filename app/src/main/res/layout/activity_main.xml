@@ -31,6 +31,7 @@
         android:id="@+id/navMenu"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        app:itemIconTint="@drawable/item_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/bottom_nav_menu"

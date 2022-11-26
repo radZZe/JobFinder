@@ -5,8 +5,13 @@
         android:icon="@drawable/home"
         android:iconTint="@color/white"/>
 
-    <item android:id="@+id/profileFragment"
+    <item android:id="@+id/chatList"
         android:title=""
         android:icon="@drawable/chats"
+        android:iconTint="@color/white"/>
+
+    <item android:id="@+id/profileFragment"
+        android:title=""
+        android:icon="@drawable/profile"
         android:iconTint="@color/white"/>
 </menu>

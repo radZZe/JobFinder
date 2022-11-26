@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.example.jobfinder.databinding.ActivityMainBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,12 +25,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         APP_ACTIVITY = this
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         navController = Navigation.findNavController(this, R.id.nav_host)
+
+        mBinding.navMenu.setupWithNavController(navController) // Setup navigation  menu
 
         val navView: BottomNavigationView = mBinding.navMenu
         NavigationUI.setupWithNavController(navView, navController)
