@@ -16,7 +16,11 @@ class ProfileFragmentViewModel @Inject constructor(
 
     val liveProjects = MutableLiveData<ArrayList<Project>>()
 
-    fun getMyProjects(userId: String, onSuccess: () -> Unit) {
+    fun getEmployerProjects(userId: String, onSuccess: () -> Unit) {
         firestore.getEmployerProjects(userId, liveProjects, onSuccess)
+    }
+
+    fun getEmployeeProjects(userId: String, onSuccess: () -> Unit) {
+        firestore.getEmployeeProjects(userId, liveProjects, onSuccess)
     }
 }

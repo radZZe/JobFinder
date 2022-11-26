@@ -93,7 +93,20 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_profileFragment_to_addTeamFragment"
-            app:destination="@id/addTeamFragment" />
+            app:destination="@id/addTeamFragment" 
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>/>
+
+        <action
+            android:id="@+id/action_profileFragment_to_listFeedbacksFragment"
+            app:destination="@id/listFeedbacksFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+
     </fragment>
     <fragment
         android:id="@+id/chatList"
@@ -104,7 +117,11 @@
             app:destination="@id/hilt_Chat" />
         <action
             android:id="@+id/action_chatList_to_chat"
-            app:destination="@id/chat" />
+            app:destination="@id/chat"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addProjectFragment"
@@ -150,7 +167,24 @@
         tools:layout="@layout/fragment_chat" >
         <action
             android:id="@+id/action_chat_to_chatList"
-            app:destination="@id/chatList" />
+            app:destination="@id/chatList"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/listFeedbacksFragment"
+        android:name="com.example.jobfinder.ui.main.ListFeedbacksFragment"
+        android:label="fragment_list_feedbacks"
+        tools:layout="@layout/fragment_list_feedbacks" >
+        <action
+            android:id="@+id/action_listFeedbacksFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
     </fragment>
     <fragment
         android:id="@+id/addTeamFragment"

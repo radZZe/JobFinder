@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
     class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameChat: TextView = view.findViewById(R.id.nameTeamOrProject_field)
         val cardView:CardView = view.findViewById(R.id.chat_item_cardView)
+        val icon: ImageView = view.findViewById(R.id.icon)
     }
 
 
@@ -51,7 +53,11 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
                 bundle.putString(KEY_TEAM_ID,chats[position].id)
                 APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_chat,bundle)
             }
-
+        }
+        if (chats[position].type == KEY_TEAM) {
+            holder.icon.setImageResource(R.drawable.ic_or_group)
+        } else {
+            holder.icon.setImageResource(R.drawable.ic_or_person)
         }
     }
 
