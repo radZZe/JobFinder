@@ -213,7 +213,7 @@
             app:layout_constraintTop_toBottomOf="@+id/last_name">
 
             <AutoCompleteTextView
-                android:id="@+id/tvType"
+                android:id="@+id/uni_field"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingTop="10dp"
