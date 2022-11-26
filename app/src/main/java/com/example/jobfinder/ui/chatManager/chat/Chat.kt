@@ -97,7 +97,15 @@ class Chat : Fragment() {
 
     fun listenMessage() {
         if(type == KEY_TEAM){
-            TODO()
+            var teamId = arguments?.get(KEY_TEAM_ID)!! as String
+            mViewModel.getTeamMembersChat(teamId){
+                mViewModel.listenMessageTeam(teamId = teamId, members = it){
+                    userChatAdpater.updateList(ArrayList(it))
+                    if (it.size != 0) {
+                        mBinding.rvUserChat.smoothScrollToPosition(it.size - 1)
+                    }
+                }
+            }
         }else if(type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
@@ -114,7 +122,8 @@ class Chat : Fragment() {
 
     fun sendMessage(text:String){
         if(type == KEY_TEAM){
-            TODO()
+            var teamId = arguments?.get(KEY_TEAM_ID)!! as String
+            mViewModel.sendMessageForTeam(teamId,text)
         }else if (type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.sendMessageForProject(projectId,text)

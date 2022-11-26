@@ -385,6 +385,47 @@ class FirebaseRepository(
 
     }
 
+    fun listenMessageTeam(
+        members: ArrayList<TeamMember>,
+        teamId: String,
+        messages: MutableLiveData<ArrayList<Message>>,
+        onSuccess: (ArrayList<Message>) -> Unit
+    ) {
+        members.forEach {
+            database.collection(KEY_COLLECTION_USERS).document(it.id)
+                .collection(KEY_COLLECTION_TEAM_CHAT).document(teamId).collection(
+                    KEY_COLLECTION_MESSAGES
+                ).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        return@addSnapshotListener
+                    } else {
+                        if (value != null) {
+                            for (documentChange in value.documentChanges) {
+                                var doc = documentChange.document
+                                var id = doc.get(KEY_MESSAGE_ID)!! as String
+                                var senderId = doc.get(KEY_SENDER_ID)!! as String
+                                var text = doc.get(KEY_MESSAGE_TEXT)!! as String
+                                var timestamp = doc.getDate(KEY_MESSAGE_TIMESTAMP)!!
+                                var owner = doc.get(KEY_MESSAGE_OWNER)!! as String
+                                var message = Message(
+                                    id = id,
+                                    text = text,
+                                    senderId = senderId,
+                                    timestamp = timestamp,
+                                    owner = owner
+                                )
+                                if (message !in messages.value!!) {
+                                    messages.value!!.add(message)
+                                }
+                            }
+                            messages.value!!.sortBy { it -> it.timestamp }
+                            onSuccess(messages.value!!)
+                        }
+                    }
+                }
+        }
+    }
+
     fun sendMessageForProject(projectId: String, text: String, senderId: String) {
 
         SNTPClient.getDate(
@@ -408,6 +449,124 @@ class FirebaseRepository(
             }
         }
 
+
+    }
+
+    fun sendMessageForTeam(teamId: String, text: String, senderId: String) {
+        SNTPClient.getDate(
+            TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().toString())
+        ) { _, date, _ ->
+            var id = UUID.randomUUID().mostSignificantBits.toString()
+            var owner =
+                "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(KEY_USER_SURNAME)!!}"
+            if (date != null) {
+                val message = Message(
+                    id = id,
+                    timestamp = date,
+                    senderId = senderId,
+                    text = text,
+                    owner = owner
+                )
+                database.collection(KEY_COLLECTION_USERS).document(senderId).collection(
+                    KEY_COLLECTION_TEAM_CHAT
+                ).document(teamId).collection(KEY_COLLECTION_MESSAGES).add(message)
+
+            }
+        }
+    }
+
+    fun getFeedbacks(project:Project,feedBacks:MutableLiveData<ArrayList<UserFeedback>>,onSuccess: () -> Unit){
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+            KEY_COLLECTION_FEEDBACK).addSnapshotListener { value, error ->
+            if(error!=null){
+                return@addSnapshotListener
+            }else{
+                if(value!=null){
+                   for(documentChange in value.documentChanges){
+                       var doc = documentChange.document
+                       var userId = doc.getString("userId")!!
+                       var name= doc.getString("name")!!
+                       var surname= doc.getString("surname")!!
+                       var lastName= doc.getString("lastName")!!
+                       var age= doc.getString("age")!!
+                       var sex= doc.getString("sex")!!
+                       var uni= doc.getString("uni")!!
+                       var brief= doc.getString("brief")!!
+                       var feedBack = UserFeedback(
+                           userId = userId,
+                           name = name,
+                           surname = surname,
+                           lastName = lastName,
+                           age = age,
+                           sex = sex,
+                           uni = uni,
+                           brief = brief
+                       )
+                       if (feedBack !in feedBacks.value!!) {
+                           feedBacks.value!!.add(feedBack)
+                       }
+                   }
+                    onSuccess()
+                }
+            }
+        }
+    }
+
+    fun feedback(project: Project,brief:String) {
+        val userFeedback = UserFeedback(
+            userId = manager.getString(KEY_USER_ID)!!,
+            name =manager.getString(KEY_USER_NAME)!! ,
+            surname = manager.getString(KEY_USER_SURNAME)!!,
+            lastName = manager.getString(KEY_USER_LASTNAME)!!,
+            age = manager.getString(KEY_USER_AGE)!!,
+            sex = manager.getString(KEY_USER_MALE)!!,
+            uni = manager.getString(KEY_USER_UNI)!!,
+            brief = brief
+        )
+
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+            .collection(KEY_COLLECTION_FEEDBACK).add(userFeedback)
+
+    }
+
+    fun addStudentToProject(project: Project){
+        val projectMember = ProjectMember(
+            id = manager.getString(KEY_USER_ID)!!,
+            owner = "${manager.getString(KEY_USER_NAME)!!}  ${manager.getString(KEY_USER_SURNAME)!!}"
+        )
+        val studentProject = StudentProject(
+            id = project.id,
+            title = project.title
+        )
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+            KEY_COLLECTION_MEMBERS
+        ).add(projectMember).addOnCompleteListener {
+            database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
+                .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+        }
+    }
+
+    fun createTeam(team: Team) {
+        var teamMember = TeamMember(
+            id = manager.getString(KEY_USER_ID)!! as String,
+            name = manager.getString(KEY_USER_NAME)!! as String,
+            surname = manager.getString(KEY_USER_SURNAME)!!,
+            uni = manager.getString(KEY_USER_UNI)!!
+        )
+        var studentTeam = StudentTeam(
+            id = team.id,
+            name = team.name
+        )
+        database.collection(KEY_COLLECTION_TEAMS).document(team.id).set(team)
+            .addOnCompleteListener {
+                database.collection(KEY_COLLECTION_TEAMS).document(team.id).collection(
+                    KEY_COLLECTION_MEMBERS
+                ).add(teamMember).addOnCompleteListener {
+                    database.collection(KEY_COLLECTION_USERS)
+                        .document(manager.getString(KEY_USER_ID)!!)
+                        .collection(KEY_COLLECTION_TEAMS).document(team.id).set(studentTeam)
+                }
+            }
 
     }
 

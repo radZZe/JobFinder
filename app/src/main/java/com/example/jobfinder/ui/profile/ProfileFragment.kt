@@ -78,9 +78,9 @@ class ProfileFragment : Fragment() {
         mBinding.userNameField.text = "$name $surname $lastName"
         if (userType == "student") {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_UNI)
-//            mBinding.btnAddProject.setOnClickListener {
-//                APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_addProjectFragment)
-//            }
+            mBinding.btnAddProject.setOnClickListener {
+                APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_addTeamFragment)
+            }
         } else {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_COMPANY)
             mBinding.btnAddProject.setOnClickListener {
