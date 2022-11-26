@@ -40,11 +40,15 @@ class SignUpFragment : Fragment() {
     fun setupListeners(){
         mBinding.button.setOnClickListener {
             with(mBinding){
-                if(checkBoxStudent.isEnabled){
+                if(checkBoxStudent.isChecked){
+                    checkBoxEmployer.isChecked = false
                     startLayout.visibility = View.GONE
                     studentLayout.visibility = View.VISIBLE
-                }else if(checkBoxEmployer.isEnabled){
+                    employerLayout.visibility = View.GONE
+                }else if(checkBoxEmployer.isChecked){
+                    checkBoxEmployer.isChecked = false
                     startLayout.visibility = View.GONE
+                    studentLayout.visibility = View.GONE
                     employerLayout.visibility = View.VISIBLE
                 }
             }
