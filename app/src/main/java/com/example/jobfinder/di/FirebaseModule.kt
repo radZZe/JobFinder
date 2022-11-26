@@ -1,6 +1,7 @@
 package com.example.jobfinder.di
 
 import com.example.jobfinder.data.FirebaseRepository
+import com.example.jobfinder.utils.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,9 +31,10 @@ class FirebaseModule {
         auth:FirebaseAuth,
         firestore: FirebaseFirestore,
         storage: FirebaseStorage,
+        manager: PreferenceManager
     ):FirebaseRepository{
 
-        return FirebaseRepository(auth,firestore,storage)
+        return FirebaseRepository(auth,firestore,storage,manager)
     }
 
     @Provides
