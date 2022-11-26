@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jobfinder.R
 import com.example.jobfinder.data.models.ChatItem
@@ -25,6 +26,7 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
 
     class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameChat: TextView = view.findViewById(R.id.nameTeamOrProject_field)
+        val cardView:CardView = view.findViewById(R.id.chat_item_cardView)
     }
 
 
@@ -36,7 +38,7 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
 
     override fun onBindViewHolder(holder: ChatHolder, position: Int) {
         holder.nameChat.text = chats[position].name
-        holder.nameChat.setOnClickListener{
+        holder.cardView.setOnClickListener{
             TODO()
         }
     }

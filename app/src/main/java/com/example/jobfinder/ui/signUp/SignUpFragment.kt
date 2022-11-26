@@ -11,6 +11,7 @@ import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentSignInBinding
 import com.example.jobfinder.databinding.FragmentSignUpBinding
 import com.example.jobfinder.ui.signIn.SignInViewModel
+import com.example.jobfinder.utils.APP_ACTIVITY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +59,9 @@ class SignUpFragment : Fragment() {
                 var email = emailField.text.toString()
                 var password = passwordField.text.toString()
                 var male = if(maleMan.isEnabled) "man" else "woman"
-                mViewModel.signUpAsStudent(image = "jopa",name,surname,lastName,uni,male,age,email,password)
+                mViewModel.signUpAsStudent(image = "jopa",name,surname,lastName,uni,male,age,email,password){
+                    APP_ACTIVITY.navController.navigate(R.id.action_signUpFragment_to_mainScreenFragment2)
+                }
             }
         }
 
@@ -72,7 +75,9 @@ class SignUpFragment : Fragment() {
                 var email = emailFieldE.text.toString()
                 var password = passwordField3.text.toString()
                 var male = if(maleMan.isEnabled) "man" else "woman"
-                mViewModel.signUpAsEmployer(image = "jopa",name,surname,lastName,company,male,age,email,password)
+                mViewModel.signUpAsEmployer(image = "jopa",name,surname,lastName,company,male,age,email,password){
+                    APP_ACTIVITY.navController.navigate(R.id.action_signUpFragment_to_mainScreenFragment2)
+                }
             }
         }
     }

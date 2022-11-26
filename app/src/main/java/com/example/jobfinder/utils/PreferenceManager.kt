@@ -6,7 +6,7 @@ import com.example.jobfinder.data.models.Employer
 import com.example.jobfinder.data.models.Student
 
 class PreferenceManager(sharedPreference: SharedPreferences) {
-    lateinit var sharedPreference: SharedPreferences
+    var sharedPreference = sharedPreference
     var editor: SharedPreferences.Editor = sharedPreference.edit()
 
     fun putStudent(user: Student) {

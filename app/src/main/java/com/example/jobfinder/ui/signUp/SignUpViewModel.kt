@@ -28,7 +28,8 @@ class SignUpViewModel @Inject constructor(
         male: String,
         age: String,
         email: String,
-        password: String
+        password: String,
+        onComplete:()->Unit,
     ) {
 
         SNTPClient.getDate(
@@ -50,7 +51,7 @@ class SignUpViewModel @Inject constructor(
                     createdAt = date
                 )
                 firebase.signUpAsStudent(student) {
-
+                    onComplete()
                 }
             }
         }
@@ -65,7 +66,8 @@ class SignUpViewModel @Inject constructor(
         male: String,
         age: String,
         email: String,
-        password: String
+        password: String,
+        onComplete:()->Unit
     ){
         SNTPClient.getDate(
             TimeZone.getTimeZone(Calendar.getInstance().getTimeZone().toString())
@@ -86,7 +88,7 @@ class SignUpViewModel @Inject constructor(
                     createdAt = date
                 )
                 firebase.signUpAsEmployer(employer) {
-
+                    onComplete()
                 }
             }
         }

@@ -42,10 +42,9 @@ class SignInFragment : Fragment() {
             signInButton.setOnClickListener {
                 var email = email.text.toString()
                 var password = password.text.toString()
-                mViewModel.login(email,password){
+                mViewModel.login(email,password) {
                     APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
                 }
-                APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
             }
             signUpButton.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_signUpFragment)
