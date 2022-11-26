@@ -92,12 +92,21 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
         <action
+            android:id="@+id/action_profileFragment_to_addTeamFragment"
+            app:destination="@id/addTeamFragment" 
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>/>
+
+        <action
             android:id="@+id/action_profileFragment_to_listFeedbacksFragment"
             app:destination="@id/listFeedbacksFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+
     </fragment>
     <fragment
         android:id="@+id/chatList"
@@ -139,6 +148,9 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left"/>
+        <action
+            android:id="@+id/action_projectFragment_to_feedBackFragment"
+            app:destination="@id/feedBackFragment" />
     </fragment>
     <fragment
         android:id="@+id/hilt_Chat"
@@ -173,5 +185,21 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addTeamFragment"
+        android:name="com.example.jobfinder.ui.profile.AddTeamFragment"
+        android:label="AddTeamFragment" >
+        <action
+            android:id="@+id/action_addTeamFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedBackFragment"
+        android:name="com.example.jobfinder.ui.main.FeedBackFragment"
+        android:label="FeedBackFragment" >
+        <action
+            android:id="@+id/action_feedBackFragment_to_projectFragment"
+            app:destination="@id/projectFragment" />
     </fragment>
 </navigation>

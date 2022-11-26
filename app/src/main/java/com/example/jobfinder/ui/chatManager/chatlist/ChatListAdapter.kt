@@ -46,6 +46,12 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
                 bundle.putString(KEY_CHATS_NAME,chats[position].name)
                 bundle.putString(KEY_PROJECT_ID,chats[position].id)
                 APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_chat,bundle)
+            }else if(chats[position].type == KEY_TEAM){
+                var bundle = Bundle()
+                bundle.putString(KEY_TYPE,chats[position].type)
+                bundle.putString(KEY_CHATS_NAME,chats[position].name)
+                bundle.putString(KEY_TEAM_ID,chats[position].id)
+                APP_ACTIVITY.navController.navigate(R.id.action_chatList_to_chat,bundle)
             }
         }
         if (chats[position].type == KEY_TEAM) {

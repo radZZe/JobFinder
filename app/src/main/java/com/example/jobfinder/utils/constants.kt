@@ -70,7 +70,11 @@ const val KEY_MESSAGE_TIMESTAMP = "timestamp"
 const val KEY_MESSAGE_OWNER = "owner"
 const val KEY_CHATS_NAME = "chats_name"
 
+
+const val KEY_COLLECTION_FEEDBACK = "feedback"
+
 //const val KEY_PROJECT_ID = "id"
+
 
 const val SENT_TEXT = 1 ;
 const val RECEIVED_TEXT = 0;

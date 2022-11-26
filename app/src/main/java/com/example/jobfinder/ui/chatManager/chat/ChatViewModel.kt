@@ -71,7 +71,17 @@ class ChatViewModel @Inject constructor(
 
     }
 
-    fun listenMessageTeam() {
+
+
+    fun listenMessageTeam(
+        members: ArrayList<TeamMember>,
+        teamId: String,
+        onSuccess: (java.util.ArrayList<Message>) -> Unit
+    ) {
+        messages.value = arrayListOf<Message>()
+        firebaseRepository.listenMessageTeam(members,teamId,messages){
+            onSuccess(it)
+        }
 
     }
 
@@ -82,5 +92,10 @@ class ChatViewModel @Inject constructor(
     fun sendMessageForProject(projectId:String,text:String){
         var senderId = getSenderId()
         firebaseRepository.sendMessageForProject(projectId,text,senderId)
+    }
+
+    fun sendMessageForTeam(teamId: String,text: String){
+        var senderId = getSenderId()
+        firebaseRepository.sendMessageForTeam(teamId,text,senderId)
     }
 }
