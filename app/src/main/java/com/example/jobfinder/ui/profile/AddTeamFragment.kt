@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentAddTeamBinding
 import com.example.jobfinder.databinding.FragmentProfileBinding
+import com.example.jobfinder.utils.APP_ACTIVITY
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +40,10 @@ class AddTeamFragment : Fragment() {
         var teamName = mBinding.etTeamName.text.toString()
         mBinding.btnApply.setOnClickListener {
             mViewModel.createTeam(teamName)
+        }
+
+        mBinding.backButton.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_addTeamFragment_to_profileFragment)
         }
     }
 

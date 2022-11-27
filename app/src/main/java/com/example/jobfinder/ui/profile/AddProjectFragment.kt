@@ -6,6 +6,7 @@ import android.view.View
 import android.view.View.inflate
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.fragment.app.viewModels
 import com.example.jobfinder.R
@@ -48,9 +49,16 @@ class AddProjectFragment : Fragment() {
         mBinding.btnBack.setOnClickListener {
             APP_ACTIVITY.navController.navigate(R.id.action_addProjectFragment_to_profileFragment)
         }
+
+        val types = resources.getStringArray(R.array.types)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.types_dropdown_item, types)
+        mBinding.tvType.setAdapter(arrayAdapter)
+
     }
 
     private fun createProject() {
+
         val id = generateItemId()
         val title = mBinding.etTitle.text.toString()
         val desc = mBinding.etDescription.text.toString()

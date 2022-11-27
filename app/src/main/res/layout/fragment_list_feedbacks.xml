@@ -48,7 +48,7 @@
                 android:id="@+id/feedbackHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Отклики"
+                android:text="Feedbacks"
                 android:fontFamily="@font/montserrat"
                 android:textSize="20sp"
                 android:textColor="@color/white"

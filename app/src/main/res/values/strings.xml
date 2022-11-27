@@ -15,9 +15,9 @@
 
     <string-array name="types">
         <item>IT</item>
-        <item>Дизайн</item>
+        <item>Design</item>
         <item>SMM</item>
-        <item>Копирайтинг</item>
+        <item>Copyrighting</item>
     </string-array>
 
     <string name="sign_up">Регистрация</string>
