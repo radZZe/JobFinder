@@ -51,10 +51,10 @@ class ListFeedbacksAdapter(
         holder.tvUni.text = fb.uni
         holder.tvBrief.text = fb.brief
         holder.btnReject.setOnClickListener {
-            onFeedbackClickListener.onFeedbackRejected(project)
+            onFeedbackClickListener.onFeedbackRejected(project,fb.userId)
         }
         holder.btnAccept.setOnClickListener {
-            onFeedbackClickListener.onFeedbackAccepted(project)
+            onFeedbackClickListener.onFeedbackAccepted(project,fb.userId)
         }
     }
 

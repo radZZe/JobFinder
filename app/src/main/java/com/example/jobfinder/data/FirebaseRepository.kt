@@ -576,21 +576,37 @@ class FirebaseRepository(
 
     }
 
-    fun addStudentToProject(project: Project){
-        val projectMember = ProjectMember(
-            id = manager.getString(KEY_USER_ID)!!,
-            owner = "${manager.getString(KEY_USER_NAME)!!}  ${manager.getString(KEY_USER_SURNAME)!!}"
-        )
-        val studentProject = StudentProject(
-            id = project.id,
-            title = project.title
-        )
+    fun feedBackReject(project: Project,userId:String){
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
-            KEY_COLLECTION_MEMBERS
-        ).add(projectMember).addOnCompleteListener {
-            database.collection(KEY_COLLECTION_USERS).document(manager.getString(KEY_USER_ID)!!)
-                .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+            KEY_COLLECTION_FEEDBACK).whereEqualTo("userId",userId).get().addOnCompleteListener {
+            it.result.documents[0].reference.delete()
         }
+    }
+
+    fun addStudentToProject(project: Project,userId:String){
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+            KEY_COLLECTION_FEEDBACK).whereEqualTo("userId",userId).get().addOnCompleteListener {
+                it.result.documents[0].reference.delete()
+        }
+        database.collection(KEY_COLLECTION_USERS).document(userId).get().addOnCompleteListener {
+            var name = it.result.get(KEY_USER_NAME)!! as String
+            var surname = it.result.get(KEY_USER_SURNAME)!! as String
+            val projectMember = ProjectMember(
+                id = userId,
+                owner = "${name}  ${surname}"
+            )
+            val studentProject = StudentProject(
+                id = project.id,
+                title = project.title
+            )
+            database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+                KEY_COLLECTION_MEMBERS
+            ).add(projectMember).addOnCompleteListener {
+                database.collection(KEY_COLLECTION_USERS).document(userId)
+                    .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+            }
+        }
+
     }
 
     fun createTeam(team: Team) {

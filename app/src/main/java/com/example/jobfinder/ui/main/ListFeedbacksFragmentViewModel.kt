@@ -15,8 +15,12 @@ class ListFeedbacksFragmentViewModel @Inject constructor(
 
     val liveFeedbacks = MutableLiveData<ArrayList<UserFeedback>>()
 
-    fun acceptFeedback(project: Project) {
-        firestore.addStudentToProject(project)
+    fun acceptFeedback(project: Project,userId:String) {
+        firestore.addStudentToProject(project,userId)
+    }
+
+    fun rejectFeedback(project: Project,userId:String){
+        firestore.feedBackReject(project,userId)
     }
 
     fun getFeedbacks(project:Project){
