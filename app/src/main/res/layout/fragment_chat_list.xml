@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Чаты"
+                android:text="Chats"
                 android:fontFamily="@font/montserrat"
                 android:textColor="@color/white"
                 android:textSize="20sp"
