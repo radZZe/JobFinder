@@ -66,12 +66,12 @@ class ListFeedbacksFragment : Fragment() {
         itemsArrayList = arrayListOf()
         adapter = ListFeedbacksAdapter(itemsArrayList, project, object : onFeedbackListener {
 
-            override fun onFeedbackAccepted(project: Project) {
-                mViewModel.acceptFeedback(project)
+            override fun onFeedbackAccepted(project: Project,userId:String) {
+                mViewModel.acceptFeedback(project,userId)
             }
 
-            override fun onFeedbackRejected(project: Project) {
-                TODO("Not yet implemented")
+            override fun onFeedbackRejected(project: Project,userId:String) {
+                mViewModel.rejectFeedback(project,userId)
             }
         })
         rvFeedbacks.adapter = adapter
