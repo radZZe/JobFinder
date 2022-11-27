@@ -79,8 +79,13 @@ class ListFeedbacksFragment : Fragment() {
 
     fun initialization() {
         setupRecyclerView()
+        val bundle = Bundle()
+        bundle.putSerializable(KEY_CLICKED_PROJECT, project)
         mBinding.btnBack.setOnClickListener {
-            APP_ACTIVITY.navController.navigate(R.id.action_listFeedbacksFragment_to_profileFragment)
+            APP_ACTIVITY.navController.navigate(
+                R.id.action_listFeedbacksFragment_to_profileFragment,
+                bundle
+            )
         }
     }
 }

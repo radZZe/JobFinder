@@ -10,6 +10,7 @@ import com.example.jobfinder.R
 import com.example.jobfinder.data.models.Project
 import com.example.jobfinder.databinding.FragmentFeedBackBinding
 import com.example.jobfinder.databinding.FragmentProjectBinding
+import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.KEY_PROJECT
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,10 @@ class FeedBackFragment : Fragment() {
         mBinding.btnSend.setOnClickListener {
             var brief = mBinding.editTextTextMultiLine.text.toString()
             mViewModel.sendFeedback(project,brief)
+        }
+
+        mBinding.btnBack.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_feedBackFragment_to_projectFragment)
         }
     }
 

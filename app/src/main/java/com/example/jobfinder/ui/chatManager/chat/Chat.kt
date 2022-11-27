@@ -94,7 +94,6 @@ class Chat : Fragment() {
             }
             mBinding.icon.setImageResource(R.drawable.ic_wh_person)
         }else if(type == KEY_PROJECT){
-//            mBinding.icon.setImageResource(R.drawable.ic_wh_person)
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
                 mViewModel.listenMessageProject(projectId=projectId, members = it) {
@@ -104,7 +103,7 @@ class Chat : Fragment() {
                     }
                 }
             }
-
+            mBinding.icon.setImageResource(R.drawable.ic_wh_group)
         }
     }
 

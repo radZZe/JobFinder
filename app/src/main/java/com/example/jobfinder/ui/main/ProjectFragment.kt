@@ -51,10 +51,10 @@ class ProjectFragment : Fragment() {
         mBinding.sklls.text = project.skills.toString()
     }
 
-    fun setupClickListener(){
+    private fun setupClickListener(){
         mBinding.feedback.setOnClickListener {
             var bundle = Bundle()
-            bundle.putSerializable(KEY_PROJECT,project)
+            bundle.putSerializable(KEY_PROJECT, project)
             APP_ACTIVITY.navController.navigate(R.id.action_projectFragment_to_feedBackFragment,bundle)
         }
     }

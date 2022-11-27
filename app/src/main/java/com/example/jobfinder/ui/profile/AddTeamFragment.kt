@@ -37,8 +37,8 @@ class AddTeamFragment : Fragment() {
     }
 
     fun setupClickListener(){
-        var teamName = mBinding.etTeamName.text.toString()
         mBinding.btnApply.setOnClickListener {
+            var teamName = mBinding.etTeamName.text.toString()
             mViewModel.createTeam(teamName)
         }
 
