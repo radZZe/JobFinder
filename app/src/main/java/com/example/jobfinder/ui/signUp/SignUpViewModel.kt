@@ -1,12 +1,15 @@
 package com.example.jobfinder.ui.signUp
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.DialogInterface
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import com.example.jobfinder.data.FirebaseRepository
 import com.example.jobfinder.data.models.Employer
 import com.example.jobfinder.data.models.Student
+import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.SNTPClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -92,6 +95,6 @@ class SignUpViewModel @Inject constructor(
                 }
             }
         }
-
     }
+
 }

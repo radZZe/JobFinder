@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -24,7 +25,7 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
         this.chats = chats
     }
 
-    class ChatHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ChatHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val nameChat: TextView = view.findViewById(R.id.nameTeamOrProject_field)
         val cardView:CardView = view.findViewById(R.id.chat_item_cardView)
         val icon: ImageView = view.findViewById(R.id.icon)
@@ -59,6 +60,9 @@ class ChatListAdapter: RecyclerView.Adapter<ChatListAdapter.ChatHolder> {
         } else {
             holder.icon.setImageResource(R.drawable.ic_or_person)
         }
+        holder.view.startAnimation(
+            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.rv_anim)
+        )
     }
 
     override fun getItemCount(): Int {

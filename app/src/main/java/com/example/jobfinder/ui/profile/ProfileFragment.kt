@@ -107,7 +107,7 @@ class ProfileFragment : Fragment() {
         val name = mViewModel.preferenceManager.getString(KEY_USER_NAME)
         val surname = mViewModel.preferenceManager.getString(KEY_USER_SURNAME)
         val lastName = mViewModel.preferenceManager.getString(KEY_USER_LASTNAME)
-        mBinding.userNameField.text = "$name $surname $lastName"
+        mBinding.userNameField.text = "$name $lastName $surname "
         if (userType == "student") {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_UNI)
             mBinding.btnAddProject.setOnClickListener {
