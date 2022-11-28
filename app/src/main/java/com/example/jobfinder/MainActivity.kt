@@ -12,8 +12,10 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.jobfinder.databinding.ActivityMainBinding
 import com.example.jobfinder.utils.APP_ACTIVITY
+import com.example.jobfinder.utils.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private var _binding: ActivityMainBinding? = null
     val mBinding get() = _binding!!
+    @Inject lateinit var manager:PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,5 +93,10 @@ class MainActivity : AppCompatActivity() {
                 mBinding.navMenu.visibility = View.VISIBLE
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        manager.clearWithoutRemember()
     }
 }

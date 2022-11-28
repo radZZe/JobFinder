@@ -108,6 +108,11 @@ class ProfileFragment : Fragment() {
         val surname = mViewModel.preferenceManager.getString(KEY_USER_SURNAME)
         val lastName = mViewModel.preferenceManager.getString(KEY_USER_LASTNAME)
         mBinding.userNameField.text = "$name $surname $lastName"
+        mBinding.signOutBtn.setOnClickListener {
+            mViewModel.signOut(){
+                APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_signInFragment)
+            }
+        }
         if (userType == "student") {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_UNI)
             mBinding.btnAddProject.setOnClickListener {

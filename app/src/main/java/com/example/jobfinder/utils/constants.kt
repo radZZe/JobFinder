@@ -73,7 +73,7 @@ const val KEY_CHATS_NAME = "chats_name"
 
 const val KEY_COLLECTION_FEEDBACK = "feedback"
 
-//const val KEY_PROJECT_ID = "id"
+const val KEY_REMEMBER = "remember"
 
 
 const val SENT_TEXT = 1 ;

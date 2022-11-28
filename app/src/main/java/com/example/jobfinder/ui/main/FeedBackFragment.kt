@@ -36,8 +36,12 @@ class FeedBackFragment : Fragment() {
     private fun initialization() {
         var project = arguments?.get(KEY_PROJECT) as Project
         mBinding.btnSend.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putSerializable(KEY_CLICKED_PROJECT, project)
             var brief = mBinding.editTextTextMultiLine.text.toString()
             mViewModel.sendFeedback(project, brief)
+            mBinding.editTextTextMultiLine.text.clear()
+            APP_ACTIVITY.navController.navigate(R.id.action_feedBackFragment_to_projectFragment,bundle)
         }
 
         mBinding.btnBack.setOnClickListener {

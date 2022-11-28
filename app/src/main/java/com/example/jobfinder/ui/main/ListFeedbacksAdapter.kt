@@ -33,15 +33,15 @@ class ListFeedbacksAdapter(
         return ListFeedbacksViewHolder(view)
     }
 
-    fun updateList(newItems: java.util.ArrayList<UserFeedback>) {
-        val oldList = feedbacks
-        val newList = newItems
-        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
-            FeedbacksDiffCallback(oldList, newList)
-        )
-        feedbacks = newItems
-        diffResult.dispatchUpdatesTo(this)
-    }
+//    fun updateList(newItems: java.util.ArrayList<UserFeedback>) {
+//        val oldList = feedbacks
+//        val newList = newItems
+//        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(
+//            FeedbacksDiffCallback(oldList, newList)
+//        )
+//        feedbacks = newItems
+//        diffResult.dispatchUpdatesTo(this)
+//    }
 
     override fun onBindViewHolder(holder: ListFeedbacksViewHolder, position: Int) {
         val fb = feedbacks[position]

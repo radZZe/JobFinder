@@ -45,36 +45,39 @@ class ListFeedbacksFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        mViewModel.liveFeedbacks.value = arrayListOf()
-        mViewModel.getFeedbacks(project)
-        rvFeedbacks = mBinding.rvFeedbacks
-        with(rvFeedbacks) {
-            recycledViewPool.setMaxRecycledViews(
-                ListFeedbacksAdapter.VIEW_TYPE,
-                ListFeedbacksAdapter.MAX_POOL_SIZE
-            )
-            layoutManager = LinearLayoutManager(com.example.jobfinder.utils.APP_ACTIVITY)
-            setHasFixedSize(true)
+//        mViewModel.liveFeedbacks.value = arrayListOf()
+        mViewModel.getFeedbacks(project){
+            rvFeedbacks = mBinding.rvFeedbacks
+            with(rvFeedbacks) {
+                recycledViewPool.setMaxRecycledViews(
+                    ListFeedbacksAdapter.VIEW_TYPE,
+                    ListFeedbacksAdapter.MAX_POOL_SIZE
+                )
+                layoutManager = LinearLayoutManager(com.example.jobfinder.utils.APP_ACTIVITY)
+                setHasFixedSize(true)
+            }
+            adapter = ListFeedbacksAdapter(it, project, object : onFeedbackListener {
+
+                override fun onFeedbackAccepted(project: Project,userId:String) {
+                    mViewModel.acceptFeedback(project,userId)
+                }
+
+                override fun onFeedbackRejected(project: Project,userId:String) {
+                    mViewModel.rejectFeedback(project,userId)
+                }
+            })
+            rvFeedbacks.adapter = adapter
         }
 
-        mViewModel.liveFeedbacks.observe(this, Observer { list ->
-            list?.let {
-                adapter.updateList(it)
-            }
-        })
 
-        itemsArrayList = arrayListOf()
-        adapter = ListFeedbacksAdapter(itemsArrayList, project, object : onFeedbackListener {
+//        mViewModel.liveFeedbacks.observe(this, Observer { list ->
+//            list?.let {
+//                adapter.updateList(it)
+//            }
+//        })
 
-            override fun onFeedbackAccepted(project: Project,userId:String) {
-                mViewModel.acceptFeedback(project,userId)
-            }
+//        itemsArrayList = arrayListOf()
 
-            override fun onFeedbackRejected(project: Project,userId:String) {
-                mViewModel.rejectFeedback(project,userId)
-            }
-        })
-        rvFeedbacks.adapter = adapter
     }
 
     fun initialization() {

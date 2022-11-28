@@ -1,6 +1,5 @@
 package com.example.jobfinder.utils
 
-import android.content.Context
 import android.content.SharedPreferences
 import com.example.jobfinder.data.models.Employer
 import com.example.jobfinder.data.models.Student
@@ -114,6 +113,12 @@ class PreferenceManager(sharedPreference: SharedPreferences) {
     fun clear() {
         editor.clear()
         editor.apply()
+    }
+
+    fun clearWithoutRemember(){
+        var remember = sharedPreference.getBoolean(KEY_REMEMBER, false)
+        editor.clear()
+        editor.putBoolean(KEY_REMEMBER, remember)
     }
 
 }

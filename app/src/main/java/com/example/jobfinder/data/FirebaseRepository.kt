@@ -110,6 +110,7 @@ class FirebaseRepository(
         auth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener {
             database.collection(KEY_COLLECTION_USERS).document(user.id).set(user)
                 .addOnCompleteListener {
+                    manager.putStudent(user)
                     onComplete()
                 }
         }
@@ -119,6 +120,7 @@ class FirebaseRepository(
         auth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener {
             database.collection(KEY_COLLECTION_USERS).document(user.id).set(user)
                 .addOnCompleteListener {
+                    manager.putEmployer(user)
                     onComplete()
                 }
         }
@@ -527,8 +529,8 @@ class FirebaseRepository(
         }
     }
 
-    fun getFeedbacks(project:Project,feedBacks:MutableLiveData<ArrayList<UserFeedback>>,onSuccess: () -> Unit){
-        val feedbacks = kotlin.collections.ArrayList<UserFeedback>()
+    fun getFeedbacks(project:Project,onSuccess: (ArrayList<UserFeedback>) -> Unit){
+        val feedbacks = arrayListOf<UserFeedback>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK).addSnapshotListener { value, error ->
             if(error!=null){
@@ -555,12 +557,17 @@ class FirebaseRepository(
                            uni = uni,
                            brief = brief
                        )
-                       if (feedBack !in feedbacks) {
-                           feedbacks.add(feedBack)
+                       if(documentChange.type == DocumentChange.Type.REMOVED){
+                           feedbacks.remove(feedBack)
+                       }else{
+
+                           if (feedBack !in feedbacks) {
+                               feedbacks.add(feedBack)
+                           }
                        }
+
                    }
-                    feedBacks.value = feedbacks
-                    onSuccess()
+                    onSuccess(feedbacks)
                 }
             }
         }
@@ -638,6 +645,42 @@ class FirebaseRepository(
                 }
             }
 
+    }
+
+    fun signOut(onComplete: () -> Unit){
+        auth.signOut()
+        manager.clear()
+        onComplete()
+    }
+
+    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit){
+        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnCompleteListener {
+            it.result.documents[0].reference.get().addOnCompleteListener {
+                var doc = it.result
+                var id = doc.getString(KEY_USER_ID)!!
+                var name = doc.getString(KEY_USER_NAME)!!
+                var surname = doc.getString(KEY_USER_SURNAME)!!
+                var uni = doc.getString(KEY_USER_UNI)!!
+                var teamMember = TeamMember(
+                    id = id,
+                    name =name,
+                    surname = surname,
+                    uni = uni
+                )
+                var studentTeam = StudentTeam(
+                    id = teamId,
+                    name = teamName
+                )
+                database.collection(KEY_COLLECTION_USERS).document(id).collection(
+                    KEY_COLLECTION_TEAMS).add(studentTeam).addOnSuccessListener {
+                    database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                        KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
+                            onComplete(name,surname)
+                    }
+                }
+
+            }
+        }
     }
 
 
