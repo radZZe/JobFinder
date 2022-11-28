@@ -5,6 +5,7 @@ import com.example.jobfinder.MainActivity
 
 
 lateinit var APP_ACTIVITY: MainActivity
+lateinit var APP_CONTEXT: MainActivity
 
 const val KEY_PREFERENCE_NAME = "preferences"
 const val KEY_PREFERENCSES ="appPreferences"

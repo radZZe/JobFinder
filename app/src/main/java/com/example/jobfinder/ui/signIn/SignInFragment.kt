@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.signIn
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +15,7 @@ import com.example.jobfinder.ui.signUp.SignUpViewModel
 import com.example.jobfinder.utils.APP_ACTIVITY
 import com.example.jobfinder.utils.KEY_REMEMBER
 import com.example.jobfinder.utils.PreferenceManager
+import com.example.jobfinder.utils.isValidPassword
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

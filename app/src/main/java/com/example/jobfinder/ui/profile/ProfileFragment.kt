@@ -113,6 +113,7 @@ class ProfileFragment : Fragment() {
                 APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_signInFragment)
             }
         }
+        mBinding.userNameField.text = "$name $lastName $surname "
         if (userType == "student") {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_UNI)
             mBinding.btnAddProject.setOnClickListener {
