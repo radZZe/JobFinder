@@ -371,6 +371,13 @@ class FirebaseRepository(
             .document(project.id)
             .set(project)
             .addOnSuccessListener {
+                var projectMember = ProjectMember(
+                    id = manager.getString(KEY_USER_ID)!!,
+                    owner = "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(
+                        KEY_USER_SURNAME)}"
+                )
+                database.collection(KEY_COLLECTION_PROJECTS)
+                    .document(project.id).collection(KEY_COLLECTION_MEMBERS).add(projectMember)
                 database.collection(KEY_COLLECTION_USERS)
                     .whereEqualTo(KEY_USER_ID, project.creatorId).get()
                     .addOnSuccessListener {

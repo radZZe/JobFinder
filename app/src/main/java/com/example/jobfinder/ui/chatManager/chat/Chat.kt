@@ -92,7 +92,7 @@ class Chat : Fragment() {
                     }
                 }
             }
-            mBinding.icon.setImageResource(R.drawable.ic_wh_person)
+            mBinding.icon.setImageResource(R.drawable.ic_wh_group)
         }else if(type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
@@ -103,7 +103,7 @@ class Chat : Fragment() {
                     }
                 }
             }
-            mBinding.icon.setImageResource(R.drawable.ic_wh_group)
+            mBinding.icon.setImageResource(R.drawable.ic_wh_person)
         }
     }
 
