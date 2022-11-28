@@ -16,11 +16,7 @@
         tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_mainScreenFragment2"
-            app:destination="@id/mainScreenFragment2"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:destination="@id/mainScreenFragment2" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
@@ -36,11 +32,7 @@
             app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_signInFragment_to_mainScreenFragment2"
-            app:destination="@id/mainScreenFragment2"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:destination="@id/mainScreenFragment2" />
     </fragment>
     <fragment
         android:id="@+id/mainScreenFragment2"
@@ -97,7 +89,7 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>/>
+            app:popExitAnim="@anim/to_right"/>
 
         <action
             android:id="@+id/action_profileFragment_to_listFeedbacksFragment"

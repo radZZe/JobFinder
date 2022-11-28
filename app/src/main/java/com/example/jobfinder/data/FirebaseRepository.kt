@@ -1,7 +1,10 @@
 package com.example.jobfinder.data
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.jobfinder.R
 import com.example.jobfinder.data.models.*
 import com.example.jobfinder.utils.*
 import com.google.firebase.auth.FirebaseAuth
@@ -9,7 +12,6 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
-import kotlin.collections.ArrayList
 
 class FirebaseRepository(
     auth: FirebaseAuth,
@@ -53,7 +55,7 @@ class FirebaseRepository(
     }
 
     override fun login(email: String, password: String, onComplete: () -> Unit) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
             database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL, email).get()
                 .addOnCompleteListener {
                     it.result.documents[0].reference.get().addOnCompleteListener {
@@ -103,7 +105,18 @@ class FirebaseRepository(
                         }
                     }
                 }
+
         }
+            .addOnFailureListener {
+                AlertDialog.Builder(APP_ACTIVITY)
+                    .setTitle(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_n))
+                    .setMessage(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_in_message))
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                        dialogInterface.cancel()
+                    })
+                    .create()
+                    .show()
+            }
     }
 
     override fun signUpAsStudent(user: Student, onComplete: () -> Unit) {
@@ -282,7 +295,7 @@ class FirebaseRepository(
         onSuccess: () -> Unit
     ) {
 
-        val projIds = ArrayList<String>()
+        val projectsIds = ArrayList<String>()
         database.collection(KEY_COLLECTION_USERS)
             .document(manager.getString(KEY_USER_ID)!!).collection(KEY_COLLECTION_PROJECTS)
             .addSnapshotListener { value, error ->
@@ -293,40 +306,21 @@ class FirebaseRepository(
                         for (documentChange in value.documentChanges) {
 
                             var doc = documentChange.document
-                            projIds.add(doc.getString(KEY_PROJECT_ID)!!)
-//                            var id = doc.get(KEY_PROJECT_ID).toString()
-//                            var title = doc.get(KEY_PROJECT_TITLE).toString()
-//                            var state = doc.getBoolean(KEY_STATE)
-//                            var createdAt = doc.getDate(KEY_CREATED_AT)
-//                            var creatorId = doc.get(KEY_CREATOR_ID).toString()
-//                            var employer = doc.get(KEY_EMPLOYER).toString()
-//                            var type = doc.get(KEY_TYPE).toString()
-//                            var skills = doc.get(KEY_SKILLS).toString()
-//                            var desc = doc.get(KEY_DESCRIPTION).toString()
-//                            var salary = doc.get(KEY_SALARY).toString()
-//                            val project = Project(
-//                                id,
-//                                createdAt!!,
-//                                title,
-//                                desc,
-//                                skills,
-//                                type,
-//                                state!!,
-//                                creatorId,
-//                                salary,
-//                                employer
-//                            )
-//                            projects.add(project)
-                            getProjectsByIds(projIds, liveData, onSuccess)
+                            projectsIds.add(doc.getString(KEY_PROJECT_ID)!!)
+                            getProjectsByIds(projectsIds, liveData, onSuccess)
                         }
-
+                        onSuccess()
                     }
                 }
             }
 
     }
 
-    fun getProjectsByIds(ids: ArrayList<String>, liveData: MutableLiveData<ArrayList<Project>>, onSuccess: () -> Unit) {
+    fun getProjectsByIds(
+        ids: ArrayList<String>,
+        liveData: MutableLiveData<ArrayList<Project>>,
+        onSuccess: () -> Unit
+    ) {
         var projects = ArrayList<Project>()
         for (i in ids) {
             database.collection(KEY_COLLECTION_PROJECTS).document(i).get().addOnCompleteListener {
@@ -360,7 +354,6 @@ class FirebaseRepository(
                 }
                 liveData.value = projects
             }
-
             onSuccess()
         }
     }
@@ -373,8 +366,11 @@ class FirebaseRepository(
             .addOnSuccessListener {
                 var projectMember = ProjectMember(
                     id = manager.getString(KEY_USER_ID)!!,
-                    owner = "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(
-                        KEY_USER_SURNAME)}"
+                    owner = "${manager.getString(KEY_USER_NAME)!!} ${
+                        manager.getString(
+                            KEY_USER_SURNAME
+                        )
+                    }"
                 )
                 database.collection(KEY_COLLECTION_PROJECTS)
                     .document(project.id).collection(KEY_COLLECTION_MEMBERS).add(projectMember)
@@ -527,38 +523,43 @@ class FirebaseRepository(
         }
     }
 
-    fun getFeedbacks(project:Project,feedBacks:MutableLiveData<ArrayList<UserFeedback>>,onSuccess: () -> Unit){
+    fun getFeedbacks(
+        project: Project,
+        feedBacks: MutableLiveData<ArrayList<UserFeedback>>,
+        onSuccess: () -> Unit
+    ) {
         val feedbacks = kotlin.collections.ArrayList<UserFeedback>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
-            KEY_COLLECTION_FEEDBACK).addSnapshotListener { value, error ->
-            if(error!=null){
+            KEY_COLLECTION_FEEDBACK
+        ).addSnapshotListener { value, error ->
+            if (error != null) {
                 return@addSnapshotListener
-            }else{
-                if(value!=null){
-                   for(documentChange in value.documentChanges){
-                       var doc = documentChange.document
-                       var userId = doc.getString("userId")!!
-                       var name= doc.getString("name")!!
-                       var surname= doc.getString("surname")!!
-                       var lastName= doc.getString("lastName")!!
-                       var age= doc.getString("age")!!
-                       var sex= doc.getString("sex")!!
-                       var uni= doc.getString("uni")!!
-                       var brief= doc.getString("brief")!!
-                       var feedBack = UserFeedback(
-                           userId = userId,
-                           name = name,
-                           surname = surname,
-                           lastName = lastName,
-                           age = age,
-                           sex = sex,
-                           uni = uni,
-                           brief = brief
-                       )
-                       if (feedBack !in feedbacks) {
-                           feedbacks.add(feedBack)
-                       }
-                   }
+            } else {
+                if (value != null) {
+                    for (documentChange in value.documentChanges) {
+                        var doc = documentChange.document
+                        var userId = doc.getString("userId")!!
+                        var name = doc.getString("name")!!
+                        var surname = doc.getString("surname")!!
+                        var lastName = doc.getString("lastName")!!
+                        var age = doc.getString("age")!!
+                        var sex = doc.getString("sex")!!
+                        var uni = doc.getString("uni")!!
+                        var brief = doc.getString("brief")!!
+                        var feedBack = UserFeedback(
+                            userId = userId,
+                            name = name,
+                            surname = surname,
+                            lastName = lastName,
+                            age = age,
+                            sex = sex,
+                            uni = uni,
+                            brief = brief
+                        )
+                        if (feedBack !in feedbacks) {
+                            feedbacks.add(feedBack)
+                        }
+                    }
                     feedBacks.value = feedbacks
                     onSuccess()
                 }
@@ -566,10 +567,10 @@ class FirebaseRepository(
         }
     }
 
-    fun feedback(project: Project,brief:String) {
+    fun feedback(project: Project, brief: String) {
         val userFeedback = UserFeedback(
             userId = manager.getString(KEY_USER_ID)!!,
-            name =manager.getString(KEY_USER_NAME)!! ,
+            name = manager.getString(KEY_USER_NAME)!!,
             surname = manager.getString(KEY_USER_SURNAME)!!,
             lastName = manager.getString(KEY_USER_LASTNAME)!!,
             age = manager.getString(KEY_USER_AGE)!!,
@@ -583,17 +584,19 @@ class FirebaseRepository(
 
     }
 
-    fun feedBackReject(project: Project,userId:String){
+    fun feedBackReject(project: Project, userId: String) {
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
-            KEY_COLLECTION_FEEDBACK).whereEqualTo("userId",userId).get().addOnCompleteListener {
+            KEY_COLLECTION_FEEDBACK
+        ).whereEqualTo("userId", userId).get().addOnCompleteListener {
             it.result.documents[0].reference.delete()
         }
     }
 
-    fun addStudentToProject(project: Project,userId:String){
+    fun addStudentToProject(project: Project, userId: String) {
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
-            KEY_COLLECTION_FEEDBACK).whereEqualTo("userId",userId).get().addOnCompleteListener {
-                it.result.documents[0].reference.delete()
+            KEY_COLLECTION_FEEDBACK
+        ).whereEqualTo("userId", userId).get().addOnCompleteListener {
+            it.result.documents[0].reference.delete()
         }
         database.collection(KEY_COLLECTION_USERS).document(userId).get().addOnCompleteListener {
             var name = it.result.get(KEY_USER_NAME)!! as String

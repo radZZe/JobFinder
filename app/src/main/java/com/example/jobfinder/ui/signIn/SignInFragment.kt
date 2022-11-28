@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.signIn
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentSignInBinding
 import com.example.jobfinder.ui.signUp.SignUpViewModel
 import com.example.jobfinder.utils.APP_ACTIVITY
+import com.example.jobfinder.utils.isValidPassword
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,8 +43,8 @@ class SignInFragment : Fragment() {
     fun setupListeners(){
         with(mBinding){
             signInButton.setOnClickListener {
-                var email = email.text.toString()
-                var password = password.text.toString()
+                var email = email.text.toString().trim()
+                var password = password.text.toString().trim()
                 mViewModel.login(email,password) {
                     APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
                 }

@@ -20,8 +20,22 @@
         <item>Copyrighting</item>
     </string-array>
 
-    <string name="sign_up">Регистрация</string>
+    <string name="sign_up">Sign Up</string>
 
     <string name="username_example">User Nmae</string>
+    <string name="failed_sign_n">Failed to Sign In</string>
+    <string name="failed_sign_in_message">Check the correctness of entered email and password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="name">Name</string>
+    <string name="last_name">Last name</string>
+    <string name="surname">Surname</string>
+    <string name="company_name">Company name</string>
+    <string name="create_account">Create account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sex">Sex</string>
+    <string name="university">University</string>
+    <string name="remember_me">Remember me</string>
+    <string name="age">Age</string>
 
 </resources>

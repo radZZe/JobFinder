@@ -91,174 +91,237 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="60dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Create account"
+            android:text="@string/create_account"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/signUpAsStudent"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="45dp"
+            android:layout_marginTop="110dp"
             android:layout_marginEnd="45dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/second"
-            android:fontFamily="@font/montserrat"
-            android:text="Sign Up"
-            android:textSize="16sp"
+            android:layout_marginBottom="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/name_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="45dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/password_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/email_field"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toStartOf="@+id/email_field"
-            app:layout_constraintTop_toBottomOf="@+id/email_field" />
-
-        <EditText
-            android:id="@+id/email_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Email"
-            android:inputType="textWebEmailAddress"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/age_field"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="@+id/age_field"
-            app:layout_constraintTop_toBottomOf="@+id/age_field" />
-
-        <CheckBox
-            android:id="@+id/male_woman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="120dp"
-            android:text="F"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-        <EditText
-            android:id="@+id/age_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Age"
-            android:inputType="number"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/male_man" />
-
-        <CheckBox
-            android:id="@+id/male_man"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="2dp"
-            android:text="М"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="45dp"
-            android:elevation="20dp"
-            android:hint="University"
-            android:textColorHint="@color/grey"
-            app:boxCornerRadiusBottomEnd="15dp"
-            app:boxCornerRadiusBottomStart="15dp"
-            app:boxCornerRadiusTopEnd="15dp"
-            app:boxCornerRadiusTopStart="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/last_name">
-
-            <AutoCompleteTextView
-                android:id="@+id/uni_field"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/signUpAsStudent2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+                <EditText
+                    android:id="@+id/surnname_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/surname"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/name_field"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="@+id/name_field"
+                    app:layout_constraintTop_toBottomOf="@+id/name_field" />
+
+                <EditText
+                    android:id="@+id/last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/surnname_field"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="@+id/surnname_field"
+                    app:layout_constraintTop_toBottomOf="@+id/surnname_field" />
+
+                <EditText
+                    android:id="@+id/email_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/email"
+                    android:inputType="textWebEmailAddress"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/age_field"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="@+id/age_field"
+                    app:layout_constraintTop_toBottomOf="@+id/age_field" />
+
+                <EditText
+                    android:id="@+id/password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/email_field"
+                    app:layout_constraintHorizontal_bias="0.492"
+                    app:layout_constraintStart_toStartOf="@+id/email_field"
+                    app:layout_constraintTop_toBottomOf="@+id/email_field" />
+
+                <EditText
+                    android:id="@+id/confirm_password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/email_field"
+                    app:layout_constraintHorizontal_bias="0.492"
+                    app:layout_constraintStart_toStartOf="@+id/email_field"
+                    app:layout_constraintTop_toBottomOf="@+id/email_field" />
+
+                <EditText
+                    android:id="@+id/age_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/age"
+                    android:inputType="number"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/male_man" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="2dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sex2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/sex"
+                        android:textColor="#FF9D9D9D"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@+id/age_field"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+                    <CheckBox
+                        android:id="@+id/male_man"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:text="М"
+                        android:textColor="#FF9D9D9D"
+                        app:layout_constraintStart_toEndOf="@+id/sex2"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+                    <CheckBox
+                        android:id="@+id/male_woman"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="6dp"
+                        android:text="F"
+                        android:textColor="#FF9D9D9D"
+                        app:layout_constraintStart_toEndOf="@+id/male_man"
+                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="20dp"
+                    android:hint="@string/university"
+                    android:textColorHint="@color/grey"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusBottomStart="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:boxCornerRadiusTopStart="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/last_name">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/uni_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text=""
+                        android:textColor="#FF9D9D9D"
+                        android:textSize="20sp" />
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/last_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Last name"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/surnname_field"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="@+id/surnname_field"
-            app:layout_constraintTop_toBottomOf="@+id/surnname_field" />
+                <CheckBox
+                    android:id="@+id/rememberMeStudent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/remember_me"
+                    android:textColor="#FF9D9D9D"
+                    android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/surnname_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Surname"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/name_field"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="@+id/name_field"
-            app:layout_constraintTop_toBottomOf="@+id/name_field" />
+                <Button
+                    android:id="@+id/signUpAsStudent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/second"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/sign_up"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -269,167 +332,215 @@
         android:visibility="gone">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/header3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
             android:layout_marginTop="60dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Create account"
+            android:text="@string/create_account"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
-            android:id="@+id/male_woman_e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="120dp"
-            android:text="F"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age_field_e" />
-
-        <CheckBox
-            android:id="@+id/male_man_e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
-            android:layout_marginTop="6dp"
-            android:text="М"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age_field_e" />
-
-        <Button
-            android:id="@+id/signUpAsEmployer"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="45dp"
+            android:layout_marginTop="110dp"
             android:layout_marginEnd="45dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/second"
-            android:fontFamily="@font/montserrat"
-            android:text="Sign Up"
-            android:textSize="16sp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/employer_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/password_field3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/email_field_e"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/email_field_e"
-            app:layout_constraintTop_toBottomOf="@+id/email_field_e" />
-
-        <EditText
-            android:id="@+id/email_field_e"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Email"
-            android:inputType="textWebEmailAddress"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/age_field_e"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/age_field_e"
-            app:layout_constraintTop_toBottomOf="@+id/male_man_e" />
-
-        <EditText
-            android:id="@+id/age_field_e"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Age"
-            android:inputType="number"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/company_field"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/company_field"
-            app:layout_constraintTop_toBottomOf="@+id/company_field" />
-
-        <EditText
-            android:id="@+id/surnname_e_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Surname"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/name_e_field"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/name_e_field"
-            app:layout_constraintTop_toBottomOf="@+id/name_e_field" />
-
-        <EditText
-            android:id="@+id/company_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Company name"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/last_name_e_field"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/last_name_e_field"
-            app:layout_constraintTop_toBottomOf="@+id/last_name_e_field" />
-
-        <EditText
-            android:id="@+id/last_name_e_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Last name"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/surnname_e_field"
-            app:layout_constraintHorizontal_bias="0.452"
-            app:layout_constraintStart_toStartOf="@+id/surnname_e_field"
-            app:layout_constraintTop_toBottomOf="@+id/surnname_e_field" />
-
-        <EditText
-            android:id="@+id/name_e_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="45dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            android:textSize="20sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.452"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/name_e_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/header3" />
+
+                <EditText
+                    android:id="@+id/surnname_e_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/surname"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/name_e_field"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="@+id/name_e_field"
+                    app:layout_constraintTop_toBottomOf="@+id/name_e_field" />
+
+                <EditText
+                    android:id="@+id/last_name_e_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/surnname_e_field"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="@+id/surnname_e_field"
+                    app:layout_constraintTop_toBottomOf="@+id/surnname_e_field" />
+
+                <EditText
+                    android:id="@+id/email_field_e"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/email"
+                    android:inputType="textWebEmailAddress"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/company_field"
+                    app:layout_constraintStart_toStartOf="@+id/company_field"
+                    app:layout_constraintTop_toBottomOf="@+id/male_man_e" />
+
+                <EditText
+                    android:id="@+id/password_field3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/email_field_e"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="@+id/email_field_e"
+                    app:layout_constraintTop_toBottomOf="@+id/email_field_e" />
+
+                <EditText
+                    android:id="@+id/password_field3_confirm2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/password_field3"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="@+id/password_field3"
+                    app:layout_constraintTop_toBottomOf="@+id/password_field3" />
+
+                <EditText
+                    android:id="@+id/company_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="@string/company_name"
+                    android:inputType="textPersonName"
+                    android:textColorHint="#9D9D9D"
+                    android:textSize="20sp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="@+id/last_name_e_field"
+                    app:layout_constraintHorizontal_bias="0.452"
+                    app:layout_constraintStart_toStartOf="@+id/last_name_e_field"
+                    app:layout_constraintTop_toBottomOf="@+id/last_name_e_field" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="2dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sex4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="@string/sex"
+                        android:textColor="#FF9D9D9D"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toTopOf="@+id/email_field_e"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/company_field" />
+
+                    <CheckBox
+                        android:id="@+id/male_man_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="8dp"
+                        android:text="М"
+                        android:textColor="#FF9D9D9D"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/sex"
+                        app:layout_constraintTop_toBottomOf="@+id/company_field" />
+
+                    <CheckBox
+                        android:id="@+id/male_woman_e"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="8dp"
+                        android:text="F"
+                        android:textColor="#FF9D9D9D"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/male_man_e"
+                        app:layout_constraintTop_toBottomOf="@+id/company_field" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/rememberMeEmployer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/remember_me"
+                    android:textColor="#FF9D9D9D"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/signUpAsEmployer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/second"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/sign_up"
+                    android:textSize="16sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/employer_layout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
