@@ -39,11 +39,10 @@
         android:id="@+id/message_dateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="2dp"
         android:text="date time"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/message_owner"
-        app:layout_constraintTop_toBottomOf="@+id/message_text" />
+        app:layout_constraintStart_toStartOf="@+id/message_owner"
+        app:layout_constraintTop_toBottomOf="@+id/message_owner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
