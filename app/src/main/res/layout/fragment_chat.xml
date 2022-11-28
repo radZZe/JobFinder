@@ -60,6 +60,17 @@ tools:context=".ui.chatManager.chat.Chat">
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
+    <ImageView
+        android:id="@+id/addUserToTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_baseline_person_add_alt_1_24"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 <View

@@ -123,6 +123,7 @@ class FirebaseRepository(
         auth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener {
             database.collection(KEY_COLLECTION_USERS).document(user.id).set(user)
                 .addOnCompleteListener {
+                    manager.putStudent(user)
                     onComplete()
                 }
         }
@@ -132,6 +133,7 @@ class FirebaseRepository(
         auth.createUserWithEmailAndPassword(user.email, user.password).addOnCompleteListener {
             database.collection(KEY_COLLECTION_USERS).document(user.id).set(user)
                 .addOnCompleteListener {
+                    manager.putEmployer(user)
                     onComplete()
                 }
         }
@@ -523,45 +525,46 @@ class FirebaseRepository(
         }
     }
 
-    fun getFeedbacks(
-        project: Project,
-        feedBacks: MutableLiveData<ArrayList<UserFeedback>>,
-        onSuccess: () -> Unit
-    ) {
-        val feedbacks = kotlin.collections.ArrayList<UserFeedback>()
+    fun getFeedbacks(project:Project,onSuccess: (ArrayList<UserFeedback>) -> Unit){
+        val feedbacks = arrayListOf<UserFeedback>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK
         ).addSnapshotListener { value, error ->
             if (error != null) {
                 return@addSnapshotListener
-            } else {
-                if (value != null) {
-                    for (documentChange in value.documentChanges) {
-                        var doc = documentChange.document
-                        var userId = doc.getString("userId")!!
-                        var name = doc.getString("name")!!
-                        var surname = doc.getString("surname")!!
-                        var lastName = doc.getString("lastName")!!
-                        var age = doc.getString("age")!!
-                        var sex = doc.getString("sex")!!
-                        var uni = doc.getString("uni")!!
-                        var brief = doc.getString("brief")!!
-                        var feedBack = UserFeedback(
-                            userId = userId,
-                            name = name,
-                            surname = surname,
-                            lastName = lastName,
-                            age = age,
-                            sex = sex,
-                            uni = uni,
-                            brief = brief
-                        )
-                        if (feedBack !in feedbacks) {
-                            feedbacks.add(feedBack)
-                        }
-                    }
-                    feedBacks.value = feedbacks
-                    onSuccess()
+            }else{
+                if(value!=null){
+                   for(documentChange in value.documentChanges){
+                       var doc = documentChange.document
+                       var userId = doc.getString("userId")!!
+                       var name= doc.getString("name")!!
+                       var surname= doc.getString("surname")!!
+                       var lastName= doc.getString("lastName")!!
+                       var age= doc.getString("age")!!
+                       var sex= doc.getString("sex")!!
+                       var uni= doc.getString("uni")!!
+                       var brief= doc.getString("brief")!!
+                       var feedBack = UserFeedback(
+                           userId = userId,
+                           name = name,
+                           surname = surname,
+                           lastName = lastName,
+                           age = age,
+                           sex = sex,
+                           uni = uni,
+                           brief = brief
+                       )
+                       if(documentChange.type == DocumentChange.Type.REMOVED){
+                           feedbacks.remove(feedBack)
+                       }else{
+
+                           if (feedBack !in feedbacks) {
+                               feedbacks.add(feedBack)
+                           }
+                       }
+
+                   }
+                    onSuccess(feedbacks)
                 }
             }
         }
@@ -641,6 +644,42 @@ class FirebaseRepository(
                 }
             }
 
+    }
+
+    fun signOut(onComplete: () -> Unit){
+        auth.signOut()
+        manager.clear()
+        onComplete()
+    }
+
+    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit){
+        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnCompleteListener {
+            it.result.documents[0].reference.get().addOnCompleteListener {
+                var doc = it.result
+                var id = doc.getString(KEY_USER_ID)!!
+                var name = doc.getString(KEY_USER_NAME)!!
+                var surname = doc.getString(KEY_USER_SURNAME)!!
+                var uni = doc.getString(KEY_USER_UNI)!!
+                var teamMember = TeamMember(
+                    id = id,
+                    name =name,
+                    surname = surname,
+                    uni = uni
+                )
+                var studentTeam = StudentTeam(
+                    id = teamId,
+                    name = teamName
+                )
+                database.collection(KEY_COLLECTION_USERS).document(id).collection(
+                    KEY_COLLECTION_TEAMS).add(studentTeam).addOnSuccessListener {
+                    database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                        KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
+                            onComplete(name,surname)
+                    }
+                }
+
+            }
+        }
     }
 
 

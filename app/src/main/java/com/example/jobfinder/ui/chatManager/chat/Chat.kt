@@ -26,6 +26,7 @@ class Chat : Fragment() {
     private val  mViewModel : ChatViewModel by viewModels()
     private lateinit var chatName:String
     private lateinit var type:String
+    private lateinit var teamId:String
     private lateinit var userChatAdpater: UserChatAdapter
 
     override fun onCreateView(
@@ -54,11 +55,20 @@ class Chat : Fragment() {
             var text = mBinding.typeMessageField.text.toString()
             if(text.isNotBlank()){
                 sendMessage(text)
+                mBinding.typeMessageField.text.clear()
 
             }
         }
         mBinding.backButton.setOnClickListener {
             APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatList)
+        }
+        mBinding.addUserToTeam.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putString(KEY_TYPE,type)
+            bundle.putString(KEY_CHATS_NAME,chatName)
+            bundle.putString(KEY_TEAM_ID,teamId)
+            APP_ACTIVITY.navController.navigate(R.id.action_chat_to_addUserToTeamFragment,bundle)
+
         }
     }
 
@@ -69,10 +79,14 @@ class Chat : Fragment() {
     fun getData() {
         type = arguments?.get(KEY_TYPE) !! as String
         chatName = arguments?.get(KEY_CHATS_NAME) !! as String
+        teamId = arguments?.get(KEY_TEAM_ID)!! as String
         senderId = mViewModel.getSenderId()
     }
 
     fun initViews() {
+        if(type == KEY_TEAM){
+            mBinding.addUserToTeam.visibility = View.VISIBLE
+        }
         mBinding.userNameSurnameField.setText(chatName)
     }
 

@@ -98,4 +98,12 @@ class ChatViewModel @Inject constructor(
         var senderId = getSenderId()
         firebaseRepository.sendMessageForTeam(teamId,text,senderId)
     }
+
+    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:()->Unit){
+        firebase.addUserToTeam(email,teamName,teamId){ name , surname ->
+            var text = "*Added member ${name} ${surname}*"
+            sendMessageForTeam(teamId,text)
+            onComplete()
+        }
+    }
 }

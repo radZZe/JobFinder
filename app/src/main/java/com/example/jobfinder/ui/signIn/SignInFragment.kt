@@ -13,8 +13,11 @@ import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentSignInBinding
 import com.example.jobfinder.ui.signUp.SignUpViewModel
 import com.example.jobfinder.utils.APP_ACTIVITY
+import com.example.jobfinder.utils.KEY_REMEMBER
+import com.example.jobfinder.utils.PreferenceManager
 import com.example.jobfinder.utils.isValidPassword
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignInFragment : Fragment() {
@@ -22,6 +25,7 @@ class SignInFragment : Fragment() {
     private var _binding: FragmentSignInBinding? = null
     private val mBinding get() = _binding!!
     private val mViewModel: SignInViewModel by viewModels()
+    @Inject lateinit var manager:PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +37,7 @@ class SignInFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        isLoggedIn()
         initialization()
     }
 
@@ -43,15 +48,23 @@ class SignInFragment : Fragment() {
     fun setupListeners(){
         with(mBinding){
             signInButton.setOnClickListener {
-                var email = email.text.toString().trim()
-                var password = password.text.toString().trim()
+                var email = email.text.toString()
+                var password = password.text.toString()
+                var isRemember = rememberMeCb.isChecked
                 mViewModel.login(email,password) {
+                    manager.putBoolean(KEY_REMEMBER,isRemember)
                     APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
                 }
             }
             signUpButton.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_signUpFragment)
             }
+        }
+    }
+
+    fun isLoggedIn(){
+        if(manager.getBoolean(KEY_REMEMBER)){
+            APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
         }
     }
 

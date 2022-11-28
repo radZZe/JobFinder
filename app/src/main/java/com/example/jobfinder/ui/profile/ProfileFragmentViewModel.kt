@@ -23,4 +23,8 @@ class ProfileFragmentViewModel @Inject constructor(
     fun getEmployeeProjects(userId: String, onSuccess: () -> Unit) {
         firestore.getEmployeeProjects(userId, liveProjects, onSuccess)
     }
+
+    fun signOut(onComplete:()->Unit){
+        firestore.signOut(onComplete)
+    }
 }

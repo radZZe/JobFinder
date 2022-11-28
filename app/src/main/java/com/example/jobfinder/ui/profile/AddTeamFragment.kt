@@ -40,6 +40,8 @@ class AddTeamFragment : Fragment() {
         mBinding.btnApply.setOnClickListener {
             var teamName = mBinding.etTeamName.text.toString()
             mViewModel.createTeam(teamName)
+            mBinding.etTeamName.text.clear()
+            APP_ACTIVITY.navController.navigate(R.id.action_addTeamFragment_to_profileFragment)
         }
 
         mBinding.backButton.setOnClickListener {

@@ -13,7 +13,7 @@ class ListFeedbacksFragmentViewModel @Inject constructor(
     private val firestore: FirebaseRepository
 ) : ViewModel() {
 
-    val liveFeedbacks = MutableLiveData<ArrayList<UserFeedback>>()
+//    val liveFeedbacks = MutableLiveData<ArrayList<UserFeedback>>()
 
     fun acceptFeedback(project: Project,userId:String) {
         firestore.addStudentToProject(project,userId)
@@ -23,7 +23,9 @@ class ListFeedbacksFragmentViewModel @Inject constructor(
         firestore.feedBackReject(project,userId)
     }
 
-    fun getFeedbacks(project:Project){
-        firestore.getFeedbacks(project,liveFeedbacks){}
+    fun getFeedbacks(project:Project,onSucces:(ArrayList<UserFeedback>)->Unit){
+        firestore.getFeedbacks(project){
+            onSucces(it)
+        }
     }
 }

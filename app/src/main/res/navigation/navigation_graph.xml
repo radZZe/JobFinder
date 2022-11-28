@@ -98,6 +98,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_profileFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
 
     </fragment>
     <fragment
@@ -164,6 +167,9 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left"/>
+        <action
+            android:id="@+id/action_chat_to_addUserToTeamFragment"
+            app:destination="@id/addUserToTeamFragment" />
     </fragment>
     <fragment
         android:id="@+id/listFeedbacksFragment"
@@ -193,5 +199,14 @@
         <action
             android:id="@+id/action_feedBackFragment_to_projectFragment"
             app:destination="@id/projectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserToTeamFragment"
+        android:name="com.example.jobfinder.ui.chatManager.chat.AddUserToTeamFragment"
+        android:label="fragment_add_user_to_team"
+        tools:layout="@layout/fragment_add_user_to_team" >
+        <action
+            android:id="@+id/action_addUserToTeamFragment_to_chat"
+            app:destination="@id/chat" />
     </fragment>
 </navigation>
