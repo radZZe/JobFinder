@@ -38,6 +38,7 @@ class SignInFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         isLoggedIn()
+        loading(false)
         initialization()
     }
 
@@ -48,13 +49,16 @@ class SignInFragment : Fragment() {
     fun setupListeners(){
         with(mBinding){
             signInButton.setOnClickListener {
+                loading(true)
                 var email = email.text.toString()
                 var password = password.text.toString()
                 var isRemember = rememberMeCb.isChecked
-                mViewModel.login(email,password) {
+                mViewModel.login(email,password, onComplete = {
                     manager.putBoolean(KEY_REMEMBER,isRemember)
                     APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
-                }
+                }, onFail = {
+                    loading(false)
+                })
             }
             signUpButton.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_signUpFragment)
@@ -65,6 +69,16 @@ class SignInFragment : Fragment() {
     fun isLoggedIn(){
         if(manager.getBoolean(KEY_REMEMBER)){
             APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
+        }
+    }
+
+    fun loading(active: Boolean) {
+        if (active) {
+            mBinding.progressBarSignin.visibility = View.VISIBLE
+            mBinding.signInButton.visibility = View.GONE
+        } else {
+            mBinding.progressBarSignin.visibility = View.GONE
+            mBinding.signInButton.visibility = View.VISIBLE
         }
     }
 

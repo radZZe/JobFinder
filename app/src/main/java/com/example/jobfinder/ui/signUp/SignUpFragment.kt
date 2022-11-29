@@ -16,14 +16,18 @@ import com.example.jobfinder.databinding.FragmentSignInBinding
 import com.example.jobfinder.databinding.FragmentSignUpBinding
 import com.example.jobfinder.ui.signIn.SignInViewModel
 import com.example.jobfinder.utils.APP_ACTIVITY
+import com.example.jobfinder.utils.KEY_REMEMBER
+import com.example.jobfinder.utils.PreferenceManager
 import com.example.jobfinder.utils.isValidPassword
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
     private var _binding: FragmentSignUpBinding? = null
     private val mBinding get() = _binding!!
     private val mViewModel: SignUpViewModel by viewModels()
+    @Inject  lateinit var manager: PreferenceManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +43,8 @@ class SignUpFragment : Fragment() {
     }
 
     fun initialization(){
+        loadingForStudent(false)
+        loadingForEmployer(false)
         setupListeners()
     }
 
@@ -65,6 +71,7 @@ class SignUpFragment : Fragment() {
         }
         mBinding.signUpAsStudent.setOnClickListener {
             with(mBinding){
+                loadingForStudent(true)
                 var name = nameField.text.toString()
                 var surname = surnnameField.text.toString()
                 var lastName = lastName.text.toString()
@@ -74,6 +81,7 @@ class SignUpFragment : Fragment() {
                 var password = passwordField.text.toString().trim()
                 var male = if(maleMan.isEnabled) "man" else "woman"
                 var confirmPassword = mBinding.confirmPasswordField.text.toString().trim()
+                var isRemember = rememberMeStudent.isChecked
                 if (isValidStudentData(name, surname, lastName, email, password, uni, male, confirmPassword, age)) {
                     mViewModel.signUpAsStudent(
                         image = "img",
@@ -86,6 +94,7 @@ class SignUpFragment : Fragment() {
                         email,
                         password
                     ) {
+                        manager.putBoolean(KEY_REMEMBER,isRemember)
                         APP_ACTIVITY.navController.navigate(R.id.action_signUpFragment_to_mainScreenFragment2)
                     }
                 }
@@ -94,6 +103,7 @@ class SignUpFragment : Fragment() {
 
         mBinding.signUpAsEmployer.setOnClickListener {
             with(mBinding){
+                loadingForEmployer(true)
                 var name = nameEField.text.toString()
                 var surname = surnnameEField.text.toString()
                 var lastName = lastNameEField.text.toString()
@@ -103,6 +113,7 @@ class SignUpFragment : Fragment() {
                 var password = passwordField3.text.toString().trim()
                 var male = if(maleMan.isEnabled) "man" else "woman"
                 var confirmPassword = mBinding.passwordField3Confirm2.text.toString().trim()
+                var isRemember = mBinding.rememberMeEmployer.isChecked
                 if (isValidEmployerData(name, surname, lastName, email, password, company, male, confirmPassword)) {
                     mViewModel.signUpAsEmployer(
                         image = "img",
@@ -115,6 +126,7 @@ class SignUpFragment : Fragment() {
                         email,
                         password
                     ) {
+                        manager.putBoolean(KEY_REMEMBER,isRemember)
                         APP_ACTIVITY.navController.navigate(R.id.action_signUpFragment_to_mainScreenFragment2)
                     }
                 }
@@ -141,6 +153,7 @@ class SignUpFragment : Fragment() {
             companyName.isEmpty() ||
             sex.isEmpty()
         ) {
+            loadingForEmployer(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Empty fields")
                 .setMessage("Fill in all the fields")
@@ -152,6 +165,7 @@ class SignUpFragment : Fragment() {
             return false
         }
         else if (password != confirmPassword) {
+            loadingForEmployer(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Invalid password")
                 .setMessage("You should enter equal passwords")
@@ -164,6 +178,7 @@ class SignUpFragment : Fragment() {
                 .show()
             return false
         } else if (!isValidPassword(password)) {
+            loadingForEmployer(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Invalid password")
                 .setMessage("Your password should contain:\nUpper and lower case letters, numbers and special characters")
@@ -199,6 +214,7 @@ class SignUpFragment : Fragment() {
             sex.isEmpty() ||
             age.isEmpty()
         ) {
+            loadingForStudent(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Empty fields")
                 .setMessage("Fill in all the fields")
@@ -210,6 +226,7 @@ class SignUpFragment : Fragment() {
             return false
         }
         else if (password != confirmPassword) {
+            loadingForStudent(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Invalid password")
                 .setMessage("You should enter equal passwords")
@@ -222,9 +239,10 @@ class SignUpFragment : Fragment() {
                 .show()
             return false
         } else if (!isValidPassword(password)) {
+            loadingForStudent(false)
             AlertDialog.Builder(APP_ACTIVITY)
                 .setTitle("Invalid password")
-                .setMessage("Your password should contain:\nUpper and lower case letters, numbers and special characters")
+                .setMessage("Your password should contain:\nUpper and lower case letters, numbers")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
                     dialogInterface.cancel()
                 })
@@ -233,6 +251,26 @@ class SignUpFragment : Fragment() {
             return false
         } else {
             return true
+        }
+    }
+
+    fun loadingForStudent(active: Boolean) {
+        if (active) {
+            mBinding.progressBarSignupStudent.visibility = View.VISIBLE
+            mBinding.signUpAsStudent.visibility = View.GONE
+        } else {
+            mBinding.progressBarSignupStudent.visibility = View.GONE
+            mBinding.signUpAsStudent.visibility = View.VISIBLE
+        }
+    }
+
+    fun loadingForEmployer(active: Boolean) {
+        if (active) {
+            mBinding.progressBarSignupEmployer.visibility = View.VISIBLE
+            mBinding.signUpAsEmployer.visibility = View.GONE
+        } else {
+            mBinding.progressBarSignupEmployer.visibility = View.GONE
+            mBinding.signUpAsEmployer.visibility = View.VISIBLE
         }
     }
 

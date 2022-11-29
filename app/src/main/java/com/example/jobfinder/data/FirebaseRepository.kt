@@ -54,7 +54,7 @@ class FirebaseRepository(
             })
     }
 
-    override fun login(email: String, password: String, onComplete: () -> Unit) {
+    override fun login(email: String, password: String, onComplete: () -> Unit,onFail:()->Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
             database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL, email).get()
                 .addOnCompleteListener {
@@ -108,6 +108,7 @@ class FirebaseRepository(
 
         }
             .addOnFailureListener {
+                onFail()
                 AlertDialog.Builder(APP_ACTIVITY)
                     .setTitle(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_n))
                     .setMessage(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_in_message))
