@@ -51,7 +51,7 @@
         android:ems="10"
         android:fontFamily="@font/montserrat"
         android:hint="Member email"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/addNewMemberBTN"
         app:layout_constraintStart_toStartOf="@+id/addNewMemberBTN"

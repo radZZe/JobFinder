@@ -54,7 +54,7 @@ class FirebaseRepository(
             })
     }
 
-    override fun login(email: String, password: String, onComplete: () -> Unit) {
+    override fun login(email: String, password: String, onComplete: () -> Unit,onFail:()->Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
             database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL, email).get()
                 .addOnCompleteListener {
@@ -108,6 +108,7 @@ class FirebaseRepository(
 
         }
             .addOnFailureListener {
+                onFail()
                 AlertDialog.Builder(APP_ACTIVITY)
                     .setTitle(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_n))
                     .setMessage(APP_ACTIVITY.applicationContext.getString(R.string.failed_sign_in_message))
@@ -570,7 +571,7 @@ class FirebaseRepository(
         }
     }
 
-    fun feedback(project: Project, brief: String) {
+    fun feedback(project: Project, brief: String,onFail: () -> Unit) {
         val userFeedback = UserFeedback(
             userId = manager.getString(KEY_USER_ID)!!,
             name = manager.getString(KEY_USER_NAME)!!,
@@ -581,9 +582,17 @@ class FirebaseRepository(
             uni = manager.getString(KEY_USER_UNI)!!,
             brief = brief
         )
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+            KEY_COLLECTION_FEEDBACK).whereEqualTo(KEY_FEEDBACK_USER_ID,userFeedback.userId).get().addOnCompleteListener {
+                var documents = it.result.documents
+                if(documents.size == 0){
+                    database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+                        .collection(KEY_COLLECTION_FEEDBACK).add(userFeedback)
+                }else{
+                    onFail()
+                }
+        }
 
-        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-            .collection(KEY_COLLECTION_FEEDBACK).add(userFeedback)
 
     }
 
@@ -595,7 +604,7 @@ class FirebaseRepository(
         }
     }
 
-    fun addStudentToProject(project: Project, userId: String) {
+    fun addStudentToProject(project: Project, userId: String,onFail:()->Unit) {
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK
         ).whereEqualTo("userId", userId).get().addOnCompleteListener {
@@ -614,10 +623,20 @@ class FirebaseRepository(
             )
             database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
                 KEY_COLLECTION_MEMBERS
-            ).add(projectMember).addOnCompleteListener {
-                database.collection(KEY_COLLECTION_USERS).document(userId)
-                    .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+            ).whereEqualTo(KEY_USER_ID,userId).get().addOnCompleteListener {
+                var documents = it.result.documents
+                if(documents.size == 0 ){
+                    database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
+                        KEY_COLLECTION_MEMBERS
+                    ).add(projectMember).addOnCompleteListener {
+                        database.collection(KEY_COLLECTION_USERS).document(userId)
+                            .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+                    }
+                }else{
+                    onFail()
+                }
             }
+
         }
 
     }
@@ -652,7 +671,7 @@ class FirebaseRepository(
         onComplete()
     }
 
-    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit){
+    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit,onFail:()->Unit){
         database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnCompleteListener {
             it.result.documents[0].reference.get().addOnCompleteListener {
                 var doc = it.result
@@ -670,12 +689,21 @@ class FirebaseRepository(
                     id = teamId,
                     name = teamName
                 )
-                database.collection(KEY_COLLECTION_USERS).document(id).collection(
-                    KEY_COLLECTION_TEAMS).add(studentTeam).addOnSuccessListener {
-                    database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
-                        KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
-                            onComplete(name,surname)
-                    }
+                database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                    KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID,id).get().addOnCompleteListener {
+                        var documents = it.result.documents
+                        if(documents.size == 0){
+                            database.collection(KEY_COLLECTION_USERS).document(id).collection(
+                                KEY_COLLECTION_TEAMS).add(studentTeam).addOnSuccessListener {
+                                database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                                    KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
+                                    onComplete(name,surname)
+                                }
+                        }
+                }else{
+                    onFail()
+                }
+
                 }
 
             }

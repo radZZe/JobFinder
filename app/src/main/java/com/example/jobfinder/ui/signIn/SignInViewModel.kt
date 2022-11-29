@@ -10,8 +10,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(firebaseRepository: FirebaseRepository) : ViewModel() {
     val firebase = firebaseRepository
-    fun login(email:String,password:String,onComplete:()->Unit){
-        firebase.login(email,password,onComplete)
+    fun login(email:String,password:String,onComplete:()->Unit,onFail:()->Unit){
+        firebase.login(email,password,onComplete,onFail)
 
     }
 }

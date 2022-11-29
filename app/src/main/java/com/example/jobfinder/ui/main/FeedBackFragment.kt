@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +41,16 @@ class FeedBackFragment : Fragment() {
             val bundle = Bundle()
             bundle.putSerializable(KEY_CLICKED_PROJECT, project)
             var brief = mBinding.editTextTextMultiLine.text.toString()
-            mViewModel.sendFeedback(project, brief)
+            mViewModel.sendFeedback(project, brief){
+                AlertDialog.Builder(APP_ACTIVITY)
+                    .setTitle("Failed to add a reply")
+                    .setMessage("you have already sent a reply")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                        dialogInterface.cancel()
+                    })
+                    .create()
+                    .show()
+            }
             mBinding.editTextTextMultiLine.text.clear()
             APP_ACTIVITY.navController.navigate(R.id.action_feedBackFragment_to_projectFragment,bundle)
         }

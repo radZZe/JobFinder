@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.main
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -59,7 +61,16 @@ class ListFeedbacksFragment : Fragment() {
             adapter = ListFeedbacksAdapter(it, project, object : onFeedbackListener {
 
                 override fun onFeedbackAccepted(project: Project,userId:String) {
-                    mViewModel.acceptFeedback(project,userId)
+                    mViewModel.acceptFeedback(project,userId){
+                        AlertDialog.Builder(APP_ACTIVITY)
+                            .setTitle("Failed to add a member")
+                            .setMessage("member has already been added")
+                            .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                                dialogInterface.cancel()
+                            })
+                            .create()
+                            .show()
+                    }
                 }
 
                 override fun onFeedbackRejected(project: Project,userId:String) {
@@ -70,13 +81,7 @@ class ListFeedbacksFragment : Fragment() {
         }
 
 
-//        mViewModel.liveFeedbacks.observe(this, Observer { list ->
-//            list?.let {
-//                adapter.updateList(it)
-//            }
-//        })
 
-//        itemsArrayList = arrayListOf()
 
     }
 

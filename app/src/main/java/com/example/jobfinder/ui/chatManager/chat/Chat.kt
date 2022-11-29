@@ -43,6 +43,7 @@ class Chat : Fragment() {
     }
 
     fun initialization(){
+        loading(true)
         getData()
         initViews()
         setupRecyclerView()
@@ -98,6 +99,7 @@ class Chat : Fragment() {
     }
 
     fun setupRecyclerView() {
+        loading(false)
         userChatAdpater = UserChatAdapter(senderId)
         mBinding.rvUserChat.adapter = userChatAdpater
     }
@@ -135,6 +137,16 @@ class Chat : Fragment() {
         }else if (type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.sendMessageForProject(projectId,text)
+        }
+    }
+
+    fun loading(active:Boolean){
+        if (active) {
+            mBinding.loading.visibility = View.VISIBLE
+            mBinding.rvUserChat.visibility = View.GONE
+        } else {
+            mBinding.loading.visibility = View.GONE
+            mBinding.rvUserChat.visibility = View.VISIBLE
         }
     }
 
