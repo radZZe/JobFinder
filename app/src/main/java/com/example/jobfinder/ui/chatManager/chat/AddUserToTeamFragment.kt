@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.chatManager.chat
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,16 +55,28 @@ class AddUserToTeamFragment : Fragment() {
     }
 
     fun setupClickListener(){
+        var bundle = Bundle()
+        bundle.putString(KEY_TYPE,type)
+        bundle.putString(KEY_CHATS_NAME,teamName)
+        bundle.putString(KEY_TEAM_ID,teamId)
         mBinding.addNewMemberBTN.setOnClickListener {
             var email = mBinding.memberEmailET.text.toString()
-            mViewModel.addUserToTeam(email = email, teamId = teamId, teamName = teamName){
+            mViewModel.addUserToTeam(email = email, teamId = teamId, teamName = teamName, onComplete = {
                 mBinding.memberEmailET.text.clear()
-                var bundle = Bundle()
-                bundle.putString(KEY_TYPE,type)
-                bundle.putString(KEY_CHATS_NAME,teamName)
-                bundle.putString(KEY_TEAM_ID,teamId)
                 APP_ACTIVITY.navController.navigate(R.id.action_addUserToTeamFragment_to_chat,bundle)
-            }
+            }, onFail = {
+                AlertDialog.Builder(APP_ACTIVITY)
+                    .setTitle("Failed to add a member")
+                    .setMessage("member has already been added")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                        dialogInterface.cancel()
+                    })
+                    .create()
+                    .show()
+            })
+        }
+        mBinding.backButton.setOnClickListener {
+            APP_ACTIVITY.navController.navigate(R.id.action_addUserToTeamFragment_to_chat,bundle)
         }
     }
 }

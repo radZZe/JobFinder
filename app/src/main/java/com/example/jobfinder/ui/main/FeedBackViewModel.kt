@@ -11,8 +11,8 @@ class FeedBackViewModel @Inject constructor(
     private val firebaseRepository: FirebaseRepository
 ): ViewModel() {
 
-    fun sendFeedback(project: Project,brief:String){
-        firebaseRepository.feedback(project, brief)
+    fun sendFeedback(project: Project,brief:String,onFail:()->Unit){
+        firebaseRepository.feedback(project, brief,onFail)
     }
 
 }
