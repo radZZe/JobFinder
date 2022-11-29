@@ -43,6 +43,7 @@ tools:context=".ui.chatManager.chat.Chat">
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:gravity="start"
+            android:fontFamily="@font/montserrat"
             android:textColor="@color/white"
             android:text="Name Surname"
             android:textSize="20sp" />

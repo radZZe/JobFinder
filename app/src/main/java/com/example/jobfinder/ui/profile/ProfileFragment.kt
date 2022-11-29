@@ -1,5 +1,7 @@
 package com.example.jobfinder.ui.profile
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -109,9 +111,19 @@ class ProfileFragment : Fragment() {
         val lastName = mViewModel.preferenceManager.getString(KEY_USER_LASTNAME)
         mBinding.userNameField.text = "$name $surname $lastName"
         mBinding.signOutBtn.setOnClickListener {
-            mViewModel.signOut(){
-                APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_signInFragment)
-            }
+            AlertDialog.Builder(APP_ACTIVITY)
+                .setTitle(getString(R.string.sign_out_message))
+                .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                    mViewModel.signOut(){
+                        APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_signInFragment)
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), DialogInterface.OnClickListener { dialogInterface, _ ->
+                    dialogInterface.cancel()
+                })
+                .create()
+                .show()
+
         }
         mBinding.userNameField.text = "$name $lastName $surname "
         if (userType == "student") {
@@ -119,6 +131,7 @@ class ProfileFragment : Fragment() {
             mBinding.btnAddProject.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_addTeamFragment)
             }
+            mBinding.title.text = (APP_ACTIVITY.applicationContext.getString(R.string.projects_you_are_working_on))
             setupStudentsRecyclerView()
         } else {
             mBinding.specialization.text = mViewModel.preferenceManager.getString(KEY_USER_COMPANY)
@@ -126,6 +139,7 @@ class ProfileFragment : Fragment() {
                 APP_ACTIVITY.navController.navigate(R.id.action_profileFragment_to_addProjectFragment)
             }
             setupRecyclerView()
+            mBinding.title.text = (APP_ACTIVITY.applicationContext.getString(R.string.your_projects))
         }
     }
 

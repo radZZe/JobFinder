@@ -76,6 +76,5 @@ const val KEY_COLLECTION_FEEDBACK = "feedback"
 
 const val KEY_REMEMBER = "remember"
 
-
 const val SENT_TEXT = 1 ;
 const val RECEIVED_TEXT = 0;

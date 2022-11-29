@@ -145,7 +145,11 @@
             app:popExitAnim="@anim/to_left"/>
         <action
             android:id="@+id/action_projectFragment_to_feedBackFragment"
-            app:destination="@id/feedBackFragment" />
+            app:destination="@id/feedBackFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/hilt_Chat"
@@ -169,7 +173,18 @@
             app:popExitAnim="@anim/to_left"/>
         <action
             android:id="@+id/action_chat_to_addUserToTeamFragment"
-            app:destination="@id/addUserToTeamFragment" />
+            app:destination="@id/addUserToTeamFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
+        <action
+            android:id="@+id/action_chat_to_chatMembersListFragment"
+            app:destination="@id/chatMembersListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/listFeedbacksFragment"
@@ -198,7 +213,11 @@
         android:label="FeedBackFragment" >
         <action
             android:id="@+id/action_feedBackFragment_to_projectFragment"
-            app:destination="@id/projectFragment" />
+            app:destination="@id/projectFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
     </fragment>
     <fragment
         android:id="@+id/addUserToTeamFragment"
@@ -207,6 +226,23 @@
         tools:layout="@layout/fragment_add_user_to_team" >
         <action
             android:id="@+id/action_addUserToTeamFragment_to_chat"
-            app:destination="@id/chat" />
+            app:destination="@id/chat"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
+    </fragment>
+    <fragment
+        android:id="@+id/chatMembersListFragment"
+        android:name="com.example.jobfinder.ui.chatManager.chat.ChatMembersListFragment"
+        android:label="fragment_chat_members_list"
+        tools:layout="@layout/fragment_chat_members_list" >
+        <action
+            android:id="@+id/action_chatMembersListFragment_to_chat"
+            app:destination="@id/chat"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"/>
     </fragment>
 </navigation>

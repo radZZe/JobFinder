@@ -37,5 +37,11 @@
     <string name="university">University</string>
     <string name="remember_me">Remember me</string>
     <string name="age">Age</string>
+    <string name="sign_out_message">Sign Out from your account?</string>
+    <string name="cancel">Cancel</string>
+    <string name="your_projects">Your projects:</string>
+    <string name="projects_you_are_working_on">Projects you are working on:</string>
+    <string name="filter">Filter</string>
+    <string name="chat_members">Chat members</string>
 
 </resources>
