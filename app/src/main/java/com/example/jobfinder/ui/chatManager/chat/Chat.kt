@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.jobfinder.R
+import com.example.jobfinder.data.models.ChatMember
+import com.example.jobfinder.data.models.ProjectMember
+import com.example.jobfinder.data.models.TeamMember
 import com.example.jobfinder.databinding.FragmentChatBinding
 import com.example.jobfinder.utils.*
 import com.squareup.picasso.Picasso
@@ -71,13 +74,6 @@ class Chat : Fragment() {
             APP_ACTIVITY.navController.navigate(R.id.action_chat_to_addUserToTeamFragment,bundle)
 
         }
-        mBinding.receiverDataSeciton.setOnClickListener {
-            var bundle = Bundle()
-            bundle.putString(KEY_TYPE, type)
-            bundle.putString(KEY_CHATS_NAME, chatName)
-            bundle.putString(KEY_TEAM_ID, teamId)
-            APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
-        }
     }
 
     private fun setupListeners() {
@@ -108,6 +104,15 @@ class Chat : Fragment() {
         if(type == KEY_TEAM){
             var teamId = arguments?.get(KEY_TEAM_ID)!! as String
             mViewModel.getTeamMembersChat(teamId){
+                val members = convertTeamMember(it)
+                mBinding.receiverDataSeciton.setOnClickListener {
+                    var bundle = Bundle()
+                    bundle.putString(KEY_TYPE, type)
+                    bundle.putString(KEY_CHATS_NAME, chatName)
+                    bundle.putString(KEY_TEAM_ID, teamId)
+                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
+                    APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
+                }
                 mViewModel.listenMessageTeam(teamId = teamId, members = it){
                     userChatAdpater.updateList(ArrayList(it))
                     if (it.size != 0) {
@@ -119,6 +124,15 @@ class Chat : Fragment() {
         }else if(type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
+                val members = convertProjectMember(it)
+                mBinding.receiverDataSeciton.setOnClickListener {
+                    var bundle = Bundle()
+                    bundle.putString(KEY_TYPE, type)
+                    bundle.putString(KEY_CHATS_NAME, chatName)
+                    bundle.putString(KEY_TEAM_ID, teamId)
+                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
+                    APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
+                }
                 mViewModel.listenMessageProject(projectId=projectId, members = it) {
                     userChatAdpater.updateList(ArrayList(it))
                     if (it.size != 0) {
@@ -148,6 +162,24 @@ class Chat : Fragment() {
             mBinding.loading.visibility = View.GONE
             mBinding.rvUserChat.visibility = View.VISIBLE
         }
+    }
+
+    private fun convertProjectMember(list: ArrayList<ProjectMember>): ArrayList<ChatMember>{
+        val chatMembers = ArrayList<ChatMember>()
+        for (member in list) {
+            val chatMember = ChatMember(id = member.id, name = member.owner, "")
+            chatMembers.add(chatMember)
+        }
+        return chatMembers
+    }
+
+    private fun convertTeamMember(list: ArrayList<TeamMember>): ArrayList<ChatMember>{
+        val chatMembers = ArrayList<ChatMember>()
+        for (member in list) {
+            val chatMember = ChatMember(id = member.id, name = "${member.name} ${member.surname}", specialization = member.uni)
+            chatMembers.add(chatMember)
+        }
+        return chatMembers
     }
 
 }

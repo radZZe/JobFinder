@@ -14,7 +14,7 @@ class ChatMembersListFragmentViewModel @Inject constructor(
 
     val chatMembersLiveData = MutableLiveData<ArrayList<ChatMember>>()
 
-    fun getMembers(onSuccess: () -> Unit) {
-
-    }
+//    fun getMembers(onSuccess: () -> Unit) {
+//
+//    }
 }
