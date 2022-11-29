@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private var _binding: ActivityMainBinding? = null
     val mBinding get() = _binding!!
-    @Inject lateinit var manager:PreferenceManager
+    @Inject
+    lateinit var manager: PreferenceManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         val fragment_list_fb = navController.findDestination(R.id.listFeedbacksFragment)
         val fragment_fb = navController.findDestination(R.id.feedBackFragment)
         val fragment_create_team = navController.findDestination(R.id.addTeamFragment)
+        val fragment_chat_members = navController.findDestination(R.id.chatMembersListFragment)
 
         navController.addOnDestinationChangedListener(object :
             NavController.OnDestinationChangedListener {
@@ -63,7 +65,8 @@ class MainActivity : AppCompatActivity() {
                     fragment_project,
                     fragment_list_fb,
                     fragment_fb,
-                    fragment_create_team
+                    fragment_create_team,
+                    fragment_chat_members
                 )
             }
         })
@@ -78,7 +81,8 @@ class MainActivity : AppCompatActivity() {
         project: NavDestination?,
         fb: NavDestination?,
         f_fb: NavDestination?,
-        createTeam: NavDestination?
+        createTeam: NavDestination?,
+        chatMembers: NavDestination?
     ) {
         val currentFragment = navController.currentDestination
         if (currentFragment != null) {
@@ -90,7 +94,8 @@ class MainActivity : AppCompatActivity() {
                 currentFragment == project ||
                 currentFragment == fb ||
                 currentFragment == f_fb ||
-                currentFragment == createTeam
+                currentFragment == createTeam ||
+                currentFragment == chatMembers
             ) {
                 mBinding.navMenu.visibility = View.GONE
             } else {

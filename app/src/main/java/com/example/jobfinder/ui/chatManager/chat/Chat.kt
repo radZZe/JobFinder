@@ -71,6 +71,13 @@ class Chat : Fragment() {
             APP_ACTIVITY.navController.navigate(R.id.action_chat_to_addUserToTeamFragment,bundle)
 
         }
+        mBinding.receiverDataSeciton.setOnClickListener {
+            var bundle = Bundle()
+            bundle.putString(KEY_TYPE, type)
+            bundle.putString(KEY_CHATS_NAME, chatName)
+            bundle.putString(KEY_TEAM_ID, teamId)
+            APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
+        }
     }
 
     private fun setupListeners() {
@@ -85,7 +92,7 @@ class Chat : Fragment() {
     }
 
     fun initViews() {
-        if(type == KEY_TEAM){
+        if(type == KEY_TEAM) {
             mBinding.addUserToTeam.visibility = View.VISIBLE
         }
         mBinding.userNameSurnameField.setText(chatName)

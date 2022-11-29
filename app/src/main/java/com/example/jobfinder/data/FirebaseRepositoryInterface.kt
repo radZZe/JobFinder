@@ -33,6 +33,7 @@ interface FirebaseRepositoryInterface {
         liveData: MutableLiveData<ArrayList<Project>>,
         onSuccess: () -> Unit
     ) { }
+
     fun addProject(project: Project,) { }
 
 }
