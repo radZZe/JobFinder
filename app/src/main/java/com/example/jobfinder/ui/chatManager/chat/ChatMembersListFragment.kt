@@ -27,10 +27,10 @@ class ChatMembersListFragment : Fragment() {
     private val mBinding get() = _binding!!
     private val mViewModel: ChatMembersListFragmentViewModel by viewModels()
 
+    private lateinit var chatMembers: ArrayList<ChatMember>
     private lateinit var chatName:String
     private lateinit var type:String
     private lateinit var teamId:String
-//    private lateinit var senderId: String
     private lateinit var rvMembersList: RecyclerView
     private lateinit var adapter: ChatMembersListAdapter
     private lateinit var membersArrayList: ArrayList<ChatMember>
@@ -62,11 +62,8 @@ class ChatMembersListFragment : Fragment() {
                 adapter.updateList(it)
             }
         })
-        if (type == KEY_TEAM) {
-            mViewModel.getMembers { mBinding.chatMembersProgressBar.visibility = View.GONE }
-        } else {
-            mViewModel.getMembers { mBinding.chatMembersProgressBar.visibility = View.GONE }
-        }
+        chatMembers = arguments?.getSerializable(KEY_MEMBERS_LIST) as ArrayList<ChatMember>
+        mViewModel.chatMembersLiveData.value = chatMembers
         setupRecyclerView()
     }
 

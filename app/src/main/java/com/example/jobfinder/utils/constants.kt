@@ -71,6 +71,7 @@ const val KEY_MESSAGE_TIMESTAMP = "timestamp"
 const val KEY_MESSAGE_OWNER = "owner"
 const val KEY_CHATS_NAME = "chats_name"
 
+const val KEY_MEMBERS_LIST = "chat members"
 
 const val KEY_COLLECTION_FEEDBACK = "feedback"
 

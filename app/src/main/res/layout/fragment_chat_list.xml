@@ -48,7 +48,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/block1"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"

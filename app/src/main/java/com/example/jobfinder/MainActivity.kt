@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var navController: NavController
     private var _binding: ActivityMainBinding? = null
     val mBinding get() = _binding!!
+
     @Inject
     lateinit var manager: PreferenceManager
 
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         val fragment_fb = navController.findDestination(R.id.feedBackFragment)
         val fragment_create_team = navController.findDestination(R.id.addTeamFragment)
         val fragment_chat_members = navController.findDestination(R.id.chatMembersListFragment)
+        val fragment_add_user_to_team = navController.findDestination(R.id.addUserToTeamFragment)
 
         navController.addOnDestinationChangedListener(object :
             NavController.OnDestinationChangedListener {
@@ -66,7 +68,8 @@ class MainActivity : AppCompatActivity() {
                     fragment_list_fb,
                     fragment_fb,
                     fragment_create_team,
-                    fragment_chat_members
+                    fragment_chat_members,
+                    fragment_add_user_to_team
                 )
             }
         })
@@ -82,7 +85,8 @@ class MainActivity : AppCompatActivity() {
         fb: NavDestination?,
         f_fb: NavDestination?,
         createTeam: NavDestination?,
-        chatMembers: NavDestination?
+        chatMembers: NavDestination?,
+        fragment_add_user_to_team: NavDestination?
     ) {
         val currentFragment = navController.currentDestination
         if (currentFragment != null) {
@@ -95,7 +99,8 @@ class MainActivity : AppCompatActivity() {
                 currentFragment == fb ||
                 currentFragment == f_fb ||
                 currentFragment == createTeam ||
-                currentFragment == chatMembers
+                currentFragment == chatMembers ||
+                currentFragment == fragment_add_user_to_team
             ) {
                 mBinding.navMenu.visibility = View.GONE
             } else {
