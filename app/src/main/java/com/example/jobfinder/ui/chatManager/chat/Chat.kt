@@ -89,7 +89,11 @@ class Chat : Fragment() {
 
     fun initViews() {
         if(type == KEY_TEAM) {
-            mBinding.addUserToTeam.visibility = View.VISIBLE
+            mViewModel.getOwnerTeamId(teamId){
+                if (it == senderId) {
+                    mBinding.addUserToTeam.visibility = View.VISIBLE
+                }
+            }
         }
         mBinding.userNameSurnameField.setText(chatName)
     }
