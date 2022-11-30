@@ -672,25 +672,26 @@ class FirebaseRepository(
     }
 
     fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit,onFail:()->Unit){
-        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnCompleteListener {
-            it.result.documents[0].reference.get().addOnCompleteListener {
-                var doc = it.result
-                var id = doc.getString(KEY_USER_ID)!!
-                var name = doc.getString(KEY_USER_NAME)!!
-                var surname = doc.getString(KEY_USER_SURNAME)!!
-                var uni = doc.getString(KEY_USER_UNI)!!
-                var teamMember = TeamMember(
-                    id = id,
-                    name =name,
-                    surname = surname,
-                    uni = uni
-                )
-                var studentTeam = StudentTeam(
-                    id = teamId,
-                    name = teamName
-                )
-                database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
-                    KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID,id).get().addOnCompleteListener {
+        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnSuccessListener {
+            if(it.documents.size > 0 ){
+                it.documents[0].reference.get().addOnCompleteListener {
+                    var doc = it.result
+                    var id = doc.getString(KEY_USER_ID)!!
+                    var name = doc.getString(KEY_USER_NAME)!!
+                    var surname = doc.getString(KEY_USER_SURNAME)!!
+                    var uni = doc.getString(KEY_USER_UNI)!!
+                    var teamMember = TeamMember(
+                        id = id,
+                        name =name,
+                        surname = surname,
+                        uni = uni
+                    )
+                    var studentTeam = StudentTeam(
+                        id = teamId,
+                        name = teamName
+                    )
+                    database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                        KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID,id).get().addOnCompleteListener {
                         var documents = it.result.documents
                         if(documents.size == 0){
                             database.collection(KEY_COLLECTION_USERS).document(id).collection(
@@ -699,14 +700,27 @@ class FirebaseRepository(
                                     KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
                                     onComplete(name,surname)
                                 }
+                            }
+                        }else{
+                            onFail()
                         }
-                }else{
-                    onFail()
-                }
+
+                    }
 
                 }
-
+            }else{
+                onFail()
             }
+
+        }
+            .addOnFailureListener {
+            //TODO
+        }
+    }
+
+    fun getOwnerTeamId(teamId:String,onComplete: (teamID:String) -> Unit){
+        database.collection(KEY_COLLECTION_TEAMS).document(teamId).get().addOnSuccessListener {
+            onComplete(it.get(KEY_OWNER_TEAM_ID)!!as String)
         }
     }
 

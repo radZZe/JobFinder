@@ -76,7 +76,7 @@ const val KEY_MEMBERS_LIST = "chat members"
 const val KEY_COLLECTION_FEEDBACK = "feedback"
 
 const val KEY_REMEMBER = "remember"
-
+const val KEY_OWNER_TEAM_ID = "ownerId"
 
 const val KEY_FEEDBACK_USER_ID = "userId"
 

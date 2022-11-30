@@ -3,6 +3,7 @@ package com.example.jobfinder.ui.profile
 import androidx.lifecycle.ViewModel
 import com.example.jobfinder.data.FirebaseRepository
 import com.example.jobfinder.data.models.Team
+import com.example.jobfinder.utils.KEY_USER_ID
 import com.example.jobfinder.utils.KEY_USER_NAME
 import com.example.jobfinder.utils.KEY_USER_SURNAME
 import com.example.jobfinder.utils.PreferenceManager
@@ -20,7 +21,8 @@ class AddTeamViewModel @Inject constructor(
         var team = Team(
             id = UUID.randomUUID().mostSignificantBits.toString(),
             name = teamName,
-            owner = "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(KEY_USER_SURNAME)}"
+            owner = "${manager.getString(KEY_USER_NAME)!!} ${manager.getString(KEY_USER_SURNAME)}",
+            ownerId = manager.getString(KEY_USER_ID)!!
         )
         firebaseRepository.createTeam(team)
 

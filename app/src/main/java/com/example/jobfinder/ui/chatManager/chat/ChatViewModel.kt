@@ -108,4 +108,10 @@ class ChatViewModel @Inject constructor(
             onFail()
         })
     }
+
+    fun getOwnerTeamId(teamId: String,onComplete: (ownerId:String) -> Unit){
+        firebaseRepository.getOwnerTeamId(teamId){
+            onComplete(it)
+        }
+    }
 }
