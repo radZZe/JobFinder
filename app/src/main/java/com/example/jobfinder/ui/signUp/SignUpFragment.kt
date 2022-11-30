@@ -54,6 +54,42 @@ class SignUpFragment : Fragment() {
             ArrayAdapter(requireContext(), R.layout.types_dropdown_item, types)
         mBinding.uniField.setAdapter(arrayAdapter)
 
+        mBinding.checkBoxStudent.setOnClickListener {
+            if (mBinding.checkBoxEmployer.isChecked) {
+                mBinding.checkBoxEmployer.toggle()
+            }
+        }
+
+        mBinding.checkBoxEmployer.setOnClickListener {
+            if (mBinding.checkBoxStudent.isChecked) {
+                mBinding.checkBoxStudent.toggle()
+            }
+        }
+
+        mBinding.maleMan.setOnClickListener {
+            if (mBinding.maleWoman.isChecked) {
+                mBinding.maleWoman.toggle()
+            }
+        }
+
+        mBinding.maleWoman.setOnClickListener {
+            if (mBinding.maleMan.isChecked) {
+                mBinding.maleMan.toggle()
+            }
+        }
+
+        mBinding.maleManE.setOnClickListener {
+            if (mBinding.maleWomanE.isChecked) {
+                mBinding.maleWomanE.toggle()
+            }
+        }
+
+        mBinding.maleWomanE.setOnClickListener {
+            if (mBinding.maleManE.isChecked) {
+                mBinding.maleManE.toggle()
+            }
+        }
+
         mBinding.button.setOnClickListener {
             with(mBinding){
                 if(checkBoxStudent.isChecked){
