@@ -290,6 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:fontFamily="@font/montserrat"
+                        android:maxLines="1"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:text=""
