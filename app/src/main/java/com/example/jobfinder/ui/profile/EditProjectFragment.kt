@@ -61,8 +61,10 @@ class EditProjectFragment : Fragment() {
                 .setTitle("Delete project")
                 .setMessage("You will not be able to recover this project's data")
                 .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
-                    mViewModel.deleteProject(project)
-                    APP_ACTIVITY.navController.navigate(R.id.action_editProfileFragment_to_profileFragment)
+                    mViewModel.deleteProject(project){
+                        APP_ACTIVITY.navController.navigate(R.id.action_editProfileFragment_to_profileFragment)
+                    }
+
                 })
                 .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialogInterface, _ ->
                     dialogInterface.cancel()

@@ -289,10 +289,14 @@ class FirebaseRepository(
                 } else {
                     if (value != null) {
                         for (documentChange in value.documentChanges) {
-
                             var doc = documentChange.document
-                            projectsIds.add(doc.getString(KEY_PROJECT_ID)!!)
-                            getProjectsByIds(projectsIds, liveData, onSuccess)
+                            if(documentChange.type != DocumentChange.Type.REMOVED){
+                                projectsIds.add(doc.getString(KEY_PROJECT_ID)!!)
+                                getProjectsByIds(projectsIds, liveData, onSuccess)
+                            }else{
+                                projectsIds.remove(doc.getString(KEY_PROJECT_ID)!!)
+                                getProjectsByIds(projectsIds, liveData, onSuccess)
+                            }
                         }
                         onSuccess()
                     }
@@ -667,7 +671,7 @@ class FirebaseRepository(
                 if (it.documents.size > 0) {
                     it.documents[0].reference.get().addOnCompleteListener {
                         var doc = it.result
-                        if(doc.getString(KEY_USER_TYPE) == KEY_STUDENT){
+                        if (doc.getString(KEY_USER_TYPE) == KEY_STUDENT) {
                             var id = doc.getString(KEY_USER_ID)!!
                             var name = doc.getString(KEY_USER_NAME)!!
                             var surname = doc.getString(KEY_USER_SURNAME)!!
@@ -687,22 +691,24 @@ class FirebaseRepository(
                             ).whereEqualTo(KEY_USER_ID, id).get().addOnCompleteListener {
                                 var documents = it.result.documents
                                 if (documents.size == 0) {
-                                    database.collection(KEY_COLLECTION_USERS).document(id).collection(
-                                        KEY_COLLECTION_TEAMS
-                                    ).add(studentTeam).addOnSuccessListener {
-                                        database.collection(KEY_COLLECTION_TEAMS).document(teamId)
-                                            .collection(
-                                                KEY_COLLECTION_MEMBERS
-                                            ).add(teamMember).addOnSuccessListener {
-                                                onComplete(name, surname)
-                                            }
-                                    }
+                                    database.collection(KEY_COLLECTION_USERS).document(id)
+                                        .collection(
+                                            KEY_COLLECTION_TEAMS
+                                        ).add(studentTeam).addOnSuccessListener {
+                                            database.collection(KEY_COLLECTION_TEAMS)
+                                                .document(teamId)
+                                                .collection(
+                                                    KEY_COLLECTION_MEMBERS
+                                                ).add(teamMember).addOnSuccessListener {
+                                                    onComplete(name, surname)
+                                                }
+                                        }
                                 } else {
                                     onFail()
                                 }
 
                             }
-                        }else{
+                        } else {
                             onFail()
                         }
                     }
@@ -731,31 +737,36 @@ class FirebaseRepository(
         database.collection(KEY_COLLECTION_PROJECTS).document(projectId).get()
             .addOnSuccessListener {
                 var ownerId = it.getString(KEY_CREATOR_ID)
-                if (manager.getString(KEY_USER_ID) == ownerId) {
-                    database.collection(KEY_COLLECTION_PROJECTS).document(projectId).collection(
-                        KEY_COLLECTION_MEMBERS
-                    ).whereEqualTo(KEY_USER_ID, userId).get().addOnCompleteListener {
-                        it.result.documents[0].reference.delete().addOnSuccessListener {
-                            database.collection(KEY_COLLECTION_USERS).document(userId).collection(
-                                KEY_COLLECTION_PROJECTS
-                            ).document(projectId).delete().addOnSuccessListener {
-                                database.collection(KEY_COLLECTION_USERS).document(userId)
-                                    .collection(
-                                        KEY_COLLECTION_PROJECT_CHAT
-                                    ).document(projectId).collection(
-                                    KEY_COLLECTION_MESSAGES
-                                ).get().addOnSuccessListener {
-                                    it.documents.forEach {
-                                        it.reference.delete()
-                                    }
-                                    onSuccess()
+                if (userId == ownerId){
+                    onFail()
+                }else{
+                    if (manager.getString(KEY_USER_ID) == ownerId) {
+                        database.collection(KEY_COLLECTION_PROJECTS).document(projectId).collection(
+                            KEY_COLLECTION_MEMBERS
+                        ).whereEqualTo(KEY_USER_ID, userId).get().addOnCompleteListener {
+                            it.result.documents[0].reference.delete().addOnSuccessListener {
+                                database.collection(KEY_COLLECTION_USERS).document(userId).collection(
+                                    KEY_COLLECTION_PROJECTS
+                                ).document(projectId).delete().addOnSuccessListener {
+                                    database.collection(KEY_COLLECTION_USERS).document(userId)
+                                        .collection(
+                                            KEY_COLLECTION_PROJECT_CHAT
+                                        ).document(projectId).collection(
+                                            KEY_COLLECTION_MESSAGES
+                                        ).get().addOnSuccessListener {
+                                            it.documents.forEach {
+                                                it.reference.delete()
+                                            }
+                                            onSuccess()
+                                        }
                                 }
                             }
                         }
+                    } else {
+                        onFail()
                     }
-                } else {
-                    onFail()
                 }
+
             }
     }
 
@@ -780,13 +791,13 @@ class FirebaseRepository(
                                     .collection(
                                         KEY_COLLECTION_TEAM_CHAT
                                     ).document(teamId).collection(
-                                    KEY_COLLECTION_MESSAGES
-                                ).get().addOnSuccessListener {
-                                    it.documents.forEach {
-                                        it.reference.delete()
+                                        KEY_COLLECTION_MESSAGES
+                                    ).get().addOnSuccessListener {
+                                        it.documents.forEach {
+                                            it.reference.delete()
+                                        }
+                                        onSuccess()
                                     }
-                                    onSuccess()
-                                }
                             }
                         }
                     }
@@ -813,9 +824,9 @@ class FirebaseRepository(
                                 id = id,
                                 owner = owner
                             )
-                            if(documentChange.type != DocumentChange.Type.REMOVED){
+                            if (documentChange.type != DocumentChange.Type.REMOVED) {
                                 members.add(member)
-                            }else{
+                            } else {
                                 members.remove(member)
                             }
                         }
@@ -844,73 +855,67 @@ class FirebaseRepository(
             }
     }
 
-override fun deleteProject(project: Project) {
+    override fun deleteProject(project: Project,onComplete:()->Unit) {
         var members = mutableListOf<String>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-            .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener { value, error ->
-                if (error != null) {
-                    return@addSnapshotListener
-                } else {
-                    if (value != null) {
-                        for (documentChange in value.documentChanges) {
-                            val id = documentChange.document.get(KEY_PROJECT_ID).toString()
-                            members.add(id)
-                        }
-                        for (member in members) {
-                            database.collection(KEY_COLLECTION_USERS).document(member).collection(
-                                KEY_COLLECTION_PROJECTS).document(project.id).delete()
-                            database.collection(KEY_COLLECTION_USERS).document(member).collection(
-                                KEY_COLLECTION_PROJECT_CHAT).document(project.id).delete()
-                            database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-                                .collection(KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID, member)
-                                .get().result.documents[0].reference.delete()
-                        }
-                    }
+            .collection(KEY_COLLECTION_MEMBERS).get().addOnCompleteListener {
+                it.result.documents.forEach{
+                    var member = it.getString(KEY_PROJECT_ID).toString()
+                    members.add(member)
+                    it.reference.delete()
                 }
-            }
-
-        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).delete()
-        database.collection(KEY_COLLECTION_USERS).document(project.creatorId).collection(
-            KEY_COLLECTION_PROJECT_CHAT).document(project.id).delete()
-//        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-//            .collection(KEY_COLLECTION_MEMBERS).document().delete()
-//        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-//            .collection(KEY_COLLECTION_FEEDBACK).document().delete()
-//        database.collection(KEY_COLLECTION_USERS)
-//            .document(project.creatorId)
-//            .collection(KEY_COLLECTION_USERS_PROJECTS)
-//            .document(project.id).delete()
-    }
-
-    fun getTeamMembersChat(id: String, onComplete: (members: ArrayList<TeamMember>) -> Unit) {
-        var members = arrayListOf<TeamMember>()
-        database.collection(KEY_COLLECTION_TEAMS).document(id)
-            .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener {value,error ->
-                if(error!=null){
-                    return@addSnapshotListener
-                }else{
-                    if(value!=null){
-                        for(documentChange in value.documentChanges){
-                            var doc = documentChange.document
-                            var id = doc.get(KEY_USER_ID)!! as String
-                            var name = doc.get(KEY_USER_NAME)!! as String
-                            var surname = doc.get(KEY_USER_SURNAME)!! as String
-                            var uni = doc.get(KEY_USER_UNI)!! as String
-                            var member = TeamMember(
-                                id = id,
-                                name = name,
-                                surname = surname,
-                                uni = uni
-                            )
-                            if(documentChange.type != DocumentChange.Type.REMOVED){
-                                members.add(member)
-                            }else{
-                                members.remove(member)
+                database.collection(KEY_COLLECTION_PROJECTS).document(project.id).delete().addOnCompleteListener {
+                    onComplete()
+                    for (member in members) {
+                        database.collection(KEY_COLLECTION_USERS).document(member)
+                            .collection(
+                                KEY_COLLECTION_PROJECTS
+                            ).document(project.id).delete().addOnCompleteListener {
+                                database.collection(KEY_COLLECTION_USERS).document(member)
+                                    .collection(
+                                        KEY_COLLECTION_PROJECT_CHAT
+                                    ).document(project.id)
+                                    .collection(KEY_COLLECTION_MESSAGES)
+                                    .get().addOnCompleteListener {
+                                        it.result.documents.forEach {
+                                            it.reference.delete()
+                                        }
+                                    }
                             }
-                        }
-                        onComplete(members)
                     }
                 }
             }
     }
-}
+
+        fun getTeamMembersChat(id: String, onComplete: (members: ArrayList<TeamMember>) -> Unit) {
+            var members = arrayListOf<TeamMember>()
+            database.collection(KEY_COLLECTION_TEAMS).document(id)
+                .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener { value, error ->
+                    if (error != null) {
+                        return@addSnapshotListener
+                    } else {
+                        if (value != null) {
+                            for (documentChange in value.documentChanges) {
+                                var doc = documentChange.document
+                                var id = doc.get(KEY_USER_ID)!! as String
+                                var name = doc.get(KEY_USER_NAME)!! as String
+                                var surname = doc.get(KEY_USER_SURNAME)!! as String
+                                var uni = doc.get(KEY_USER_UNI)!! as String
+                                var member = TeamMember(
+                                    id = id,
+                                    name = name,
+                                    surname = surname,
+                                    uni = uni
+                                )
+                                if (documentChange.type != DocumentChange.Type.REMOVED) {
+                                    members.add(member)
+                                } else {
+                                    members.remove(member)
+                                }
+                            }
+                            onComplete(members)
+                        }
+                    }
+                }
+        }
+    }

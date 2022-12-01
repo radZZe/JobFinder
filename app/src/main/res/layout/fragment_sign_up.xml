@@ -104,6 +104,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
+            android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="45dp"
@@ -173,7 +174,6 @@
                     android:ems="10"
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/email"
-                    android:inputType="textWebEmailAddress"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="@+id/age_field"
                     app:layout_constraintHorizontal_bias="0.497"
@@ -358,6 +358,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ScrollView
+            android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="45dp"
@@ -428,7 +429,7 @@
                     android:ems="10"
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/email"
-                    android:inputType="textWebEmailAddress"
+                    android:inputType="textEmailAddress"
                     android:textSize="20sp"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="@+id/company_field"
