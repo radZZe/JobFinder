@@ -6,13 +6,13 @@ import java.util.*
 data class Project(
     val id: String = "",
     val createdAt: Date = Date(),
-    val title: String = "",
-    val description: String = "",
-    val skills: String = "",
-    val type: String = "",
+    var title: String = "",
+    var description: String = "",
+    var skills: String = "",
+    var type: String = "",
     val state: Boolean = true,
     val creatorId: String = "",
-    val salary: String = "",
+    var salary: String = "",
     val employer: String = ""
 
 ): Serializable

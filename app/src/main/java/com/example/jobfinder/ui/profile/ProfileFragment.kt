@@ -71,11 +71,21 @@ class ProfileFragment : Fragment() {
 
         itemsArrayList = arrayListOf()
         adapter = MainListAdapter(itemsArrayList, object : ProjectListener {
+
             override fun onProjectClicked(project: Project) {
                 val bundle = Bundle()
                 bundle.putSerializable(KEY_CLICKED_PROJECT, project)
                 APP_ACTIVITY.navController.navigate(
                     R.id.action_profileFragment_to_listFeedbacksFragment,
+                    bundle
+                )
+            }
+
+            override fun onProjectLongClicked(project: Project) {
+                val bundle = Bundle()
+                bundle.putSerializable(KEY_CLICKED_PROJECT, project)
+                APP_ACTIVITY.navController.navigate(
+                    R.id.action_profileFragment_to_editProfileFragment,
                     bundle
                 )
             }
@@ -99,6 +109,10 @@ class ProfileFragment : Fragment() {
             override fun onProjectClicked(project: Project) {
                 val bundle = Bundle()
                 bundle.putSerializable(KEY_ITEM, project)
+            }
+
+            override fun onProjectLongClicked(project: Project) {
+                nothing()
             }
         })
         rvProjects.adapter = adapter

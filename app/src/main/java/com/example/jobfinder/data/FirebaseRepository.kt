@@ -826,6 +826,62 @@ class FirebaseRepository(
             }
     }
 
+    override fun editProject(project: Project) {
+        database.collection(KEY_COLLECTION_PROJECTS)
+            .document(project.id)
+            .get()
+            .addOnSuccessListener {
+                it.reference.set(project)
+
+                database.collection(KEY_COLLECTION_USERS)
+                    .document(project.creatorId)
+                    .collection(KEY_COLLECTION_USERS_PROJECTS)
+                    .document(project.id)
+                    .get()
+                    .addOnSuccessListener {
+                        it.reference.set(project)
+                    }
+            }
+    }
+
+override fun deleteProject(project: Project) {
+        var members = mutableListOf<String>()
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+            .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                } else {
+                    if (value != null) {
+                        for (documentChange in value.documentChanges) {
+                            val id = documentChange.document.get(KEY_PROJECT_ID).toString()
+                            members.add(id)
+                        }
+                        for (member in members) {
+                            database.collection(KEY_COLLECTION_USERS).document(member).collection(
+                                KEY_COLLECTION_PROJECTS).document(project.id).delete()
+                            database.collection(KEY_COLLECTION_USERS).document(member).collection(
+                                KEY_COLLECTION_PROJECT_CHAT).document(project.id).delete()
+                            database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+                                .collection(KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID, member)
+                                .get().result.documents[0].reference.delete()
+                        }
+                    }
+                }
+            }
+
+        database.collection(KEY_COLLECTION_PROJECTS).document(project.id).delete()
+        database.collection(KEY_COLLECTION_USERS).document(project.creatorId).collection(
+            KEY_COLLECTION_PROJECT_CHAT).document(project.id).delete()
+//        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+//            .collection(KEY_COLLECTION_MEMBERS).document().delete()
+//        database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+//            .collection(KEY_COLLECTION_FEEDBACK).document().delete()
+//        database.collection(KEY_COLLECTION_USERS)
+//            .document(project.creatorId)
+//            .collection(KEY_COLLECTION_USERS_PROJECTS)
+//            .document(project.id).delete()
+    }
+
     fun getTeamMembersChat(id: String, onComplete: (members: ArrayList<TeamMember>) -> Unit) {
         var members = arrayListOf<TeamMember>()
         database.collection(KEY_COLLECTION_TEAMS).document(id)
