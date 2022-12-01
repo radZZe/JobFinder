@@ -15,7 +15,7 @@ class EditProjectViewModel @Inject constructor(
         firebaseRepository.editProject(project)
     }
 
-    fun deleteProject(project: Project) {
-        firebaseRepository.deleteProject(project)
+    fun deleteProject(project: Project,onComplete:()->Unit) {
+        firebaseRepository.deleteProject(project,onComplete)
     }
 }

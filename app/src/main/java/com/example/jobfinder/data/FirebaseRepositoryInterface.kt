@@ -38,6 +38,6 @@ interface FirebaseRepositoryInterface {
 
     fun editProject(project: Project) { }
 
-    fun deleteProject(project: Project) { }
+    fun deleteProject(project: Project,onComplete:()->Unit) { }
 
 }

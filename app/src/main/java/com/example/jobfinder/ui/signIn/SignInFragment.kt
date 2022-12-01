@@ -53,12 +53,25 @@ class SignInFragment : Fragment() {
                 var email = email.text.toString()
                 var password = password.text.toString()
                 var isRemember = rememberMeCb.isChecked
-                mViewModel.login(email,password, onComplete = {
-                    manager.putBoolean(KEY_REMEMBER,isRemember)
-                    APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
-                }, onFail = {
+                if(email.isNotEmpty() && password.isNotEmpty()){
+                    mViewModel.login(email,password, onComplete = {
+                        manager.putBoolean(KEY_REMEMBER,isRemember)
+                        APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_mainScreenFragment2)
+                    }, onFail = {
+                        loading(false)
+                    })
+                }else{
                     loading(false)
-                })
+                    AlertDialog.Builder(APP_ACTIVITY)
+                        .setTitle("failed to log in")
+                        .setMessage("Wrong email or password")
+                        .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
+                            dialogInterface.cancel()
+                        })
+                        .create()
+                        .show()
+                }
+
             }
             signUpButton.setOnClickListener {
                 APP_ACTIVITY.navController.navigate(R.id.action_signInFragment_to_signUpFragment)
