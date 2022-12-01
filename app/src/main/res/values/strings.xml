@@ -43,5 +43,6 @@
     <string name="projects_you_are_working_on">Projects you are working on:</string>
     <string name="filter">Filter</string>
     <string name="chat_members">Chat members</string>
+    <string name="description">Description</string>
 
 </resources>

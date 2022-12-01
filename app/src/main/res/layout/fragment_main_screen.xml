@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/main"
-        android:queryHint="Найти вакансию"
+        android:queryHint="Find vacancy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,11 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/main"
-        android:tint="@color/main_dark"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="@id/searchView"
         app:layout_constraintEnd_toEndOf="@id/searchView"
-        app:layout_constraintTop_toTopOf="@id/searchView" />
+        app:layout_constraintTop_toTopOf="@id/searchView"
+        app:tint="@color/main_dark" />
 
     <ProgressBar
         android:id="@+id/progressBar"
