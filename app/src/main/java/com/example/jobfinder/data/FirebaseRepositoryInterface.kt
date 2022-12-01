@@ -34,6 +34,10 @@ interface FirebaseRepositoryInterface {
         onSuccess: () -> Unit
     ) { }
 
-    fun addProject(project: Project,) { }
+    fun addProject(project: Project) { }
+
+    fun editProject(project: Project) { }
+
+    fun deleteProject(project: Project) { }
 
 }

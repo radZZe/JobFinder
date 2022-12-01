@@ -15,3 +15,5 @@ fun isValidPassword(password: String): Boolean {
     val regex = Regex(pattern)
     return password.matches(regex)
 }
+
+fun nothing(){}

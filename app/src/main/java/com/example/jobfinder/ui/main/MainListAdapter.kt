@@ -41,6 +41,10 @@ class MainListAdapter(
         holder.view.setOnClickListener {
             onProjectClickListener.onProjectClicked(project)
         }
+        holder.view.setOnLongClickListener {
+            onProjectClickListener.onProjectLongClicked(project)
+            return@setOnLongClickListener true
+        }
         holder.view.startAnimation(
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.rv_anim)
         )
