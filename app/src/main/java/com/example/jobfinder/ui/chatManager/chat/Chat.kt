@@ -99,7 +99,6 @@ class Chat : Fragment() {
     }
 
     fun setupRecyclerView() {
-        loading(false)
         userChatAdpater = UserChatAdapter(senderId)
         mBinding.rvUserChat.adapter = userChatAdpater
     }
@@ -108,16 +107,17 @@ class Chat : Fragment() {
         if(type == KEY_TEAM){
             var teamId = arguments?.get(KEY_TEAM_ID)!! as String
             mViewModel.getTeamMembersChat(teamId){
-                val members = convertTeamMember(it)
+//                val members = convertTeamMember(it,teamId,type)
                 mBinding.receiverDataSeciton.setOnClickListener {
                     var bundle = Bundle()
                     bundle.putString(KEY_TYPE, type)
                     bundle.putString(KEY_CHATS_NAME, chatName)
                     bundle.putString(KEY_TEAM_ID, teamId)
-                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
+//                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
                     APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
                 }
                 mViewModel.listenMessageTeam(teamId = teamId, members = it){
+                    loading(false)
                     userChatAdpater.updateList(ArrayList(it))
                     if (it.size != 0) {
                         mBinding.rvUserChat.smoothScrollToPosition(it.size - 1)
@@ -128,16 +128,17 @@ class Chat : Fragment() {
         }else if(type == KEY_PROJECT){
             var projectId = arguments?.get(KEY_PROJECT_ID)!! as String
             mViewModel.getProjectMembersChat(projectId){
-                val members = convertProjectMember(it)
+//                val members = convertProjectMember(it,projectId,type)
                 mBinding.receiverDataSeciton.setOnClickListener {
                     var bundle = Bundle()
                     bundle.putString(KEY_TYPE, type)
                     bundle.putString(KEY_CHATS_NAME, chatName)
                     bundle.putString(KEY_TEAM_ID, teamId)
-                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
+//                    bundle.putSerializable(KEY_MEMBERS_LIST, members)
                     APP_ACTIVITY.navController.navigate(R.id.action_chat_to_chatMembersListFragment, bundle)
                 }
                 mViewModel.listenMessageProject(projectId=projectId, members = it) {
+                    loading(false)
                     userChatAdpater.updateList(ArrayList(it))
                     if (it.size != 0) {
                         mBinding.rvUserChat.smoothScrollToPosition(it.size - 1)
@@ -168,19 +169,19 @@ class Chat : Fragment() {
         }
     }
 
-    private fun convertProjectMember(list: ArrayList<ProjectMember>): ArrayList<ChatMember>{
+    private fun convertProjectMember(list: ArrayList<ProjectMember>,projectId:String,type:String): ArrayList<ChatMember>{
         val chatMembers = ArrayList<ChatMember>()
         for (member in list) {
-            val chatMember = ChatMember(id = member.id, name = member.owner, "")
+            val chatMember = ChatMember(id = member.id, name = member.owner, "",projectId,type)
             chatMembers.add(chatMember)
         }
         return chatMembers
     }
 
-    private fun convertTeamMember(list: ArrayList<TeamMember>): ArrayList<ChatMember>{
+    private fun convertTeamMember(list: ArrayList<TeamMember>,teamId:String,type:String): ArrayList<ChatMember>{
         val chatMembers = ArrayList<ChatMember>()
         for (member in list) {
-            val chatMember = ChatMember(id = member.id, name = "${member.name} ${member.surname}", specialization = member.uni)
+            val chatMember = ChatMember(id = member.id, name = "${member.name} ${member.surname}", specialization = member.uni,teamId,type)
             chatMembers.add(chatMember)
         }
         return chatMembers

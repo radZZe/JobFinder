@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,12 +12,15 @@ import com.example.jobfinder.R
 import com.example.jobfinder.data.models.ChatMember
 
 class ChatMembersListAdapter(
-    var members: ArrayList<ChatMember>
+    var members: ArrayList<ChatMember>,
+    private val onDeleteMembersListener: onDeleteMembersListener
 ) : RecyclerView.Adapter<ChatMembersListAdapter.ChatMembersListViewHolder>() {
 
     class ChatMembersListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvName: TextView = view.findViewById(R.id.member_name_field)
         val tvUni: TextView = view.findViewById(R.id.member_specialization)
+        val delMemberBtn : ImageView = view.findViewById(R.id.delMemberBtn)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatMembersListViewHolder {
@@ -32,6 +36,12 @@ class ChatMembersListAdapter(
         holder.view.startAnimation(
             AnimationUtils.loadAnimation(holder.itemView.context, R.anim.rv_anim)
         )
+        holder.delMemberBtn.setOnClickListener {
+            var userId = members[position].id
+            var chatId = members[position].chatId
+            var type = members[position].type
+            onDeleteMembersListener.deleteMember(userId,chatId,type)
+        }
     }
 
     fun updateList(newItems: ArrayList<ChatMember>) {

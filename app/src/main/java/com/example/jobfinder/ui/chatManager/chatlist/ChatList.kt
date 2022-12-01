@@ -30,15 +30,27 @@ class ChatList : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        loading(true)
         initialization()
     }
 
     fun initialization(){
         mViewModel.getChats {
+            loading(false)
             chatAdapter = ChatListAdapter(it)
             mBinding.rvChat.adapter = chatAdapter
         }
 
+    }
+
+    fun loading(active:Boolean){
+        if (active) {
+            mBinding.loading.visibility = View.VISIBLE
+            mBinding.rvChat.visibility = View.GONE
+        } else {
+            mBinding.loading.visibility = View.GONE
+            mBinding.rvChat.visibility = View.VISIBLE
+        }
     }
 
 }
