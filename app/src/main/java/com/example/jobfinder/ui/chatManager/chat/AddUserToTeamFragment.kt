@@ -67,7 +67,7 @@ class AddUserToTeamFragment : Fragment() {
             }, onFail = {
                 AlertDialog.Builder(APP_ACTIVITY)
                     .setTitle("Failed to add a member")
-                    .setMessage("member has already been added")
+                    .setMessage("adding error , or you have already added this user ")
                     .setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, _ ->
                         dialogInterface.cancel()
                     })

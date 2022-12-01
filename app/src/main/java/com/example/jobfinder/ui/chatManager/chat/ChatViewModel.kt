@@ -20,43 +20,11 @@ class ChatViewModel @Inject constructor(
 
     val firebase = firebaseRepository
     fun getTeamMembersChat(id: String, onComplete: (members: ArrayList<TeamMember>) -> Unit) {
-        var members = arrayListOf<TeamMember>()
-        firebase.database.collection(KEY_COLLECTION_TEAMS).document(id)
-            .collection(KEY_COLLECTION_MEMBERS).get().addOnCompleteListener {
-                it.result.documents.forEach {
-                    var id = it.get(KEY_USER_ID)!! as String
-                    var name = it.get(KEY_USER_NAME)!! as String
-                    var surname = it.get(KEY_USER_SURNAME)!! as String
-                    var uni = it.get(KEY_USER_UNI)!! as String
-                    var member = TeamMember(
-                        id = id,
-                        name = name,
-                        surname = surname,
-                        uni = uni
-                    )
-                    members.add(member)
-                }
-                onComplete(members)
-
-            }
+        firebase.getTeamMembersChat(id,onComplete)
     }
 
     fun getProjectMembersChat(id: String, onComplete: (ArrayList<ProjectMember>) -> Unit) {
-        var members = arrayListOf<ProjectMember>()
-        firebase.database.collection(KEY_COLLECTION_PROJECTS).document(id)
-            .collection(KEY_COLLECTION_MEMBERS).get().addOnCompleteListener {
-                it.result.documents.forEach {
-                    var id = it.get(KEY_USER_ID)!! as String
-                    var owner = it.get(KEY_OWNER)!! as String
-                    var member = ProjectMember(
-                        id = id,
-                        owner = owner
-                    )
-                    members.add(member)
-                }
-                onComplete(members)
-
-            }
+        firebase.getProjectMembersChat(id,onComplete)
     }
 
     fun listenMessageProject(

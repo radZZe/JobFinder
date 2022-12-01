@@ -54,7 +54,12 @@ class FirebaseRepository(
             })
     }
 
-    override fun login(email: String, password: String, onComplete: () -> Unit,onFail:()->Unit) {
+    override fun login(
+        email: String,
+        password: String,
+        onComplete: () -> Unit,
+        onFail: () -> Unit
+    ) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
             database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL, email).get()
                 .addOnCompleteListener {
@@ -185,69 +190,46 @@ class FirebaseRepository(
                             var id = doc.get(KEY_TEAM_ID)!! as String
                             var type = KEY_TEAM
                             var item = ChatItem(type = type, id = id, name = name)
-                            chats.add(item)
+                            if (documentChange.type != DocumentChange.Type.REMOVED) {
+                                chats.add(item)
+                            } else {
+                                chats.remove(item)
+                            }
                         }
-                        database.collection(KEY_COLLECTION_USERS)
-                            .document(manager.getString(KEY_USER_ID)!!).collection(
-                                KEY_COLLECTION_PROJECTS
-                            ).addSnapshotListener { value, error ->
-                                if (error != null) {
-                                    return@addSnapshotListener
-                                } else {
-                                    if (value != null) {
-                                        for (documentChange in value.documentChanges) {
-                                            var doc = documentChange.document
-                                            var id =
-                                                doc.get(KEY_PROJECT_ID)!! as String
-                                            var title = doc.get(
-                                                KEY_PROJECT_TITLE
-                                            )!! as String
-                                            var type = KEY_PROJECT
-                                            var item = ChatItem(
-                                                id = id,
-                                                name = title,
-                                                type = type
-                                            )
-                                            chats.add(item)
-
-
-                                        }
-                                        onComplete(chats)
-                                    }
-                                }
-                            }
-                    } else {
-                        database.collection(KEY_COLLECTION_USERS)
-                            .document(manager.getString(KEY_USER_ID)!!).collection(
-                                KEY_COLLECTION_PROJECTS
-                            ).addSnapshotListener { value, error ->
-                                if (error != null) {
-                                    return@addSnapshotListener
-                                } else {
-                                    if (value != null) {
-                                        value.documents.forEach {
-                                            it.reference.get().addOnCompleteListener {
-                                                var id =
-                                                    it.result.get(KEY_PROJECT_ID)!! as String
-                                                var title = it.result.get(
-                                                    KEY_PROJECT_TITLE
-                                                )!! as String
-                                                var type = KEY_PROJECT
-                                                var item = ChatItem(
-                                                    id = id,
-                                                    name = title,
-                                                    type = type
-                                                )
-                                                chats.add(item)
-
-                                            }
-                                        }
-                                        onComplete(chats)
-                                    }
-                                }
-                            }
+                        onComplete(chats)
                     }
+                }
+            }
+        database.collection(KEY_COLLECTION_USERS)
+            .document(manager.getString(KEY_USER_ID)!!).collection(
+                KEY_COLLECTION_PROJECTS
+            ).addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                } else {
+                    if (value != null) {
 
+                        for (documentChange in value.documentChanges) {
+                            var doc = documentChange.document
+                            var id =
+                                doc.get(KEY_PROJECT_ID)!! as String
+                            var title = doc.get(
+                                KEY_PROJECT_TITLE
+                            )!! as String
+                            var type = KEY_PROJECT
+                            var item = ChatItem(
+                                id = id,
+                                name = title,
+                                type = type
+                            )
+                            if (documentChange.type != DocumentChange.Type.REMOVED) {
+                                chats.add(item)
+                            } else {
+                                chats.remove(item)
+                            }
+                        }
+                        onComplete(chats)
+                    }
                 }
             }
     }
@@ -526,52 +508,52 @@ class FirebaseRepository(
         }
     }
 
-    fun getFeedbacks(project:Project,onSuccess: (ArrayList<UserFeedback>) -> Unit){
+    fun getFeedbacks(project: Project, onSuccess: (ArrayList<UserFeedback>) -> Unit) {
         val feedbacks = arrayListOf<UserFeedback>()
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK
         ).addSnapshotListener { value, error ->
             if (error != null) {
                 return@addSnapshotListener
-            }else{
-                if(value!=null){
-                   for(documentChange in value.documentChanges){
-                       var doc = documentChange.document
-                       var userId = doc.getString("userId")!!
-                       var name= doc.getString("name")!!
-                       var surname= doc.getString("surname")!!
-                       var lastName= doc.getString("lastName")!!
-                       var age= doc.getString("age")!!
-                       var sex= doc.getString("sex")!!
-                       var uni= doc.getString("uni")!!
-                       var brief= doc.getString("brief")!!
-                       var feedBack = UserFeedback(
-                           userId = userId,
-                           name = name,
-                           surname = surname,
-                           lastName = lastName,
-                           age = age,
-                           sex = sex,
-                           uni = uni,
-                           brief = brief
-                       )
-                       if(documentChange.type == DocumentChange.Type.REMOVED){
-                           feedbacks.remove(feedBack)
-                       }else{
+            } else {
+                if (value != null) {
+                    for (documentChange in value.documentChanges) {
+                        var doc = documentChange.document
+                        var userId = doc.getString("userId")!!
+                        var name = doc.getString("name")!!
+                        var surname = doc.getString("surname")!!
+                        var lastName = doc.getString("lastName")!!
+                        var age = doc.getString("age")!!
+                        var sex = doc.getString("sex")!!
+                        var uni = doc.getString("uni")!!
+                        var brief = doc.getString("brief")!!
+                        var feedBack = UserFeedback(
+                            userId = userId,
+                            name = name,
+                            surname = surname,
+                            lastName = lastName,
+                            age = age,
+                            sex = sex,
+                            uni = uni,
+                            brief = brief
+                        )
+                        if (documentChange.type == DocumentChange.Type.REMOVED) {
+                            feedbacks.remove(feedBack)
+                        } else {
 
-                           if (feedBack !in feedbacks) {
-                               feedbacks.add(feedBack)
-                           }
-                       }
+                            if (feedBack !in feedbacks) {
+                                feedbacks.add(feedBack)
+                            }
+                        }
 
-                   }
+                    }
                     onSuccess(feedbacks)
                 }
             }
         }
     }
 
-    fun feedback(project: Project, brief: String,onFail: () -> Unit) {
+    fun feedback(project: Project, brief: String, onFail: () -> Unit) {
         val userFeedback = UserFeedback(
             userId = manager.getString(KEY_USER_ID)!!,
             name = manager.getString(KEY_USER_NAME)!!,
@@ -583,14 +565,15 @@ class FirebaseRepository(
             brief = brief
         )
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
-            KEY_COLLECTION_FEEDBACK).whereEqualTo(KEY_FEEDBACK_USER_ID,userFeedback.userId).get().addOnCompleteListener {
-                var documents = it.result.documents
-                if(documents.size == 0){
-                    database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
-                        .collection(KEY_COLLECTION_FEEDBACK).add(userFeedback)
-                }else{
-                    onFail()
-                }
+            KEY_COLLECTION_FEEDBACK
+        ).whereEqualTo(KEY_FEEDBACK_USER_ID, userFeedback.userId).get().addOnCompleteListener {
+            var documents = it.result.documents
+            if (documents.size == 0) {
+                database.collection(KEY_COLLECTION_PROJECTS).document(project.id)
+                    .collection(KEY_COLLECTION_FEEDBACK).add(userFeedback)
+            } else {
+                onFail()
+            }
         }
 
 
@@ -604,7 +587,7 @@ class FirebaseRepository(
         }
     }
 
-    fun addStudentToProject(project: Project, userId: String,onFail:()->Unit) {
+    fun addStudentToProject(project: Project, userId: String, onFail: () -> Unit) {
         database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
             KEY_COLLECTION_FEEDBACK
         ).whereEqualTo("userId", userId).get().addOnCompleteListener {
@@ -623,16 +606,17 @@ class FirebaseRepository(
             )
             database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
                 KEY_COLLECTION_MEMBERS
-            ).whereEqualTo(KEY_USER_ID,userId).get().addOnCompleteListener {
+            ).whereEqualTo(KEY_USER_ID, userId).get().addOnCompleteListener {
                 var documents = it.result.documents
-                if(documents.size == 0 ){
+                if (documents.size == 0) {
                     database.collection(KEY_COLLECTION_PROJECTS).document(project.id).collection(
                         KEY_COLLECTION_MEMBERS
                     ).add(projectMember).addOnCompleteListener {
                         database.collection(KEY_COLLECTION_USERS).document(userId)
-                            .collection(KEY_COLLECTION_PROJECTS).document(project.id).set(studentProject)
+                            .collection(KEY_COLLECTION_PROJECTS).document(project.id)
+                            .set(studentProject)
                     }
-                }else{
+                } else {
                     onFail()
                 }
             }
@@ -665,64 +649,212 @@ class FirebaseRepository(
 
     }
 
-    fun signOut(onComplete: () -> Unit){
+    fun signOut(onComplete: () -> Unit) {
         auth.signOut()
         manager.clear()
         onComplete()
     }
 
-    fun addUserToTeam(email:String,teamName:String,teamId:String,onComplete:(name:String,surname:String)->Unit,onFail:()->Unit){
-        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL,email).get().addOnSuccessListener {
-            if(it.documents.size > 0 ){
-                it.documents[0].reference.get().addOnCompleteListener {
-                    var doc = it.result
-                    var id = doc.getString(KEY_USER_ID)!!
-                    var name = doc.getString(KEY_USER_NAME)!!
-                    var surname = doc.getString(KEY_USER_SURNAME)!!
-                    var uni = doc.getString(KEY_USER_UNI)!!
-                    var teamMember = TeamMember(
-                        id = id,
-                        name =name,
-                        surname = surname,
-                        uni = uni
-                    )
-                    var studentTeam = StudentTeam(
-                        id = teamId,
-                        name = teamName
-                    )
-                    database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
-                        KEY_COLLECTION_MEMBERS).whereEqualTo(KEY_USER_ID,id).get().addOnCompleteListener {
-                        var documents = it.result.documents
-                        if(documents.size == 0){
-                            database.collection(KEY_COLLECTION_USERS).document(id).collection(
-                                KEY_COLLECTION_TEAMS).add(studentTeam).addOnSuccessListener {
-                                database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
-                                    KEY_COLLECTION_MEMBERS).add(teamMember).addOnSuccessListener {
-                                    onComplete(name,surname)
+    fun addUserToTeam(
+        email: String,
+        teamName: String,
+        teamId: String,
+        onComplete: (name: String, surname: String) -> Unit,
+        onFail: () -> Unit
+    ) {
+        database.collection(KEY_COLLECTION_USERS).whereEqualTo(KEY_USER_EMAIL, email).get()
+            .addOnSuccessListener {
+                if (it.documents.size > 0) {
+                    it.documents[0].reference.get().addOnCompleteListener {
+                        var doc = it.result
+                        if(doc.getString(KEY_USER_TYPE) == KEY_STUDENT){
+                            var id = doc.getString(KEY_USER_ID)!!
+                            var name = doc.getString(KEY_USER_NAME)!!
+                            var surname = doc.getString(KEY_USER_SURNAME)!!
+                            var uni = doc.getString(KEY_USER_UNI)!!
+                            var teamMember = TeamMember(
+                                id = id,
+                                name = name,
+                                surname = surname,
+                                uni = uni
+                            )
+                            var studentTeam = StudentTeam(
+                                id = teamId,
+                                name = teamName
+                            )
+                            database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                                KEY_COLLECTION_MEMBERS
+                            ).whereEqualTo(KEY_USER_ID, id).get().addOnCompleteListener {
+                                var documents = it.result.documents
+                                if (documents.size == 0) {
+                                    database.collection(KEY_COLLECTION_USERS).document(id).collection(
+                                        KEY_COLLECTION_TEAMS
+                                    ).add(studentTeam).addOnSuccessListener {
+                                        database.collection(KEY_COLLECTION_TEAMS).document(teamId)
+                                            .collection(
+                                                KEY_COLLECTION_MEMBERS
+                                            ).add(teamMember).addOnSuccessListener {
+                                                onComplete(name, surname)
+                                            }
+                                    }
+                                } else {
+                                    onFail()
                                 }
+
                             }
                         }else{
                             onFail()
                         }
-
                     }
-
+                } else {
+                    onFail()
                 }
-            }else{
+
+            }
+            .addOnFailureListener {
                 onFail()
             }
-
-        }
-            .addOnFailureListener {
-            //TODO
-        }
     }
 
-    fun getOwnerTeamId(teamId:String,onComplete: (teamID:String) -> Unit){
+    fun getOwnerTeamId(teamId: String, onComplete: (teamID: String) -> Unit) {
         database.collection(KEY_COLLECTION_TEAMS).document(teamId).get().addOnSuccessListener {
-            onComplete(it.get(KEY_OWNER_TEAM_ID)!!as String)
+            onComplete(it.get(KEY_OWNER_TEAM_ID)!! as String)
         }
     }
 
+    fun delProjectChatMember(
+        userId: String,
+        projectId: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        database.collection(KEY_COLLECTION_PROJECTS).document(projectId).get()
+            .addOnSuccessListener {
+                var ownerId = it.getString(KEY_CREATOR_ID)
+                if (manager.getString(KEY_USER_ID) == ownerId) {
+                    database.collection(KEY_COLLECTION_PROJECTS).document(projectId).collection(
+                        KEY_COLLECTION_MEMBERS
+                    ).whereEqualTo(KEY_USER_ID, userId).get().addOnCompleteListener {
+                        it.result.documents[0].reference.delete().addOnSuccessListener {
+                            database.collection(KEY_COLLECTION_USERS).document(userId).collection(
+                                KEY_COLLECTION_PROJECTS
+                            ).document(projectId).delete().addOnSuccessListener {
+                                database.collection(KEY_COLLECTION_USERS).document(userId)
+                                    .collection(
+                                        KEY_COLLECTION_PROJECT_CHAT
+                                    ).document(projectId).collection(
+                                    KEY_COLLECTION_MESSAGES
+                                ).get().addOnSuccessListener {
+                                    it.documents.forEach {
+                                        it.reference.delete()
+                                    }
+                                    onSuccess()
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    onFail()
+                }
+            }
+    }
 
+    fun delTeamChatMember(
+        userId: String,
+        teamId: String,
+        onSuccess: () -> Unit,
+        onFail: () -> Unit
+    ) {
+        database.collection(KEY_COLLECTION_TEAMS).document(teamId).get().addOnSuccessListener {
+            val ownerId = it.getString(KEY_OWNER_TEAM_ID)
+            if (manager.getString(KEY_USER_ID) == ownerId) {
+                database.collection(KEY_COLLECTION_TEAMS).document(teamId).collection(
+                    KEY_COLLECTION_MEMBERS
+                ).whereEqualTo(KEY_USER_ID, userId).get().addOnSuccessListener {
+                    it.documents[0].reference.delete().addOnSuccessListener {
+                        database.collection(KEY_COLLECTION_USERS).document(userId).collection(
+                            KEY_COLLECTION_TEAMS
+                        ).whereEqualTo(KEY_USER_ID, teamId).get().addOnSuccessListener {
+                            it.documents[0].reference.delete().addOnSuccessListener {
+                                database.collection(KEY_COLLECTION_USERS).document(userId)
+                                    .collection(
+                                        KEY_COLLECTION_TEAM_CHAT
+                                    ).document(teamId).collection(
+                                    KEY_COLLECTION_MESSAGES
+                                ).get().addOnSuccessListener {
+                                    it.documents.forEach {
+                                        it.reference.delete()
+                                    }
+                                    onSuccess()
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                onFail()
+            }
+        }
+    }
+
+    fun getProjectMembersChat(id: String, onComplete: (ArrayList<ProjectMember>) -> Unit) {
+        var members = arrayListOf<ProjectMember>()
+        database.collection(KEY_COLLECTION_PROJECTS).document(id)
+            .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener { value, error ->
+                if (error != null) {
+                    return@addSnapshotListener
+                } else {
+                    if (value != null) {
+                        for (documentChange in value.documentChanges) {
+                            var doc = documentChange.document
+                            var id = doc.get(KEY_USER_ID)!! as String
+                            var owner = doc.get(KEY_OWNER)!! as String
+                            var member = ProjectMember(
+                                id = id,
+                                owner = owner
+                            )
+                            if(documentChange.type != DocumentChange.Type.REMOVED){
+                                members.add(member)
+                            }else{
+                                members.remove(member)
+                            }
+                        }
+                        onComplete(members)
+                    }
+                }
+
+            }
+    }
+
+    fun getTeamMembersChat(id: String, onComplete: (members: ArrayList<TeamMember>) -> Unit) {
+        var members = arrayListOf<TeamMember>()
+        database.collection(KEY_COLLECTION_TEAMS).document(id)
+            .collection(KEY_COLLECTION_MEMBERS).addSnapshotListener {value,error ->
+                if(error!=null){
+                    return@addSnapshotListener
+                }else{
+                    if(value!=null){
+                        for(documentChange in value.documentChanges){
+                            var doc = documentChange.document
+                            var id = doc.get(KEY_USER_ID)!! as String
+                            var name = doc.get(KEY_USER_NAME)!! as String
+                            var surname = doc.get(KEY_USER_SURNAME)!! as String
+                            var uni = doc.get(KEY_USER_UNI)!! as String
+                            var member = TeamMember(
+                                id = id,
+                                name = name,
+                                surname = surname,
+                                uni = uni
+                            )
+                            if(documentChange.type != DocumentChange.Type.REMOVED){
+                                members.add(member)
+                            }else{
+                                members.remove(member)
+                            }
+                        }
+                        onComplete(members)
+                    }
+                }
+            }
+    }
 }

@@ -80,5 +80,7 @@ const val KEY_OWNER_TEAM_ID = "ownerId"
 
 const val KEY_FEEDBACK_USER_ID = "userId"
 
+const val KEY_STUDENT = "student"
+
 const val SENT_TEXT = 1 ;
 const val RECEIVED_TEXT = 0;
