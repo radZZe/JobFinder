@@ -81,6 +81,10 @@ class MainScreenFragment : Fragment() {
                     bundle
                 )
             }
+
+            override fun onProjectLongClicked(project: Project) {
+                nothing()
+            }
         })
         rvProjectList.adapter = adapter
     }
